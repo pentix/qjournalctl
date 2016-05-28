@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1084</width>
+    <height>658</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>161</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>journalctl</string>
+    </property>
+   </widget>
+   <widget class="QListView" name="listView1">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>120</y>
+      <width>1031</width>
+      <height>471</height>
+     </rect>
+    </property>
+    <property name="editTriggers">
+     <set>QAbstractItemView::NoEditTriggers</set>
+    </property>
+    <property name="resizeMode">
+     <enum>QListView::Adjust</enum>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_2">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>60</y>
+      <width>191</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>List Available Boots</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>60</y>
+      <width>151</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Show Boot Log</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1084</width>
+     <height>19</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuJournalctl_Analyzer_Demo">
+    <property name="title">
+     <string>Load</string>
+    </property>
+    <addaction name="separator"/>
+    <addaction name="separator"/>
+    <addaction name="separator"/>
+    <addaction name="actionHilfe"/>
+    <addaction name="actionTest"/>
+   </widget>
+   <widget class="QMenu" name="menuOK">
+    <property name="title">
+     <string>Help</string>
+    </property>
+   </widget>
+   <addaction name="menuJournalctl_Analyzer_Demo"/>
+   <addaction name="menuOK"/>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionHilfe">
+   <property name="text">
+    <string>List available boots</string>
+   </property>
+  </action>
+  <action name="actionTest">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Test</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+ <slots>
+  <slot>ListBoots()</slot>
+ </slots>
+</ui>
