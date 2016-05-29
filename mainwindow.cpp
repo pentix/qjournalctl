@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "aboutdialog.h"
 
 #include <QProcess>
 
@@ -61,4 +62,10 @@ void MainWindow::on_pushButton_clicked()
 
     ui->listView1->setModel(bootModel);
 
+}
+
+void MainWindow::on_actionAbout_triggered()
+{
+    AboutDialog *a = new AboutDialog(this);
+    a->show();
 }
