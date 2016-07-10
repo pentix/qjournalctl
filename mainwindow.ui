@@ -32,22 +32,6 @@
      <string>journalctl</string>
     </property>
    </widget>
-   <widget class="QListView" name="listView1">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>120</y>
-      <width>1031</width>
-      <height>471</height>
-     </rect>
-    </property>
-    <property name="editTriggers">
-     <set>QAbstractItemView::NoEditTriggers</set>
-    </property>
-    <property name="resizeMode">
-     <enum>QListView::Adjust</enum>
-    </property>
-   </widget>
    <widget class="QPushButton" name="pushButton_2">
     <property name="geometry">
      <rect>
@@ -77,6 +61,16 @@
      <string>Show Boot Log</string>
     </property>
    </widget>
+   <widget class="QTableView" name="tableView">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>110</y>
+      <width>1031</width>
+      <height>471</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -84,12 +78,12 @@
      <x>0</x>
      <y>0</y>
      <width>1084</width>
-     <height>19</height>
+     <height>30</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuJournalctl_Analyzer_Demo">
     <property name="title">
-     <string>Load</string>
+     <string>&amp;Load</string>
     </property>
     <addaction name="separator"/>
     <addaction name="separator"/>
@@ -117,7 +111,7 @@
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionHilfe">
    <property name="text">
-    <string>List available boots</string>
+    <string>&amp;List available boots</string>
    </property>
   </action>
   <action name="actionTest">
@@ -125,12 +119,12 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Test</string>
+    <string>&amp;Test</string>
    </property>
   </action>
   <action name="actionAbout">
    <property name="text">
-    <string>About</string>
+    <string>&amp;About</string>
    </property>
   </action>
  </widget>
