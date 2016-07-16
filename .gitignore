@@ -1,5 +1,6 @@
 Makefile
-qt_creator_test
+journalctlgui
 *.o
 moc_*
 ui_*
+journalctlgui.pro.user

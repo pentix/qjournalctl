@@ -22,7 +22,7 @@ conflicts=()
 replaces=()
 backup=()
 options=()
-source=('http://www.blokx5.ch:4566/pentix/journalctl_test/archive/master.tar.gz')
+source=('http://www.blokx5.ch:4566/pentix/journalctlgui/archive/master.tar.gz')
 noextract=()
 md5sums=()
 sha256sums=('290b18e19e822335678d12ca89e4e67178adcd9173a94d9bcc5ed9ab8b12c960')
@@ -41,5 +41,5 @@ build() {
 
 package() {
 	mkdir -p $pkgdir/usr/bin/
-	cp qt_creator_test $pkgdir/usr/bin/
+	cp journalctlgui $pkgdir/usr/bin/
 }
