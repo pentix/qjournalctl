@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>journalctl GUI</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QLabel" name="label">
@@ -70,6 +70,21 @@
       <height>471</height>
      </rect>
     </property>
+    <property name="sizeAdjustPolicy">
+     <enum>QAbstractScrollArea::AdjustToContents</enum>
+    </property>
+    <property name="editTriggers">
+     <set>QAbstractItemView::NoEditTriggers</set>
+    </property>
+    <property name="selectionMode">
+     <enum>QAbstractItemView::SingleSelection</enum>
+    </property>
+    <property name="selectionBehavior">
+     <enum>QAbstractItemView::SelectRows</enum>
+    </property>
+    <attribute name="horizontalHeaderCascadingSectionResizes">
+     <bool>false</bool>
+    </attribute>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -93,7 +108,7 @@
    </widget>
    <widget class="QMenu" name="menuOK">
     <property name="title">
-     <string>Help</string>
+     <string>Hel&amp;p</string>
     </property>
     <addaction name="actionAbout"/>
    </widget>

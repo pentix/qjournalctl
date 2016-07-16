@@ -54,7 +54,12 @@ void MainWindow::on_pushButton_2_clicked()
 
 
 
+    // Connect Model-View
     ui->tableView->setModel(bootModel);
+
+    // Resize columns to their content
+    ui->tableView->resizeColumnsToContents();
+
 
     ui->pushButton_2->setEnabled(false);
     ui->pushButton->setEnabled(true);
