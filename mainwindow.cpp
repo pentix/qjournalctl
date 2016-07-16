@@ -3,7 +3,16 @@
 #include "aboutdialog.h"
 
 #include <QProcess>
+#include <QMessageBox>
 #include <iostream>
+
+using namespace std;
+
+
+// List of boot dates
+QStandardItemModel *bootModel;
+
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -34,7 +43,7 @@ void MainWindow::on_pushButton_2_clicked()
     QStringList lines = stdout.split("\n", QString::SkipEmptyParts);
 
 
-    QStandardItemModel *bootModel = new QStandardItemModel(30, 5, this);
+    bootModel = new QStandardItemModel(30, 5, this);
     bootModel->setHorizontalHeaderItem(0, new QStandardItem(QString("Boot No.")));
     bootModel->setHorizontalHeaderItem(1, new QStandardItem(QString("Boot ID")));
     bootModel->setHorizontalHeaderItem(2, new QStandardItem(QString("Day")));
@@ -67,49 +76,22 @@ void MainWindow::on_pushButton_2_clicked()
 
 }
 
+
+// Get selected boot information
 void MainWindow::on_pushButton_clicked()
 {
-    QProcess process;
-    process.start("journalctl -b -5");
-    process.waitForFinished(-1);
+    QItemSelectionModel *selection = ui->tableView->selectionModel();
 
-    QString stdout = process.readAllStandardOutput();
-    QStringList lines = stdout.split("\n", QString::SkipEmptyParts);
+    if(!selection->hasSelection())
+        return;
 
 
-    /*QStandardItemModel *bootModel = new QStandardItemModel(2,3,this); //2 Rows and 3 Columns
-    bootModel->setHorizontalHeaderItem(0, new QStandardItem(QString("Column1 Header")));
-    bootModel->setHorizontalHeaderItem(1, new QStandardItem(QString("Column2 Header")));
-    bootModel->setHorizontalHeaderItem(2, new QStandardItem(QString("Column3 Header")));*/
+    QModelIndex ind = selection->selectedRows().at(0);
+    QStandardItem *mod = bootModel->item(ind.row(), 0);
 
 
+    QMessageBox::information(this, "Selection", "Auswahl auf Zeile " + mod->text(), QMessageBox::Ok);
 
-
-    QStandardItemModel *bootModel = new QStandardItemModel(30, 9, this);
-    bootModel->setHorizontalHeaderItem(0, new QStandardItem(QString("Boot No.")));
-    bootModel->setHorizontalHeaderItem(1, new QStandardItem(QString("Boot No.")));
-    bootModel->setHorizontalHeaderItem(2, new QStandardItem(QString("Boot No.")));
-    bootModel->setHorizontalHeaderItem(3, new QStandardItem(QString("Boot No.")));
-    bootModel->setHorizontalHeaderItem(4, new QStandardItem(QString("Boot No.")));
-    bootModel->setHorizontalHeaderItem(5, new QStandardItem(QString("Boot No.")));
-    bootModel->setHorizontalHeaderItem(6, new QStandardItem(QString("Boot No.")));
-    bootModel->setHorizontalHeaderItem(7, new QStandardItem(QString("Boot No.")));
-    bootModel->setHorizontalHeaderItem(8, new QStandardItem(QString("Boot No.")));
-
-   /* for(int i=0; i<lines.size(); i++){
-        QString line = QString(lines.at(i).toLocal8Bit().constData());
-        QStringList columns = line.split(" ");
-
-        for(int j=0; j<columns.size(); j++){
-            QStandardItem *item = new QStandardItem(columns.at(j));
-            bootModel->appendRow(item);
-        }
-
-    } */
-
-
-
-    ui->tableView->setModel(bootModel);
 
 }
 
