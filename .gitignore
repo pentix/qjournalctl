@@ -1,3 +1,5 @@
 Makefile
 qt_creator_test
 *.o
+moc_*
+ui_*
