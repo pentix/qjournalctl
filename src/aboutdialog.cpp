@@ -15,7 +15,7 @@ AboutDialog::AboutDialog(QWidget *parent) :
     QString gitStr = "";
 
     if(QString(GITREV) != QString("0000000"))
-        gitStr = QString(" (git revision: ") + GITREV + QString(")");
+        gitStr = QString("  (git commit: ") + GITREV + QString(")");
 
     ui->versionLabel->setText(QString("v") + QString(VERSION) + gitStr);
 }
