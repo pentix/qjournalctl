@@ -12,13 +12,13 @@ TARGET = journalctlgui
 TEMPLATE = app
 
 
-SOURCES += main.cpp\
-        mainwindow.cpp \
-    aboutdialog.cpp
+SOURCES += src/main.cpp\
+    src/mainwindow.cpp \
+    src/aboutdialog.cpp
 
-HEADERS  += mainwindow.h \
-    aboutdialog.h \
-    version.h
+HEADERS  += src/mainwindow.h \
+    src/aboutdialog.h \
+    src/version.h
 
-FORMS    += mainwindow.ui \
-    aboutdialog.ui
+FORMS    += ui/mainwindow.ui \
+    ui/aboutdialog.ui
