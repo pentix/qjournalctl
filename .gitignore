@@ -4,3 +4,4 @@ journalctlgui
 moc_*
 ui_*
 journalctlgui.pro.user
+build/*
