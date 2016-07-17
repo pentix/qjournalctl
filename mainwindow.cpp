@@ -43,7 +43,7 @@ void MainWindow::on_pushButton_2_clicked()
     QStringList lines = stdout.split("\n", QString::SkipEmptyParts);
 
 
-    bootModel = new QStandardItemModel(30, 5, this);
+    bootModel = new QStandardItemModel(1, 5, this);
     bootModel->setHorizontalHeaderItem(0, new QStandardItem(QString("Boot No.")));
     bootModel->setHorizontalHeaderItem(1, new QStandardItem(QString("Boot ID")));
     bootModel->setHorizontalHeaderItem(2, new QStandardItem(QString("Day")));
