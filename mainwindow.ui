@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1084</width>
+    <width>680</width>
     <height>658</height>
    </rect>
   </property>
@@ -29,7 +29,7 @@
      </font>
     </property>
     <property name="text">
-     <string>journalctl</string>
+     <string>journalctl GUI</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_2">
@@ -66,9 +66,15 @@
      <rect>
       <x>20</x>
       <y>110</y>
-      <width>1031</width>
+      <width>641</width>
       <height>471</height>
      </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
     </property>
     <property name="sizeAdjustPolicy">
      <enum>QAbstractScrollArea::AdjustToContents</enum>
@@ -85,6 +91,9 @@
     <attribute name="horizontalHeaderCascadingSectionResizes">
      <bool>false</bool>
     </attribute>
+    <attribute name="horizontalHeaderStretchLastSection">
+     <bool>true</bool>
+    </attribute>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -92,7 +101,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1084</width>
+     <width>680</width>
      <height>30</height>
     </rect>
    </property>
@@ -103,8 +112,7 @@
     <addaction name="separator"/>
     <addaction name="separator"/>
     <addaction name="separator"/>
-    <addaction name="actionHilfe"/>
-    <addaction name="actionTest"/>
+    <addaction name="actionLoadBoots"/>
    </widget>
    <widget class="QMenu" name="menuOK">
     <property name="title">
@@ -124,7 +132,7 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
-  <action name="actionHilfe">
+  <action name="actionLoadBoots">
    <property name="text">
     <string>&amp;List available boots</string>
    </property>

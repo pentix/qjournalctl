@@ -18,7 +18,7 @@
     <rect>
      <x>20</x>
      <y>10</y>
-     <width>101</width>
+     <width>141</width>
      <height>31</height>
     </rect>
    </property>
@@ -28,42 +28,42 @@
     </font>
    </property>
    <property name="text">
-    <string>journalctl</string>
+    <string>journalctl GUI</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_2">
+  <widget class="QLabel" name="versionLabel">
    <property name="geometry">
     <rect>
-     <x>130</x>
+     <x>170</x>
      <y>20</y>
-     <width>59</width>
-     <height>14</height>
+     <width>181</width>
+     <height>16</height>
     </rect>
    </property>
    <property name="text">
-    <string>v0.1</string>
+    <string>v.xy</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>80</y>
-     <width>59</width>
-     <height>14</height>
+     <y>70</y>
+     <width>161</width>
+     <height>16</height>
     </rect>
    </property>
    <property name="text">
-    <string>(C) 2016</string>
+    <string>(C) 2016 Patrick Eigensatz</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>280</x>
-     <y>150</y>
-     <width>80</width>
-     <height>22</height>
+     <x>270</x>
+     <y>140</y>
+     <width>91</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">

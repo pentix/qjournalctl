@@ -24,6 +24,8 @@ private slots:
 
     void on_actionAbout_triggered();
 
+    void on_actionHilfe_triggered();
+
 private:
     Ui::MainWindow *ui;
     QStandardItemModel *itemModel;

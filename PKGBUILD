@@ -24,8 +24,8 @@ backup=()
 options=()
 source=('http://www.blokx5.ch:4566/pentix/journalctlgui/archive/master.tar.gz')
 noextract=()
-md5sums=()
-sha256sums=('290b18e19e822335678d12ca89e4e67178adcd9173a94d9bcc5ed9ab8b12c960')
+md5sums=(SKIP)
+#sha256sums=(SKIP)
 validpgpkeys=()
 
 #prepare() {

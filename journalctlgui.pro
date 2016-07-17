@@ -17,7 +17,8 @@ SOURCES += main.cpp\
     aboutdialog.cpp
 
 HEADERS  += mainwindow.h \
-    aboutdialog.h
+    aboutdialog.h \
+    version.h
 
 FORMS    += mainwindow.ui \
     aboutdialog.ui

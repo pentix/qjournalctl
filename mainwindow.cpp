@@ -100,3 +100,10 @@ void MainWindow::on_actionAbout_triggered()
     AboutDialog *a = new AboutDialog(this);
     a->show();
 }
+
+
+void MainWindow::on_actionHilfe_triggered()
+{
+    // Load system boots
+    this->on_pushButton_2_clicked();
+}
