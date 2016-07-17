@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "aboutdialog.h"
+#include "showbootlog.h"
 
 #include <QProcess>
 #include <QMessageBox>
@@ -92,6 +93,8 @@ void MainWindow::on_pushButton_clicked()
 
     QMessageBox::information(this, "Selection", "Auswahl auf Zeile " + mod->text(), QMessageBox::Ok);
 
+    ShowBootLog *b = new ShowBootLog(this, mod->text());
+    b->show();
 
 }
 

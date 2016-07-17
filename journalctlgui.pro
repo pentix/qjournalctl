@@ -14,11 +14,14 @@ TEMPLATE = app
 
 SOURCES += src/main.cpp\
     src/mainwindow.cpp \
-    src/aboutdialog.cpp
+    src/aboutdialog.cpp \
+    src/showbootlog.cpp
 
 HEADERS  += src/mainwindow.h \
     src/aboutdialog.h \
-    src/version.h
+    src/version.h \
+    src/showbootlog.h
 
 FORMS    += ui/mainwindow.ui \
-    ui/aboutdialog.ui
+    ui/aboutdialog.ui \
+    ui/showbootlog.ui
