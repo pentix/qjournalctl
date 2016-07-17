@@ -90,9 +90,6 @@ void MainWindow::on_pushButton_clicked()
     QModelIndex ind = selection->selectedRows().at(0);
     QStandardItem *mod = bootModel->item(ind.row(), 0);
 
-
-    QMessageBox::information(this, "Selection", "Auswahl auf Zeile " + mod->text(), QMessageBox::Ok);
-
     ShowBootLog *b = new ShowBootLog(this, mod->text());
     b->show();
 
