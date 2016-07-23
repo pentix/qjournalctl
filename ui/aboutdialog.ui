@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>378</width>
-    <height>187</height>
+    <width>423</width>
+    <height>174</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -51,21 +51,21 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>100</y>
-     <width>161</width>
-     <height>16</height>
+     <y>80</y>
+     <width>361</width>
+     <height>21</height>
     </rect>
    </property>
    <property name="text">
-    <string>(C) 2016 Patrick Eigensatz</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;(C) 2016 Patrick Eigensatz &lt;span style=&quot; font-style:italic;&quot;&gt;&amp;lt;patrick.eigensatz@gmail.com&amp;gt;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>270</x>
+     <x>20</x>
      <y>130</y>
-     <width>91</width>
+     <width>121</width>
      <height>31</height>
     </rect>
    </property>
@@ -88,7 +88,7 @@
     </font>
    </property>
    <property name="text">
-    <string>Displaying and analysing the systemd journal</string>
+    <string>Display and analyse the systemd journal</string>
    </property>
   </widget>
  </widget>
