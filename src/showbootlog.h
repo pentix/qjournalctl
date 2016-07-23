@@ -19,8 +19,21 @@ public:
 private slots:
     void on_pushButton_clicked();
 
+    void on_sinceCheckBox_clicked();
+
+    void on_untilCheckBox_clicked();
+
+    void on_sinceDateTimeEdit_dateTimeChanged(const QDateTime &dateTime);
+
+    void on_untilDateTimeEdit_dateTimeChanged(const QDateTime &dateTime);
+
 private:
+    void updateBootLog();
+
     Ui::ShowBootLog *ui;
+    QString bootid;
+    bool sinceFlag=false, untilFlag=false;
+
 };
 
 #endif // SHOWBOOTLOG_H
