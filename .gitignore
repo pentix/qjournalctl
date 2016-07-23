@@ -3,5 +3,7 @@ journalctlgui
 *.o
 moc_*
 ui_*
+.qmake.stash
 journalctlgui.pro.user
 build/*
+src/version.h

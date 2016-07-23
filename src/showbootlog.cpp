@@ -23,7 +23,7 @@ ShowBootLog::ShowBootLog(QWidget *parent, QString bootid) :
 
 
     ui->label->setText(ui->label->text() + " boot id: " + bootid);
-    ui->sinceDateTimeEdit->setDateTime(QDateTime::currentDateTime());
+    ui->sinceDateTimeEdit->setDateTime(QDateTime::currentDateTime().addSecs(-60));
     ui->untilDateTimeEdit->setDateTime(QDateTime::currentDateTime());
 
     updateBootLog();
