@@ -22,7 +22,7 @@ ShowBootLog::ShowBootLog(QWidget *parent, QString bootid) :
     this->bootid = bootid;
 
 
-    ui->label->setText(ui->label->text() + " boot id: " + bootid);
+    ui->label->setText(ui->label->text() + " " + bootid);
     ui->sinceDateTimeEdit->setDateTime(QDateTime::currentDateTime().addSecs(-60));
     ui->untilDateTimeEdit->setDateTime(QDateTime::currentDateTime());
 
@@ -57,7 +57,7 @@ void ShowBootLog::updateBootLog()
 
 
     QProcess process;
-    process.start("journalctl -b " + bootid + sinceStr + untilStr);
+    process.start("journalctl -p " + QString::number(maxPriority) + " -b " + bootid + sinceStr + untilStr);
     process.waitForFinished(-1);
 
     QString stdout = process.readAllStandardOutput();
@@ -86,5 +86,11 @@ void ShowBootLog::on_sinceDateTimeEdit_dateTimeChanged(const QDateTime &dateTime
 
 void ShowBootLog::on_untilDateTimeEdit_dateTimeChanged(const QDateTime &dateTime)
 {
+    updateBootLog();
+}
+
+void ShowBootLog::on_horizontalSlider_sliderMoved(int position)
+{
+    maxPriority = position;
     updateBootLog();
 }

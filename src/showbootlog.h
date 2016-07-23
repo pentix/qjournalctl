@@ -27,12 +27,15 @@ private slots:
 
     void on_untilDateTimeEdit_dateTimeChanged(const QDateTime &dateTime);
 
+    void on_horizontalSlider_sliderMoved(int position);
+
 private:
     void updateBootLog();
 
     Ui::ShowBootLog *ui;
     QString bootid;
     bool sinceFlag=false, untilFlag=false;
+    int maxPriority=3;
 
 };
 
