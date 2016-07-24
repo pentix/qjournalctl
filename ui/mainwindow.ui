@@ -28,14 +28,14 @@
      </widget>
     </item>
     <item row="1" column="0">
-     <widget class="QPushButton" name="pushButton_2">
+     <widget class="QPushButton" name="listBootsButton">
       <property name="text">
        <string>List Available Boots</string>
       </property>
      </widget>
     </item>
     <item row="1" column="1">
-     <widget class="QPushButton" name="pushButton">
+     <widget class="QPushButton" name="showBootLogButton">
       <property name="enabled">
        <bool>false</bool>
       </property>
@@ -85,12 +85,11 @@
    </property>
    <widget class="QMenu" name="menuJournalctl_Analyzer_Demo">
     <property name="title">
-     <string>&amp;Load</string>
+     <string>&amp;journalctl</string>
     </property>
     <addaction name="separator"/>
-    <addaction name="separator"/>
-    <addaction name="separator"/>
     <addaction name="actionLoadBoots"/>
+    <addaction name="actionShowCompleteJournal"/>
    </widget>
    <widget class="QMenu" name="menuOK">
     <property name="title">
@@ -103,10 +102,10 @@
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
-    <enum>LeftToolBarArea</enum>
+    <enum>TopToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
-    <bool>false</bool>
+    <bool>true</bool>
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
@@ -115,17 +114,14 @@
     <string>&amp;List available boots</string>
    </property>
   </action>
-  <action name="actionTest">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>&amp;Test</string>
-   </property>
-  </action>
   <action name="actionAbout">
    <property name="text">
     <string>&amp;About</string>
+   </property>
+  </action>
+  <action name="actionShowCompleteJournal">
+   <property name="text">
+    <string>Show complete journal</string>
    </property>
   </action>
  </widget>

@@ -34,7 +34,7 @@ MainWindow::~MainWindow()
 
 
 
-void MainWindow::on_pushButton_2_clicked()
+void MainWindow::on_listBootsButton_clicked()
 {
     QProcess process;
     process.start("journalctl --list-boots");
@@ -71,15 +71,16 @@ void MainWindow::on_pushButton_2_clicked()
     ui->tableView->resizeColumnsToContents();
 
 
-    ui->pushButton_2->setEnabled(false);
-    ui->pushButton->setEnabled(true);
+    ui->listBootsButton->setEnabled(false);
+    ui->actionLoadBoots->setEnabled(false);
+    ui->showBootLogButton->setEnabled(true);
 
 
 }
 
 
 // Get selected boot information
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_showBootLogButton_clicked()
 {
     QItemSelectionModel *selection = ui->tableView->selectionModel();
 
@@ -90,7 +91,7 @@ void MainWindow::on_pushButton_clicked()
     QModelIndex ind = selection->selectedRows().at(0);
     QStandardItem *mod = bootModel->item(ind.row(), 0);
 
-    ShowBootLog *b = new ShowBootLog(this, mod->text());
+    ShowBootLog *b = new ShowBootLog(this, false, mod->text());
     b->show();
 
 }
@@ -102,8 +103,19 @@ void MainWindow::on_actionAbout_triggered()
 }
 
 
-void MainWindow::on_actionHilfe_triggered()
+void MainWindow::on_actionLoadBoots_triggered()
 {
     // Load system boots
-    this->on_pushButton_2_clicked();
+    this->on_listBootsButton_clicked();
+}
+
+void MainWindow::on_tableView_doubleClicked(const QModelIndex &index)
+{
+    this->on_showBootLogButton_clicked();
+}
+
+
+void MainWindow::on_actionShowCompleteJournal_triggered()
+{
+    ShowBootLog *b = new ShowBootLog(this, true, 0);
 }

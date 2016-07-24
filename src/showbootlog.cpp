@@ -2,6 +2,7 @@
 #include "ui_showbootlog.h"
 
 #include <QProcess>
+#include <QMessageBox>
 
 ShowBootLog::ShowBootLog(QWidget *parent) :
     QDialog(parent),
@@ -11,20 +12,23 @@ ShowBootLog::ShowBootLog(QWidget *parent) :
 }
 
 
-ShowBootLog::ShowBootLog(QWidget *parent, QString bootid) :
+ShowBootLog::ShowBootLog(QWidget *parent, bool completeJournal, QString bootid) :
     QDialog(parent),
     ui(new Ui::ShowBootLog)
 {
 
     ui->setupUi(this);
-
-
     this->bootid = bootid;
+    this->completeJournal = completeJournal;
 
-
-    ui->label->setText(ui->label->text() + " " + bootid);
     ui->sinceDateTimeEdit->setDateTime(QDateTime::currentDateTime().addSecs(-60));
     ui->untilDateTimeEdit->setDateTime(QDateTime::currentDateTime());
+
+    if(!completeJournal){
+        ui->label->setText(ui->label->text() + " " + bootid);
+    } else {
+        ui->label->setText("Complete systemd journal");
+    }
 
     updateBootLog();
 }
@@ -56,8 +60,15 @@ void ShowBootLog::updateBootLog()
     }
 
 
+    QString command = "";
+    if(!this->completeJournal){
+        command = "journalctl -p " + QString::number(maxPriority) + " -b " + bootid + sinceStr + untilStr;
+    } else {
+        command = "journalctl -p " + QString::number(maxPriority) + sinceStr + untilStr;
+    }
+
     QProcess process;
-    process.start("journalctl -p " + QString::number(maxPriority) + " -b " + bootid + sinceStr + untilStr);
+    process.start(command);
     process.waitForFinished(-1);
 
     QString stdout = process.readAllStandardOutput();

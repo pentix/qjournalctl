@@ -13,7 +13,7 @@ class ShowBootLog : public QDialog
 
 public:
     explicit ShowBootLog(QWidget *parent = 0);
-    explicit ShowBootLog(QWidget *parent = 0, QString bootid="");
+    explicit ShowBootLog(QWidget *parent = 0, bool completeJournal=false, QString bootid="");
     ~ShowBootLog();
 
 private slots:
@@ -35,7 +35,8 @@ private:
     Ui::ShowBootLog *ui;
     QString bootid;
     bool sinceFlag=false, untilFlag=false;
-    int maxPriority=3;
+    bool completeJournal=false;
+    int maxPriority=1;
 
 };
 

@@ -18,13 +18,17 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_pushButton_clicked();
+    void on_showBootLogButton_clicked();
 
-    void on_pushButton_2_clicked();
+    void on_listBootsButton_clicked();
 
     void on_actionAbout_triggered();
 
-    void on_actionHilfe_triggered();
+    void on_actionLoadBoots_triggered();
+
+    void on_tableView_doubleClicked(const QModelIndex &index);
+
+    void on_actionShowCompleteJournal_triggered();
 
 private:
     Ui::MainWindow *ui;
