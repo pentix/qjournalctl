@@ -25,6 +25,7 @@ MainWindow::MainWindow(QWidget *parent) :
     // Set Item Model
     itemModel = new QStandardItemModel(this);
     ui->tableView->setModel(itemModel);
+
 }
 
 MainWindow::~MainWindow()
@@ -57,11 +58,12 @@ void MainWindow::on_listBootsButton_clicked()
 
         for(int j=0; j<5; j++){
             QStandardItem *item = new QStandardItem(columns.at(j).toLocal8Bit().constData());
-            bootModel->setItem(i, j, item);
+            bootModel->setItem(lines.size()-i-1, j, item);
         }
 
     }
 
+    ui->tableView->verticalHeader()->setVisible(false);
 
 
     // Connect Model-View
