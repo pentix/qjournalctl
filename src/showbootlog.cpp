@@ -62,9 +62,9 @@ void ShowBootLog::updateBootLog()
 
     QString command = "";
     if(!this->completeJournal){
-        command = "journalctl -p " + QString::number(maxPriority) + " -b " + bootid + sinceStr + untilStr;
+        command = "journalctl -a -p " + QString::number(maxPriority) + " -b " + bootid + sinceStr + untilStr;
     } else {
-        command = "journalctl -p " + QString::number(maxPriority) + sinceStr + untilStr;
+        command = "journalctl -a -p " + QString::number(maxPriority) + sinceStr + untilStr;
     }
 
     QProcess process;
@@ -73,6 +73,12 @@ void ShowBootLog::updateBootLog()
 
     QString stdout = process.readAllStandardOutput();
     ui->plainTextEdit->document()->setPlainText(stdout);
+
+    if(stdout != "-- No entries --\n"){
+        ui->numberOfEntriesLabel->setText("Showing <b>" + QString::number(ui->plainTextEdit->document()->lineCount()-1) + "</b> entries");
+    } else {
+        ui->numberOfEntriesLabel->setText("Showing <b>0</b> entries");
+    }
 }
 
 
