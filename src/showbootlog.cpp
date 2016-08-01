@@ -4,11 +4,6 @@
 #include <iostream>
 #include <QProcess>
 #include <QMessageBox>
-#include <QtConcurrent/QtConcurrent>
-
-
-using namespace QtConcurrent;
-
 
 
 ShowBootLog::ShowBootLog(QWidget *parent) :
@@ -16,6 +11,7 @@ ShowBootLog::ShowBootLog(QWidget *parent) :
     ui(new Ui::ShowBootLog)
 {
     ui->setupUi(this);
+    journalProcess = new QProcess;
 }
 
 
@@ -24,7 +20,10 @@ ShowBootLog::ShowBootLog(QWidget *parent, bool completeJournal, QString bootid) 
     ui(new Ui::ShowBootLog)
 {
 
-    ui->setupUi(this);
+    // Call simple constructor first
+    this->ShowBootLog(parent);
+
+
     this->bootid = bootid;
     this->completeJournal = completeJournal;
 
@@ -43,26 +42,12 @@ ShowBootLog::ShowBootLog(QWidget *parent, bool completeJournal, QString bootid) 
 ShowBootLog::~ShowBootLog()
 {
     delete ui;
+    delete journalProcess;
 }
 
 void ShowBootLog::on_pushButton_clicked()
 {
     close();
-}
-
-
-
-
-void realtimeRead(ShowBootLog *s, QProcess *process){
-    QByteArray output;
-
-    while(true){
-        process->waitForReadyRead();
-        output = process->read(4096000);
-
-        s->appendToBootLog(QString(output));
-
-    }
 }
 
 
@@ -87,20 +72,19 @@ void ShowBootLog::updateBootLog()
     }
 
 
-    QProcess process;
-    process.start(command);
+    QProcess *process = new QProcess;
 
-    ui->plainTextEdit->clear();
+    connect(process, SIGNAL(readyRead()), this, SLOT(appendToBootLog());
 
-    QFuture<void> rtr = run(realtimeRead, this, &process);
+    process->start(command);
 
 
 }
 
 
-void ShowBootLog::appendToBootLog(QString log)
+void ShowBootLog::appendToBootLog()
 {
-    ui->plainTextEdit->document()->setPlainText(ui->plainTextEdit->toPlainText() + log);
+    ui->plainTextEdit->document()->setPlainText(ui->plainTextEdit->toPlainText() + );
 }
 
 

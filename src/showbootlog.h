@@ -2,6 +2,7 @@
 #define SHOWBOOTLOG_H
 
 #include <QDialog>
+#include <QProcess>
 
 namespace Ui {
 class ShowBootLog;
@@ -16,7 +17,6 @@ public:
     explicit ShowBootLog(QWidget *parent = 0, bool completeJournal=false, QString bootid="");
     ~ShowBootLog();
 
-    void appendToBootLog(QString log);
 
 private slots:
     void on_pushButton_clicked();
@@ -31,6 +31,8 @@ private slots:
 
     void on_horizontalSlider_sliderMoved(int position);
 
+    void appendToBootLog();
+
 private:
     void updateBootLog();
 
@@ -39,6 +41,8 @@ private:
     bool sinceFlag=false, untilFlag=false;
     bool completeJournal=false;
     int maxPriority=1;
+
+    QProcess *journalProcess;
 
 };
 
