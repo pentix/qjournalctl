@@ -16,6 +16,8 @@ public:
     explicit ShowBootLog(QWidget *parent = 0, bool completeJournal=false, QString bootid="");
     ~ShowBootLog();
 
+    void appendToBootLog(QString log);
+
 private slots:
     void on_pushButton_clicked();
 

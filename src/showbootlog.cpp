@@ -4,7 +4,7 @@
 #include <iostream>
 #include <QProcess>
 #include <QMessageBox>
-#include <QtConcurrent/qtconcurrentrun.h>
+#include <QtConcurrent/QtConcurrent>
 
 
 using namespace QtConcurrent;
@@ -53,14 +53,14 @@ void ShowBootLog::on_pushButton_clicked()
 
 
 
-void realtimeRead(QProcess &process, QPlainTextEdit &plainTextEdit){
+void realtimeRead(ShowBootLog *s, QProcess *process){
     QByteArray output;
 
     while(true){
-        process.waitForReadyRead();
-        output = process.read(4096000);
+        process->waitForReadyRead();
+        output = process->read(4096000);
 
-        plainTextEdit.document()->setPlainText(plainTextEdit.toPlainText() + QString(output));
+        s->appendToBootLog(QString(output));
 
     }
 }
@@ -92,9 +92,15 @@ void ShowBootLog::updateBootLog()
 
     ui->plainTextEdit->clear();
 
-    QFuture<void> rtr = run(realtimeRead, process, ui->plainTextEdit);
+    QFuture<void> rtr = run(realtimeRead, this, &process);
 
 
+}
+
+
+void ShowBootLog::appendToBootLog(QString log)
+{
+    ui->plainTextEdit->document()->setPlainText(ui->plainTextEdit->toPlainText() + log);
 }
 
 
