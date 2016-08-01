@@ -90,6 +90,7 @@
     <addaction name="separator"/>
     <addaction name="actionLoadBoots"/>
     <addaction name="actionShowCompleteJournal"/>
+    <addaction name="actionSizeOfTheJournalOnTheDisk"/>
    </widget>
    <widget class="QMenu" name="menuOK">
     <property name="title">
@@ -105,7 +106,7 @@
     <enum>TopToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
-    <bool>true</bool>
+    <bool>false</bool>
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
@@ -121,7 +122,12 @@
   </action>
   <action name="actionShowCompleteJournal">
    <property name="text">
-    <string>Show complete journal</string>
+    <string>&amp;Show complete journal</string>
+   </property>
+  </action>
+  <action name="actionSizeOfTheJournalOnTheDisk">
+   <property name="text">
+    <string>Size of the journal on the disk</string>
    </property>
   </action>
  </widget>

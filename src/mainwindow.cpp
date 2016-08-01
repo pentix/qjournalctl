@@ -121,3 +121,20 @@ void MainWindow::on_actionShowCompleteJournal_triggered()
 {
     ShowBootLog *b = new ShowBootLog(this, true, 0);
 }
+
+
+
+void MainWindow::on_actionSizeOfTheJournalOnTheDisk_triggered()
+{
+    QProcess p;
+    p.start("journalctl --disk-usage");
+    p.waitForFinished(-1);
+
+    QMessageBox msgBox;
+
+    msgBox.setIcon(QMessageBox::Information);
+    msgBox.setText("\n" + p.readAllStandardOutput());
+
+    msgBox.exec();
+
+}
