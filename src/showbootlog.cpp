@@ -1,8 +1,15 @@
 #include "src/showbootlog.h"
 #include "ui_showbootlog.h"
 
+#include <iostream>
 #include <QProcess>
 #include <QMessageBox>
+#include <QtConcurrent/qtconcurrentrun.h>
+
+
+using namespace QtConcurrent;
+
+
 
 ShowBootLog::ShowBootLog(QWidget *parent) :
     QDialog(parent),
@@ -46,6 +53,18 @@ void ShowBootLog::on_pushButton_clicked()
 
 
 
+void realtimeRead(QProcess &process, QPlainTextEdit &plainTextEdit){
+    QByteArray output;
+
+    while(true){
+        process.waitForReadyRead();
+        output = process.read(4096000);
+
+        plainTextEdit.document()->setPlainText(plainTextEdit.toPlainText() + QString(output));
+
+    }
+}
+
 
 void ShowBootLog::updateBootLog()
 {
@@ -67,12 +86,15 @@ void ShowBootLog::updateBootLog()
         command = "journalctl -p " + QString::number(maxPriority) + sinceStr + untilStr;
     }
 
+
     QProcess process;
     process.start(command);
-    process.waitForFinished(-1);
 
-    QString stdout = process.readAllStandardOutput();
-    ui->plainTextEdit->document()->setPlainText(stdout);
+    ui->plainTextEdit->clear();
+
+    QFuture<void> rtr = run(realtimeRead, process, ui->plainTextEdit);
+
+
 }
 
 
