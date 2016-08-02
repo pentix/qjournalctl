@@ -91,7 +91,7 @@ void ShowBootLog::appendToBootLog()
     QByteArray read = journalProcess->read(4096000);
     ui->plainTextEdit->document()->setPlainText(ui->plainTextEdit->toPlainText() + QString(read));
 
-
+    ui->plainTextEdit->ensureCursorVisible();
 }
 
 
