@@ -11,7 +11,7 @@ ShowBootLog::ShowBootLog(QWidget *parent) :
     ui(new Ui::ShowBootLog)
 {
     ui->setupUi(this);
-    journalProcess = new QProcess;
+    journalProcess = new QProcess(this);
 }
 
 
@@ -21,7 +21,8 @@ ShowBootLog::ShowBootLog(QWidget *parent, bool completeJournal, QString bootid) 
 {
 
     // Call simple constructor first
-    this->ShowBootLog(parent);
+    ui->setupUi(this);
+    journalProcess = new QProcess(this);
 
 
     this->bootid = bootid;
@@ -66,25 +67,31 @@ void ShowBootLog::updateBootLog()
 
     QString command = "";
     if(!this->completeJournal){
-        command = "journalctl -p " + QString::number(maxPriority) + " -b " + bootid + sinceStr + untilStr;
+        command = "journalctl -f -p " + QString::number(maxPriority) + " -b " + bootid + sinceStr + untilStr;
     } else {
-        command = "journalctl -p " + QString::number(maxPriority) + sinceStr + untilStr;
+        command = "journalctl -f -p " + QString::number(maxPriority) + sinceStr + untilStr;
     }
 
 
-    QProcess *process = new QProcess;
+    // Connect readyRead signal to appendToBootLog slot
+    // or close already opened process
+    if(journalProcess->state() == QProcess::NotRunning){
+        connect(journalProcess, SIGNAL(readyRead()), this, SLOT(appendToBootLog()));
+    } else {
+        journalProcess->close();
+    }
 
-    connect(process, SIGNAL(readyRead()), this, SLOT(appendToBootLog());
-
-    process->start(command);
-
+    journalProcess->start(command);
 
 }
 
 
 void ShowBootLog::appendToBootLog()
 {
-    ui->plainTextEdit->document()->setPlainText(ui->plainTextEdit->toPlainText() + );
+    QByteArray read = journalProcess->read(4096000);
+    ui->plainTextEdit->document()->setPlainText(ui->plainTextEdit->toPlainText() + QString(read));
+
+
 }
 
 
