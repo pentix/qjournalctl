@@ -32,6 +32,7 @@ validpgpkeys=()
 #}
 
 build() {
+	cd journalctlgui
 	./autogen.sh
 	make -j9
 }
@@ -41,5 +42,5 @@ build() {
 
 package() {
 	mkdir -p $pkgdir/usr/bin/
-	cp journalctlgui $pkgdir/usr/bin/
+	cp journalctlgui/journalctlgui $pkgdir/usr/bin/
 }
