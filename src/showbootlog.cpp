@@ -47,6 +47,11 @@ ShowBootLog::ShowBootLog(QWidget *parent, bool completeJournal, bool realtime, Q
 
 ShowBootLog::~ShowBootLog()
 {
+    if(journalProcess->state() == QProcess::Running){
+        journalProcess->close();
+    }
+
+
     delete ui;
     delete journalProcess;
 }
