@@ -4,6 +4,7 @@
 #include <iostream>
 #include <QProcess>
 #include <QMessageBox>
+#include <QDebug>
 
 
 ShowBootLog::ShowBootLog(QWidget *parent) :
@@ -84,7 +85,7 @@ void ShowBootLog::updateBootLog()
         command = "journalctl -a -p " + QString::number(maxPriority) + sinceStr + untilStr;
     } else {
         if(this->realtime){
-            command = "journalctl -f -p " + QString::number(maxPriority) + " -b " + bootid + sinceStr + untilStr;
+            command = "journalctl -f --no-tail -p " + QString::number(maxPriority) + " -b " + bootid + sinceStr + untilStr;
         } else {
             command = "journalctl -a -p " + QString::number(maxPriority) + " -b " + bootid + sinceStr + untilStr;
         }
