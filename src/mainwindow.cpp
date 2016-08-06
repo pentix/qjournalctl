@@ -93,7 +93,7 @@ void MainWindow::on_showBootLogButton_clicked()
     QModelIndex ind = selection->selectedRows().at(0);
     QStandardItem *mod = bootModel->item(ind.row(), 0);
 
-    ShowBootLog *b = new ShowBootLog(this, false, mod->text());
+    ShowBootLog *b = new ShowBootLog(this, false, ui->realtimeCheckBox->isChecked(), mod->text());
     b->show();
 
 }
@@ -137,4 +137,27 @@ void MainWindow::on_actionSizeOfTheJournalOnTheDisk_triggered()
 
     msgBox.exec();
 
+}
+
+
+
+void MainWindow::on_tableView_clicked(const QModelIndex &index)
+{
+    QItemSelectionModel *selection = ui->tableView->selectionModel();
+
+    if(!selection->hasSelection())
+        return;
+
+
+    QModelIndex ind = selection->selectedRows().at(0);
+    QStandardItem *mod = bootModel->item(ind.row(), 0);
+
+
+    if(mod->text() == "0"){
+        ui->realtimeCheckBox->setEnabled(true);
+        ui->realtimeCheckBox->setChecked(true);
+    } else {
+        ui->realtimeCheckBox->setEnabled(false);
+        ui->realtimeCheckBox->setChecked(false);
+    }
 }

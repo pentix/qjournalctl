@@ -15,7 +15,7 @@ ShowBootLog::ShowBootLog(QWidget *parent) :
 }
 
 
-ShowBootLog::ShowBootLog(QWidget *parent, bool completeJournal, QString bootid) :
+ShowBootLog::ShowBootLog(QWidget *parent, bool completeJournal, bool realtime, QString bootid) :
     QDialog(parent),
     ui(new Ui::ShowBootLog)
 {
@@ -27,14 +27,19 @@ ShowBootLog::ShowBootLog(QWidget *parent, bool completeJournal, QString bootid) 
 
     this->bootid = bootid;
     this->completeJournal = completeJournal;
+    this->realtime = realtime;
 
     ui->sinceDateTimeEdit->setDateTime(QDateTime::currentDateTime().addSecs(-60));
     ui->untilDateTimeEdit->setDateTime(QDateTime::currentDateTime());
 
-    if(!completeJournal){
-        ui->label->setText(ui->label->text() + " " + bootid);
-    } else {
+    if(completeJournal){
         ui->label->setText("Complete systemd journal");
+    } else {
+        if(realtime){
+            ui->label->setText("Journal:  Current boot  (realtime following enabled)");
+        } else {
+            ui->label->setText(ui->label->text() + bootid);
+        }
     }
 
     updateBootLog();

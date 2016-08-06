@@ -32,6 +32,8 @@ private slots:
 
     void on_actionSizeOfTheJournalOnTheDisk_triggered();
 
+    void on_tableView_clicked(const QModelIndex &index);
+
 private:
     Ui::MainWindow *ui;
     QStandardItemModel *itemModel;

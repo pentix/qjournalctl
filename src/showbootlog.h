@@ -14,7 +14,7 @@ class ShowBootLog : public QDialog
 
 public:
     explicit ShowBootLog(QWidget *parent = 0);
-    explicit ShowBootLog(QWidget *parent = 0, bool completeJournal=false, QString bootid="");
+    explicit ShowBootLog(QWidget *parent = 0, bool completeJournal=false, bool realtime=false, QString bootid="");
     ~ShowBootLog();
 
 
