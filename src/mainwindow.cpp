@@ -119,7 +119,8 @@ void MainWindow::on_tableView_doubleClicked(const QModelIndex &index)
 
 void MainWindow::on_actionShowCompleteJournal_triggered()
 {
-    ShowBootLog *b = new ShowBootLog(this, true, 0);
+    ShowBootLog *b = new ShowBootLog(this, true, false, "");
+    b->show();
 }
 
 
