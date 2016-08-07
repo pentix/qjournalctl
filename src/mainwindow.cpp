@@ -152,6 +152,13 @@ void MainWindow::on_tableView_clicked(const QModelIndex &index)
     QModelIndex ind = selection->selectedRows().at(0);
     QStandardItem *mod = bootModel->item(ind.row(), 0);
 
+    // Avoid singleClick-execution when the user double clicked
+    if(mod->text() == this->lastSelection){
+        return;
+    }
+
+    lastSelection = mod->text();
+
 
     if(mod->text() == "0"){
         ui->realtimeCheckBox->setEnabled(true);

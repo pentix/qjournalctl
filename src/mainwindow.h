@@ -38,6 +38,8 @@ private:
     Ui::MainWindow *ui;
     QStandardItemModel *itemModel;
 
+    QString lastSelection;
+
 };
 
 #endif // MAINWINDOW_H
