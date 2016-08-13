@@ -1,3 +1,11 @@
+/**
+ * qjournalctl: A Qt-based GUI for systemd's journalctl command
+ *
+ * Copyright (c) 2016 by Patrick Eigensatz <patrick.eigensatz@gmail.com> 
+ * Some rights reserved. See LICENSE.
+ */
+
+
 #ifndef SHOWBOOTLOG_H
 #define SHOWBOOTLOG_H
 
