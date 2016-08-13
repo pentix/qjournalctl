@@ -12,3 +12,12 @@ be displayed. QJournalctl is just a graphical user interface which displays
 the journal and lets the user simply change the parameters to check the log
 for specific reports or errors.
 
+
+#### Screenshots
+![Searching the journal in realtime](https://www.blokx5.ch/qjournalctl/screenshot1.png "Searching the journal")
+
+![Looking through an old boot log](https://www.blokx5.ch/qjournalctl/screenshot2.png "Looking through an old boot log")
+
+![Show all saved boot logs or the complete journal](https://www.blokx5.ch/qjournalctl/screenshot3.png "Show all saved boot logs or the complete journal")
+
+
