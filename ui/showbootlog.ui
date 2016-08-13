@@ -139,7 +139,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Syslog identifiers</string>
+        <string>Filter by syslog identifiers   (seperate multiple identifiers by a space)</string>
        </property>
       </widget>
      </item>

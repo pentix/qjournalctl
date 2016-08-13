@@ -169,5 +169,4 @@ void ShowBootLog::on_filterButton_clicked()
     }
 
     updateBootLog();
-    ui->numberOfEntriesLabel->setText("Showing <b>" + QString::number(ui->plainTextEdit->document()->lineCount()-1) + "</b> entries");
 }
