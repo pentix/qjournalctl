@@ -25,3 +25,9 @@ HEADERS  += src/mainwindow.h \
 FORMS    += ui/mainwindow.ui \
     ui/aboutdialog.ui \
     ui/showbootlog.ui
+
+DISTFILES += \
+    ui/icon.xpm
+
+RESOURCES += \
+    ui/icon.qrc

@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>QJournalctl</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="icon.qrc">
+    <normaloff>:/ui/icon.xpm</normaloff>:/ui/icon.xpm</iconset>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="1" column="0">
@@ -177,7 +181,9 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="icon.qrc"/>
+ </resources>
  <connections/>
  <slots>
   <slot>ListBoots()</slot>

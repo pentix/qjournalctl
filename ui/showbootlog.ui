@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>QJournalctl: Show journal entries</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="icon.qrc">
+    <normaloff>:/ui/icon.xpm</normaloff>:/ui/icon.xpm</iconset>
+  </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="3" column="0">
     <layout class="QVBoxLayout" name="verticalLayout">
@@ -300,6 +304,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="icon.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -13,14 +13,18 @@
   <property name="windowTitle">
    <string>About QJournalctl</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="icon.qrc">
+    <normaloff>:/ui/icon.xpm</normaloff>:/ui/icon.xpm</iconset>
+  </property>
   <property name="windowOpacity">
    <double>1.000000000000000</double>
   </property>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>10</y>
+     <x>49</x>
+     <y>12</y>
      <width>141</width>
      <height>31</height>
     </rect>
@@ -37,8 +41,8 @@
   <widget class="QLabel" name="versionLabel">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>20</y>
+     <x>168</x>
+     <y>22</y>
      <width>181</width>
      <height>16</height>
     </rect>
@@ -91,7 +95,29 @@
     <string>Display and analyse the systemd journal</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="pushButton_2">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>18</y>
+     <width>21</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="icon.qrc">
+     <normaloff>:/ui/icon.xpm</normaloff>:/ui/icon.xpm</iconset>
+   </property>
+  </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="icon.qrc"/>
+ </resources>
  <connections/>
 </ui>
