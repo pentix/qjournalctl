@@ -14,10 +14,10 @@ for specific reports or errors.
 
 
 #### Screenshots
-![Searching the journal in realtime](https://www.blokx5.ch/qjournalctl/screenshot1.png "Searching the journal")
+![Searching the journal in realtime](http://image.prntscr.com/image/1c42499604ae4a69882af8869efac24e.png "Searching the journal")
 
-![Looking through an old boot log](https://www.blokx5.ch/qjournalctl/screenshot2.png "Looking through an old boot log")
+![Looking through an old boot log](http://image.prntscr.com/image/13de56e1fa74401283ec2593afa51a89.png "Looking through an old boot log")
 
-![Show all saved boot logs or the complete journal](https://www.blokx5.ch/qjournalctl/screenshot3.png "Show all saved boot logs or the complete journal")
+![Show all saved boot logs or the complete journal](http://image.prntscr.com/image/3d7ba5b4d684489db4184b5cd97743c9.png "Show all saved boot logs or the complete journal")
 
 
