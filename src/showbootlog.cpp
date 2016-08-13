@@ -69,6 +69,15 @@ void ShowBootLog::updateBootLog()
     ui->plainTextEdit->clear();
 
 
+    // Fixing realtime bug: Maybe there isn't a single entry with
+    // the selected properties. Therefore appendToBootLog() never
+    // gets called, because it never gets the '-- No Entries --' output
+    // from journalctl, leading to an out-of-date numerOfEntriesLabel.
+    if(realtime){
+        ui->numberOfEntriesLabel->setText("Showing <b>0</b> entries");
+    }
+
+
     QString sinceStr = "";
     if(sinceFlag){
         sinceStr = " --since \"" + ui->sinceDateTimeEdit->dateTime().toString("yyyy-MM-dd hh:mm:00") + "\"";
