@@ -33,17 +33,20 @@ private slots:
 
     void appendToBootLog();
 
+    void on_filterButton_clicked();
+
 private:
     void updateBootLog();
 
     Ui::ShowBootLog *ui;
+    QProcess *journalProcess;
+
     QString bootid;
     bool sinceFlag=false, untilFlag=false;
     bool completeJournal=false;
     bool realtime=false;
     int maxPriority=3;
-
-    QProcess *journalProcess;
+    QString identifierFlags="";
 
 };
 

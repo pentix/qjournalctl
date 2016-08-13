@@ -91,6 +91,10 @@ void ShowBootLog::updateBootLog()
         }
     }
 
+    // Enable filtering by syslog identifiers
+    command += identifierFlags;
+    qDebug() << "command: " << command;
+
 
     // Connect readyRead signal to appendToBootLog slot
     // or close already opened process
@@ -150,4 +154,20 @@ void ShowBootLog::on_horizontalSlider_sliderMoved(int position)
 {
     maxPriority = position;
     updateBootLog();
+}
+
+void ShowBootLog::on_filterButton_clicked()
+{
+    QString inputIdentifiers = ui->identifiersLineEdit->text();
+    QStringList identifiers = inputIdentifiers.split(" ");
+
+    identifierFlags = "";
+    for(QString identifier : identifiers){
+        if(identifier != ""){
+            identifierFlags += " -t " + identifier;
+        }
+    }
+
+    updateBootLog();
+    ui->numberOfEntriesLabel->setText("Showing <b>" + QString::number(ui->plainTextEdit->document()->lineCount()-1) + "</b> entries");
 }
