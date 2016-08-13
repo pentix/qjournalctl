@@ -4,11 +4,11 @@
 # then please put 'unknown'.
 
 # Maintainer: Patrick Eigensatz <patrick.eigensatz@gmail.com>
-pkgname=journalctlgui
-pkgver=0.1
+pkgname=qjournalctl-git
+pkgver=0.2
 pkgrel=1
 epoch=
-pkgdesc="GUI for the systemd journalctl command"
+pkgdesc="Qt-based graphical user interface for systemd's journalctl command"
 arch=('i686' 'x86_64')
 url=""
 license=('GPL')
@@ -22,7 +22,7 @@ conflicts=()
 replaces=()
 backup=()
 options=()
-source=('http://www.blokx5.ch:4566/pentix/journalctlgui/archive/master.tar.gz')
+source=('http://www.blokx5.ch:4566/pentix/qjournalctl/archive/master.tar.gz')
 noextract=()
 md5sums=(SKIP)
 #sha256sums=(SKIP)
@@ -32,7 +32,7 @@ validpgpkeys=()
 #}
 
 build() {
-	cd journalctlgui
+	cd qjournalctl
 	./autogen.sh
 	make -j9
 }
@@ -42,5 +42,5 @@ build() {
 
 package() {
 	mkdir -p $pkgdir/usr/bin/
-	cp journalctlgui/journalctlgui $pkgdir/usr/bin/
+	cp qjournalctl/qjournalctl $pkgdir/usr/bin/
 }

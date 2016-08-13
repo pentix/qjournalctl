@@ -1,9 +1,9 @@
 Makefile
-journalctlgui
+qjournalctl
 *.o
 moc_*
 ui_*
 .qmake.stash
-journalctlgui.pro.user
+qjournalctl.pro.user
 build/*
 src/version.h
