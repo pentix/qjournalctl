@@ -110,7 +110,6 @@ void ShowBootLog::updateBootLog()
 
     // Enable filtering by syslog identifiers
     command += identifierFlags;
-    qDebug() << "command: " << command;
 
 
     // Connect readyRead signal to appendToBootLog slot
