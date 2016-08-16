@@ -140,6 +140,8 @@
     <addaction name="actionLoadBoots"/>
     <addaction name="actionShowCompleteJournal"/>
     <addaction name="actionSizeOfTheJournalOnTheDisk"/>
+    <addaction name="separator"/>
+    <addaction name="actionQuit"/>
    </widget>
    <widget class="QMenu" name="menuOK">
     <property name="title">
@@ -177,6 +179,11 @@
   <action name="actionSizeOfTheJournalOnTheDisk">
    <property name="text">
     <string>Size &amp;of the journal on the disk</string>
+   </property>
+  </action>
+  <action name="actionQuit">
+   <property name="text">
+    <string>&amp;Quit</string>
    </property>
   </action>
  </widget>

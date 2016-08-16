@@ -34,6 +34,8 @@ private slots:
 
     void on_actionLoadBoots_triggered();
 
+    void on_actionQuit_triggered();
+
     void on_tableView_doubleClicked(const QModelIndex &index);
 
     void on_actionShowCompleteJournal_triggered();
