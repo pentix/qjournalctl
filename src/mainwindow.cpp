@@ -13,6 +13,7 @@
 
 #include <QProcess>
 #include <QMessageBox>
+#include <QShortcut>
 #include <iostream>
 
 using namespace std;
@@ -33,6 +34,9 @@ MainWindow::MainWindow(QWidget *parent) :
     // Set Item Model
     itemModel = new QStandardItemModel(this);
     ui->tableView->setModel(itemModel);
+
+    QShortcut *shortcutQuit = new QShortcut(QKeySequence("Ctrl+Q"),this);
+    connect(shortcutQuit, SIGNAL(activated()), ui->actionQuit, SLOT(trigger()));
 
 }
 
@@ -117,6 +121,12 @@ void MainWindow::on_actionLoadBoots_triggered()
 {
     // Load system boots
     this->on_listBootsButton_clicked();
+}
+
+void MainWindow::on_actionQuit_triggered()
+{
+    // Quit
+    this->close();
 }
 
 void MainWindow::on_tableView_doubleClicked(const QModelIndex &index)
