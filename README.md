@@ -12,6 +12,20 @@ be displayed. QJournalctl is just a graphical user interface which displays
 the journal and lets the user simply change the parameters to check the log
 for specific reports or errors.
 
+#### How to get qjournalctl
+##### ArchLinux
+qjournalctl is available on the AUR. You can either download the corresponding PKGBUILD or install the package via `yaourt -S qjournalctl`
+
+If you like this project or if you want to see qjournalctl outside of the AUR in the official Arch community repository you can also vote for it!
+
+[Visit the AUR page for more information](https://aur.archlinux.org/packages/qjournalctl/)
+
+
+##### Other distros
+1. Download the source code and extract it
+2. Run `./autogen.sh`
+3. Run `make` to compile qjournalctl
+
 
 #### Screenshots
 ![Searching the journal in realtime](http://image.prntscr.com/image/1c42499604ae4a69882af8869efac24e.png "Searching the journal")
