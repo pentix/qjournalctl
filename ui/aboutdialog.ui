@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>423</width>
-    <height>174</height>
+    <width>466</width>
+    <height>310</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -55,20 +55,20 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>85</y>
-     <width>361</width>
-     <height>21</height>
+     <y>75</y>
+     <width>411</width>
+     <height>161</height>
     </rect>
    </property>
    <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;(C) 2016 Patrick Eigensatz &lt;span style=&quot; font-style:italic;&quot;&gt;&amp;lt;patrick.eigensatz@gmail.com&amp;gt;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Written by:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;(C) 2016 &amp;nbsp;Patrick Eigensatz&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;a href=&quot;https://github.com/pentix/&quot;&gt;&lt;span style=&quot; font-style:italic; text-decoration: underline; color:#2980b9;&quot;&gt;https://github.com/pentix/&lt;/span&gt;&lt;/a&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Contributions by:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Simon Doppler&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;a href=&quot;https://github.com/dopsi/&quot;&gt;&lt;span style=&quot; font-style:italic; text-decoration: underline; color:#2980b9;&quot;&gt;https://github.com/dopsi/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>130</y>
+     <y>260</y>
      <width>121</width>
      <height>31</height>
     </rect>
