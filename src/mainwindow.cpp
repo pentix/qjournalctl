@@ -16,6 +16,8 @@
 #include <QShortcut>
 #include <iostream>
 
+#include <QMessageBox>
+
 using namespace std;
 
 
@@ -54,6 +56,13 @@ void MainWindow::on_listBootsButton_clicked()
     process.waitForFinished(-1);
 
     QString stdout = process.readAllStandardOutput();
+    if (stdout.length() == 0) {
+        QMessageBox message_box;
+        message_box.critical(nullptr, "Error", "No boots have been found :\n"+process.readAllStandardError());
+        message_box.setFixedSize(500, 200);
+        message_box.show();
+        return;
+    }
     QStringList lines = stdout.split("\n", QString::SkipEmptyParts);
 
 
