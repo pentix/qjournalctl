@@ -44,6 +44,10 @@ private slots:
 
     void on_tableView_clicked(const QModelIndex &index);
 
+    void on_showCurrentBootLogButton_clicked();
+
+    void on_actionShowCurrentBootLog_triggered();
+
 private:
     Ui::MainWindow *ui;
     QStandardItemModel *itemModel;

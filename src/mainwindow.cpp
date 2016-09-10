@@ -196,3 +196,19 @@ void MainWindow::on_tableView_clicked(const QModelIndex &index)
         ui->realtimeCheckBox->setChecked(false);
     }
 }
+
+
+// Show the current boot
+
+void MainWindow::on_showCurrentBootLogButton_clicked()
+{
+    ShowBootLog *b = new ShowBootLog(this, false, true, 0);
+    b->show();
+}
+
+
+void MainWindow::on_actionShowCurrentBootLog_triggered()
+{
+    // Same as "showCurrentBootLogButton"
+    on_showCurrentBootLogButton_clicked();
+}
