@@ -283,7 +283,7 @@
      <item>
       <widget class="QLabel" name="numberOfEntriesLabel">
        <property name="text">
-        <string>Showing &lt;b&gt;0&lt;/b&gt; entries</string>
+        <string>Showing &lt;b&gt;0&lt;/b&gt; lines</string>
        </property>
       </widget>
      </item>

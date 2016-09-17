@@ -82,7 +82,7 @@ void ShowBootLog::updateBootLog()
     // gets called, because it never gets the '-- No Entries --' output
     // from journalctl, leading to an out-of-date numerOfEntriesLabel.
     if(realtime){
-        ui->numberOfEntriesLabel->setText("Showing <b>0</b> entries");
+        ui->numberOfEntriesLabel->setText("Showing <b>0</b> lines");
     }
 
 
@@ -134,9 +134,9 @@ void ShowBootLog::appendToBootLog()
 
     // Update "numberOfEntries" label
     if(ui->plainTextEdit->toPlainText() != "-- No entries --\n"){
-        ui->numberOfEntriesLabel->setText("Showing <b>" + QString::number(ui->plainTextEdit->document()->lineCount()-1) + "</b> entries");
+        ui->numberOfEntriesLabel->setText("Showing <b>" + QString::number(ui->plainTextEdit->document()->lineCount()-1) + "</b> lines");
     } else {
-        ui->numberOfEntriesLabel->setText("Showing <b>0</b> entries");
+        ui->numberOfEntriesLabel->setText("Showing <b>0</b> lines");
     }
 
 }
