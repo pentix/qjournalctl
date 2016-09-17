@@ -1,4 +1,4 @@
-# QJournalctl v0.2
+# QJournalctl v0.3
 ### A Qt-based Graphical User Interface for systemd's journalctl command 
 
 
@@ -11,6 +11,9 @@ journal. journalctl supports a few flags/parameters to specify what should
 be displayed. QJournalctl is just a graphical user interface which displays
 the journal and lets the user simply change the parameters to check the log
 for specific reports or errors.
+
+Maybe you want to checkout the [Changelog](https://github.com/pentix/qjournalctl/blob/master/CHANGELOG.md).
+
 
 #### How to get qjournalctl
 ##### ArchLinux
