@@ -45,9 +45,9 @@ ShowBootLog::ShowBootLog(QWidget *parent, bool completeJournal, bool realtime, Q
         ui->label->setText("Complete systemd journal");
     } else {
         if(realtime){
-            ui->label->setText("Journal:  Current boot  (realtime following enabled)");
+            ui->label->setText("Showing journal of the current boot  (realtime following enabled)");
         } else {
-            ui->label->setText(ui->label->text() + bootid);
+            ui->label->setText("Showing journal of boot #" + bootid);
         }
     }
 
