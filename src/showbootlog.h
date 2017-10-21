@@ -1,7 +1,7 @@
 /**
  * qjournalctl: A Qt-based GUI for systemd's journalctl command
  *
- * Copyright (c) 2016 by Patrick Eigensatz <patrick.eigensatz@gmail.com> 
+ * Copyright (c) 2016 by Patrick Eigensatz <patrick.eigensatz@gmail.com>
  * Some rights reserved. See LICENSE.
  */
 
@@ -18,43 +18,44 @@ class ShowBootLog;
 
 class ShowBootLog : public QDialog
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit ShowBootLog(QWidget *parent = 0);
-    explicit ShowBootLog(QWidget *parent = 0, bool completeJournal=false, bool realtime=false, QString bootid="");
-    ~ShowBootLog();
+	explicit ShowBootLog(QWidget *parent = 0);
+	explicit ShowBootLog(QWidget *parent = 0, bool completeJournal=false, bool realtime=false, bool reverse=false, QString bootid="");
+	~ShowBootLog();
 
 
 private slots:
-    void on_pushButton_clicked();
+	void on_pushButton_clicked();
 
-    void on_sinceCheckBox_clicked();
+	void on_sinceCheckBox_clicked();
 
-    void on_untilCheckBox_clicked();
+	void on_untilCheckBox_clicked();
 
-    void on_sinceDateTimeEdit_dateTimeChanged(const QDateTime &dateTime);
+	void on_sinceDateTimeEdit_dateTimeChanged(const QDateTime &dateTime);
 
-    void on_untilDateTimeEdit_dateTimeChanged(const QDateTime &dateTime);
+	void on_untilDateTimeEdit_dateTimeChanged(const QDateTime &dateTime);
 
-    void on_horizontalSlider_sliderMoved(int position);
+	void on_horizontalSlider_sliderMoved(int position);
 
-    void appendToBootLog();
+	void appendToBootLog();
 
-    void on_filterButton_clicked();
+	void on_filterButton_clicked();
 
 private:
-    void updateBootLog();
+	void updateBootLog();
 
-    Ui::ShowBootLog *ui;
-    QProcess *journalProcess;
+	Ui::ShowBootLog *ui;
+	QProcess *journalProcess;
 
-    QString bootid;
-    bool sinceFlag=false, untilFlag=false;
-    bool completeJournal=false;
-    bool realtime=false;
-    int maxPriority=3;
-    QString identifierFlags="";
+	QString bootid;
+	bool sinceFlag=false, untilFlag=false;
+	bool completeJournal=false;
+	bool realtime=false;
+	bool reverse=false;
+	int maxPriority=3;
+	QString identifierFlags="";
 
 };
 
