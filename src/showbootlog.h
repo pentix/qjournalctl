@@ -55,6 +55,7 @@ private:
 	bool realtime=false;
 	bool reverse=false;
 	int maxPriority=3;
+	int numberOfBytesRead=0;
 	QString identifierFlags="";
 
 };

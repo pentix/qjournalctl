@@ -125,6 +125,9 @@ void ShowBootLog::updateBootLog()
 		journalProcess->close();
 	}
 
+	// Reset byte counter
+	numberOfBytesRead = 0;
+
 	journalProcess->start(command);
 
 }
@@ -133,15 +136,19 @@ void ShowBootLog::updateBootLog()
 void ShowBootLog::appendToBootLog()
 {
 	QByteArray read = journalProcess->read(4096000);
-	ui->plainTextEdit->document()->setPlainText(ui->plainTextEdit->toPlainText() + QString(read));
+	QString readString = QString(read);
+
+	// Append string to the UI and increment byte counter
+	ui->plainTextEdit->appendPlainText(readString);
+	numberOfBytesRead += readString.size();
 
 	ui->plainTextEdit->ensureCursorVisible();
 
 	// Update "numberOfEntries" label
 	if(ui->plainTextEdit->toPlainText() != "-- No entries --\n"){
-		ui->numberOfEntriesLabel->setText("Showing <b>" + QString::number(ui->plainTextEdit->document()->lineCount()-1) + "</b> lines");
+		ui->numberOfEntriesLabel->setText("Showing <b>" + QString::number(ui->plainTextEdit->document()->lineCount()-1) + "</b> lines ("+QString::number(numberOfBytesRead) + " bytes)");
 	} else {
-		ui->numberOfEntriesLabel->setText("Showing <b>0</b> lines");
+		ui->numberOfEntriesLabel->setText("Showing <b>0</b> lines (0 bytes)");
 	}
 
 }
