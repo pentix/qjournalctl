@@ -1,7 +1,7 @@
 /**
  * qjournalctl: A Qt-based GUI for systemd's journalctl command
  *
- * Copyright (c) 2016 by Patrick Eigensatz <patrick.eigensatz@gmail.com> 
+ * Copyright (c) 2016-2017 by Patrick Eigensatz <patrick.eigensatz@gmail.com>
  * Some rights reserved. See LICENSE.
  */
 
@@ -11,9 +11,9 @@
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
+	QApplication a(argc, argv);
+	MainWindow w;
+	w.show();
 
-    return a.exec();
+	return a.exec();
 }
