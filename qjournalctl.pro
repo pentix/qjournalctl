@@ -12,6 +12,8 @@ TARGET = qjournalctl
 TEMPLATE = app
 
 
+CONFIG += c++11
+
 SOURCES += src/main.cpp\
     src/mainwindow.cpp \
     src/aboutdialog.cpp \
