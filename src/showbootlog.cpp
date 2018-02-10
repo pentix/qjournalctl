@@ -168,12 +168,12 @@ void ShowBootLog::on_untilCheckBox_clicked()
 	updateBootLog();
 }
 
-void ShowBootLog::on_sinceDateTimeEdit_dateTimeChanged(const QDateTime &dateTime)
+void ShowBootLog::on_sinceDateTimeEdit_dateTimeChanged()
 {
 	updateBootLog();
 }
 
-void ShowBootLog::on_untilDateTimeEdit_dateTimeChanged(const QDateTime &dateTime)
+void ShowBootLog::on_untilDateTimeEdit_dateTimeChanged()
 {
 	updateBootLog();
 }

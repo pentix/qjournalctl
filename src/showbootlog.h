@@ -33,9 +33,9 @@ private slots:
 
 	void on_untilCheckBox_clicked();
 
-	void on_sinceDateTimeEdit_dateTimeChanged(const QDateTime &dateTime);
+    void on_sinceDateTimeEdit_dateTimeChanged();
 
-	void on_untilDateTimeEdit_dateTimeChanged(const QDateTime &dateTime);
+    void on_untilDateTimeEdit_dateTimeChanged();
 
 	void on_horizontalSlider_sliderMoved(int position);
 

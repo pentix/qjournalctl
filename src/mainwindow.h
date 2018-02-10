@@ -36,13 +36,13 @@ private slots:
 
 	void on_actionQuit_triggered();
 
-	void on_tableView_doubleClicked(const QModelIndex &index);
+    void on_tableView_doubleClicked();
 
 	void on_actionShowCompleteJournal_triggered();
 
 	void on_actionSizeOfTheJournalOnTheDisk_triggered();
 
-	void on_tableView_clicked(const QModelIndex &index);
+    void on_tableView_clicked();
 
 	void on_showCurrentBootLogButton_clicked();
 

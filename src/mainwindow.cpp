@@ -138,7 +138,7 @@ void MainWindow::on_actionQuit_triggered()
 	this->close();
 }
 
-void MainWindow::on_tableView_doubleClicked(const QModelIndex &index)
+void MainWindow::on_tableView_doubleClicked()
 {
 	this->on_showBootLogButton_clicked();
 }
@@ -169,7 +169,7 @@ void MainWindow::on_actionSizeOfTheJournalOnTheDisk_triggered()
 
 
 
-void MainWindow::on_tableView_clicked(const QModelIndex &index)
+void MainWindow::on_tableView_clicked()
 {
 	QItemSelectionModel *selection = ui->tableView->selectionModel();
 
