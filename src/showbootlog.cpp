@@ -73,7 +73,7 @@ ShowBootLog::~ShowBootLog()
 	delete journalProcess;
 }
 
-void ShowBootLog::on_pushButton_clicked()
+void ShowBootLog::on_closeButton_clicked()
 {
 	close();
 }
