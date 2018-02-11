@@ -13,6 +13,11 @@
 #include <QProcess>
 #include <QMessageBox>
 #include <QDebug>
+#include <QIcon>
+#include <QStyle>
+#include <QPushButton>
+#include <QFileDialog>
+#include <QPlainTextEdit>
 
 
 ShowBootLog::ShowBootLog(QWidget *parent) :
@@ -33,6 +38,8 @@ ShowBootLog::ShowBootLog(QWidget *parent, bool completeJournal, bool realtime, b
 	ui->setupUi(this);
 	journalProcess = new QProcess(this);
 
+    // Set save icon for the export button
+    ui->exportButton->setIcon(style()->standardIcon(QStyle::SP_DialogSaveButton));
 
 	this->bootid = bootid;
 	this->completeJournal = completeJournal;
@@ -197,4 +204,15 @@ void ShowBootLog::on_filterButton_clicked()
 	}
 
 	updateBootLog();
+}
+
+void ShowBootLog::on_exportButton_clicked()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, "Export filtered journal entries");
+    if(fileName != ""){
+        QFile *exportFile = new QFile(fileName);
+        exportFile->open(QFile::ReadWrite);
+        exportFile->write(ui->plainTextEdit->toPlainText().toLocal8Bit().data());
+        exportFile->close();
+    }
 }

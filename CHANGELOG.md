@@ -1,9 +1,14 @@
 ## Changelog
 
+#### v0.5
+* Added a button to export the filtered journal (#12)
+
+
 #### v0.4
 * Added the possibility to reverse the journalctl output
 * Display the log size additionally in bytes
 * Added this changelog to the about dialog
+
 
 #### v0.3
 * Show an error message if no boots were found (#2)

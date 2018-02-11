@@ -43,6 +43,8 @@ private slots:
 
 	void on_filterButton_clicked();
 
+    void on_exportButton_clicked();
+
 private:
 	void updateBootLog();
 
