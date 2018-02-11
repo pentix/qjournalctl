@@ -1,6 +1,7 @@
 ## Changelog
 
 #### v0.5
+* Press [Ctrl][F] to search the journal
 * Added a button to export the filtered journal (#12)
 * Added more keyboard shortcuts in the main window (Ctrl+A, Ctrl+B, Ctrl+L)
 
