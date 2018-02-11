@@ -23,8 +23,8 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>49</x>
-     <y>12</y>
+     <x>70</x>
+     <y>10</y>
      <width>141</width>
      <height>31</height>
     </rect>
@@ -41,8 +41,8 @@
   <widget class="QLabel" name="versionLabel">
    <property name="geometry">
     <rect>
-     <x>168</x>
-     <y>22</y>
+     <x>190</x>
+     <y>20</y>
      <width>181</width>
      <height>16</height>
     </rect>
@@ -57,7 +57,7 @@
      <x>20</x>
      <y>75</y>
      <width>441</width>
-     <height>161</height>
+     <height>141</height>
     </rect>
    </property>
    <property name="text">
@@ -87,8 +87,8 @@ p, li { white-space: pre-wrap; }
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>50</y>
+     <x>70</x>
+     <y>40</y>
      <width>311</width>
      <height>18</height>
     </rect>
@@ -99,7 +99,7 @@ p, li { white-space: pre-wrap; }
     </font>
    </property>
    <property name="text">
-    <string>Display and analyse the systemd journal</string>
+    <string>A Qt-based GUI for systemd's journalctl command</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButton_2">
@@ -108,27 +108,42 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>18</y>
-     <width>21</width>
-     <height>21</height>
+     <x>15</x>
+     <y>12</y>
+     <width>48</width>
+     <height>48</height>
     </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>48</width>
+     <height>48</height>
+    </size>
    </property>
    <property name="text">
     <string/>
    </property>
    <property name="icon">
     <iconset resource="icon.qrc">
-     <normaloff>:/ui/icon.xpm</normaloff>:/ui/icon.xpm</iconset>
+     <normaloff>:/ui/qjournalctl.png</normaloff>:/ui/qjournalctl.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>48</width>
+     <height>48</height>
+    </size>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="QTextEdit" name="textEdit">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>250</y>
+     <y>230</y>
      <width>441</width>
-     <height>141</height>
+     <height>161</height>
     </rect>
    </property>
    <property name="readOnly">
