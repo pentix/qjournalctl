@@ -18,10 +18,15 @@
 #include <QPushButton>
 #include <QFileDialog>
 #include <QPlainTextEdit>
+#include <QShortcut>
+#include <QLabel>
+#include <QLineEdit>
+#include <QTextDocument>
+#include <QCheckBox>
 
 
 ShowBootLog::ShowBootLog(QWidget *parent) :
-	QDialog(parent),
+    QDialog(parent),
 	ui(new Ui::ShowBootLog)
 {
 	ui->setupUi(this);
@@ -40,6 +45,11 @@ ShowBootLog::ShowBootLog(QWidget *parent, bool completeJournal, bool realtime, b
 
     // Set save icon for the export button
     ui->exportButton->setIcon(style()->standardIcon(QStyle::SP_DialogSaveButton));
+
+    // Create find and escape shortcut
+    new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_F), this, SLOT(on_find_keyshortcut_triggered()));
+    new QShortcut(QKeySequence(Qt::Key_Escape), this, SLOT(on_find_hide_keyshortcut_triggered()));
+
 
 	this->bootid = bootid;
 	this->completeJournal = completeJournal;
@@ -194,6 +204,10 @@ void ShowBootLog::on_horizontalSlider_sliderMoved(int position)
 void ShowBootLog::on_filterButton_clicked()
 {
 	QString inputIdentifiers = ui->identifiersLineEdit->text();
+    if(inputIdentifiers == ""){
+//        return;
+    }
+
 	QStringList identifiers = inputIdentifiers.split(" ");
 
 	identifierFlags = "";
@@ -215,4 +229,76 @@ void ShowBootLog::on_exportButton_clicked()
         exportFile->write(ui->plainTextEdit->toPlainText().toLocal8Bit().data());
         exportFile->close();
     }
+}
+
+void ShowBootLog::on_find_keyshortcut_triggered()
+{
+    ui->findBox->setVisible(true);
+    ui->findLineEdit->setFocus();
+}
+
+void ShowBootLog::on_find_hide_keyshortcut_triggered()
+{
+    ui->findBox->setVisible(false);
+}
+
+void ShowBootLog::execute_find(QRegExp regexp, QTextDocument::FindFlags findFlags) {
+    if(!ui->plainTextEdit->find(regexp, findFlags)){
+        QTextCursor cur = ui->plainTextEdit->textCursor();
+        cur.movePosition(QTextCursor::Start, QTextCursor::MoveAnchor, 1);
+        ui->plainTextEdit->setTextCursor(cur);
+        ui->findStatusLabel->setText("Search started from the beginning");
+
+        if(!ui->plainTextEdit->find(regexp, findFlags)){
+            ui->findStatusLabel->setText("Not found");
+            ui->findStatusLabel->setStyleSheet("color: #F00;");
+        }
+    }
+}
+
+void ShowBootLog::execute_find(QString string, QTextDocument::FindFlags findFlags) {
+    if(!ui->plainTextEdit->find(string, findFlags)){
+        QTextCursor cur = ui->plainTextEdit->textCursor();
+        cur.movePosition(QTextCursor::Start, QTextCursor::MoveAnchor, 1);
+        ui->plainTextEdit->setTextCursor(cur);
+        ui->findStatusLabel->setText("Search started from the beginning");
+
+        if(!ui->plainTextEdit->find(string, findFlags)){
+            ui->findStatusLabel->setText("Not found");
+            ui->findStatusLabel->setStyleSheet("color: #F00;");
+        }
+    }
+}
+
+void ShowBootLog::on_findLineEdit_returnPressed()
+{
+    ui->findStatusLabel->setText("");
+    ui->findStatusLabel->setStyleSheet("color: #000;");
+
+    bool ignoreCase = (ui->ignoreCaseCheckBox->checkState() == Qt::Checked);
+    bool useRegexp = (ui->useRegexpCheckBox->checkState() == Qt::Checked);
+
+    QTextDocument::FindFlags ignoreCaseFlags;
+    if(!ignoreCase){
+        ignoreCaseFlags = QTextDocument::FindCaseSensitively;
+    }
+
+    if(useRegexp) {
+        QRegExp regexp = QRegExp(ui->findLineEdit->text());
+        if(ignoreCase) {
+            regexp.setCaseSensitivity(Qt::CaseInsensitive);
+        } else {
+            regexp.setCaseSensitivity(Qt::CaseSensitive);
+        }
+
+        execute_find(regexp, ignoreCaseFlags);
+    } else {
+        execute_find(ui->findLineEdit->text(), ignoreCaseFlags);
+    }
+}
+
+
+void ShowBootLog::on_identifiersLineEdit_returnPressed()
+{
+    on_filterButton_clicked();
 }

@@ -11,6 +11,7 @@
 
 #include <QDialog>
 #include <QProcess>
+#include <QTextDocument>
 
 namespace Ui {
 class ShowBootLog;
@@ -45,6 +46,14 @@ private slots:
 
     void on_exportButton_clicked();
 
+    void on_find_keyshortcut_triggered();
+
+    void on_find_hide_keyshortcut_triggered();
+
+    void on_findLineEdit_returnPressed();
+
+    void on_identifiersLineEdit_returnPressed();
+
 private:
 	void updateBootLog();
 
@@ -59,6 +68,10 @@ private:
 	int maxPriority=3;
 	int numberOfBytesRead=0;
 	QString identifierFlags="";
+
+
+    void execute_find(QRegExp regexp, QTextDocument::FindFlags findFlags);
+    void execute_find(QString string, QTextDocument::FindFlags findFlags);
 
 };
 
