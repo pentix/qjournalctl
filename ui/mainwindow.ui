@@ -186,7 +186,7 @@
    </widget>
    <widget class="QMenu" name="menuOK">
     <property name="title">
-     <string>Hel&amp;p</string>
+     <string>He&amp;lp</string>
     </property>
     <addaction name="actionAbout"/>
    </widget>
@@ -198,6 +198,9 @@
    <property name="text">
     <string>&amp;List all available boots</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+L</string>
+   </property>
   </action>
   <action name="actionAbout">
    <property name="text">
@@ -207,6 +210,9 @@
   <action name="actionShowCompleteJournal">
    <property name="text">
     <string>&amp;Show the complete journal</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+A</string>
    </property>
   </action>
   <action name="actionSizeOfTheJournalOnTheDisk">
@@ -222,6 +228,9 @@
   <action name="actionShowCurrentBootLog">
    <property name="text">
     <string>Show the &amp;current boot log</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+B</string>
    </property>
   </action>
  </widget>

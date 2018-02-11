@@ -2,6 +2,7 @@
 
 #### v0.5
 * Added a button to export the filtered journal (#12)
+* Added more keyboard shortcuts in the main window (Ctrl+A, Ctrl+B, Ctrl+L)
 
 
 #### v0.4
