@@ -33,3 +33,20 @@ DISTFILES += \
 
 RESOURCES += \
     ui/icon.qrc
+
+
+# This prevents qmake from failing when trying to install
+# the desktop environment files
+QMAKE_STRIP = echo
+
+# But try to strip the main application
+target.path = /usr/bin
+target.extra = strip $(TARGET); cp -f $(TARGET) $${PREFIX}/bin/$(TARGET)
+
+# Desktop environment files
+desktop-file.path = /usr/share/applications
+desktop-file.files += ui/qjournalctl.desktop
+desktop-icon.path = /usr/share/pixmaps
+desktop-icon.files += ui/qjournalctl.png
+
+INSTALLS += target desktop-file desktop-icon

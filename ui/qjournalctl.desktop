@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+Name=QJournalctl
+Comment=Graphical User Interface for systemd's journalctl
+Exec=qjournalctl
+Icon=qjournalctl
+Terminal=false
+StartupNotify=false
+Categories=System;
