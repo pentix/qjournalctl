@@ -57,6 +57,8 @@ private slots:
 
     void on_identifiersLineEdit_textEdited(const QString &arg1);
 
+    void on_clearButton_clicked();
+
 private:
     void updateBootLog(bool keepIdentifiers=false);
 
@@ -72,6 +74,7 @@ private:
 	int numberOfBytesRead=0;
 	QString identifierFlags="";
     QSet<QString> allIdentifiers;
+    QSet<QString> acceptedIdentifiers;
 
     void execute_find(QRegExp regexp, QTextDocument::FindFlags findFlags);
     void execute_find(QString string, QTextDocument::FindFlags findFlags);

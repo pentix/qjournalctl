@@ -233,6 +233,16 @@
          </property>
         </widget>
        </item>
+       <item>
+        <widget class="QPushButton" name="clearButton">
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>Clear</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </item>
      <item>
@@ -399,7 +409,7 @@
          <item>
           <widget class="QLineEdit" name="findLineEdit">
            <property name="visible">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -464,7 +474,7 @@
             </font>
            </property>
            <property name="visible">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
            <property name="text">
             <string/>

@@ -26,6 +26,7 @@
 #include <QSet>
 #include <QRegularExpression>
 #include <QCompleter>
+#include <QThread>
 
 
 ShowBootLog::ShowBootLog(QWidget *parent) :
@@ -98,7 +99,15 @@ void ShowBootLog::updateBootLog(bool keepIdentifiers)
 	ui->plainTextEdit->clear();
 
     if(!keepIdentifiers){
+        qDebug() << "Clearing identifiers" << endl;
         this->allIdentifiers.clear();
+        ui->acceptedIdentifierLabel->setText("");
+        identifierFlags = "";
+    } else {
+        identifierFlags = "";
+        for(QString identifier : this->acceptedIdentifiers){
+            identifierFlags += " -t " + identifier;
+        }
     }
 
 	// Fixing realtime bug: Maybe there isn't a single entry with
@@ -134,11 +143,12 @@ void ShowBootLog::updateBootLog(bool keepIdentifiers)
 
 	if(this->reverse){
 		command = command + " -r";
-	}
+    }
 
 	// Enable filtering by syslog identifiers
 	command += identifierFlags;
 
+    qDebug() << command << endl;
 
 	// Connect readyRead signal to appendToBootLog slot
 	// or close already opened process
@@ -156,15 +166,14 @@ void ShowBootLog::updateBootLog(bool keepIdentifiers)
 }
 
 void ShowBootLog::acceptIdentifier(void){
-    ui->acceptedIdentifierLabel->setText(ui->acceptedIdentifierLabel->text() + " " + ui->identifiersLineEdit->text());
-    QMessageBox::about(this, "ye", "yee");
-    ui->identifiersLineEdit->clear();
+    qDebug() << "Accept identifier " << ui->identifiersLineEdit->text();
+    this->acceptedIdentifiers.insert(ui->identifiersLineEdit->text());
+
+
+    ui->acceptedIdentifierLabel->setText(ui->acceptedIdentifierLabel->text() + "   " + ui->identifiersLineEdit->text());
     ui->identifiersLineEdit->setFocus();
     updateBootLog(true);
-
-    for(QString s : this->allIdentifiers){
-        QMessageBox::about(this, "t", s);
-    }
+    ui->identifiersLineEdit->clear();
 }
 
 
@@ -211,48 +220,36 @@ void ShowBootLog::on_sinceCheckBox_clicked()
 {
 	sinceFlag = !sinceFlag;
 	ui->sinceDateTimeEdit->setEnabled(sinceFlag);
-	updateBootLog();
+    updateBootLog(true);
 }
 
 void ShowBootLog::on_untilCheckBox_clicked()
 {
 	untilFlag = !untilFlag;
 	ui->untilDateTimeEdit->setEnabled(untilFlag);
-	updateBootLog();
+    updateBootLog(true);
 }
 
 void ShowBootLog::on_sinceDateTimeEdit_dateTimeChanged()
 {
-	updateBootLog();
+    updateBootLog(true);
 }
 
 void ShowBootLog::on_untilDateTimeEdit_dateTimeChanged()
 {
-	updateBootLog();
+    updateBootLog(true);
 }
 
 void ShowBootLog::on_horizontalSlider_sliderMoved(int position)
 {
 	maxPriority = position;
-	updateBootLog();
+    updateBootLog(true);
 }
 
 void ShowBootLog::on_filterButton_clicked()
 {
-	QString inputIdentifiers = ui->identifiersLineEdit->text();
-    if(inputIdentifiers == ""){
-        return;
-    }
-
-    QStringList acceptedIdentifiers = inputIdentifiers.split(" ")   +    ui->acceptedIdentifierLabel->text().split(" ", QString::SkipEmptyParts);
-
-	identifierFlags = "";
-    for(QString identifier : acceptedIdentifiers){
-		if(identifier != ""){
-			identifierFlags += " -t " + identifier;
-		}
-	}
-
+    /// TODO: accept here?
+    // acceptIdentifers();
     updateBootLog(true);
 }
 
@@ -342,7 +339,7 @@ void ShowBootLog::on_findLineEdit_returnPressed()
 
 void ShowBootLog::on_identifiersLineEdit_returnPressed()
 {
-    on_filterButton_clicked();
+    //acceptIdentifier();
 }
 
 
@@ -352,4 +349,12 @@ void ShowBootLog::on_identifiersLineEdit_textEdited(const QString &arg1)
     if(arg1 == ""){
         on_filterButton_clicked();
     }
+}
+
+void ShowBootLog::on_clearButton_clicked()
+{
+    ui->acceptedIdentifierLabel->setText("");
+    ui->identifiersLineEdit->clear();
+    this->acceptedIdentifiers.clear();
+    updateBootLog(false);
 }
