@@ -12,6 +12,7 @@
 #include <QDialog>
 #include <QProcess>
 #include <QTextDocument>
+#include <QSet>
 
 namespace Ui {
 class ShowBootLog;
@@ -54,8 +55,10 @@ private slots:
 
     void on_identifiersLineEdit_returnPressed();
 
+    void on_identifiersLineEdit_textEdited(const QString &arg1);
+
 private:
-	void updateBootLog();
+    void updateBootLog(bool keepIdentifiers=false);
 
 	Ui::ShowBootLog *ui;
 	QProcess *journalProcess;
@@ -68,10 +71,11 @@ private:
 	int maxPriority=3;
 	int numberOfBytesRead=0;
 	QString identifierFlags="";
-
+    QSet<QString> allIdentifiers;
 
     void execute_find(QRegExp regexp, QTextDocument::FindFlags findFlags);
     void execute_find(QString string, QTextDocument::FindFlags findFlags);
+    void acceptIdentifier(void);
 
 };
 

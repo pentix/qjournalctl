@@ -23,6 +23,9 @@
 #include <QLineEdit>
 #include <QTextDocument>
 #include <QCheckBox>
+#include <QSet>
+#include <QRegularExpression>
+#include <QCompleter>
 
 
 ShowBootLog::ShowBootLog(QWidget *parent) :
@@ -89,11 +92,14 @@ void ShowBootLog::on_closeButton_clicked()
 }
 
 
-void ShowBootLog::updateBootLog()
+void ShowBootLog::updateBootLog(bool keepIdentifiers)
 {
 	// Clear log!
 	ui->plainTextEdit->clear();
 
+    if(!keepIdentifiers){
+        this->allIdentifiers.clear();
+    }
 
 	// Fixing realtime bug: Maybe there isn't a single entry with
 	// the selected properties. Therefore appendToBootLog() never
@@ -149,10 +155,22 @@ void ShowBootLog::updateBootLog()
 
 }
 
+void ShowBootLog::acceptIdentifier(void){
+    ui->acceptedIdentifierLabel->setText(ui->acceptedIdentifierLabel->text() + " " + ui->identifiersLineEdit->text());
+    QMessageBox::about(this, "ye", "yee");
+    ui->identifiersLineEdit->clear();
+    ui->identifiersLineEdit->setFocus();
+    updateBootLog(true);
+
+    for(QString s : this->allIdentifiers){
+        QMessageBox::about(this, "t", s);
+    }
+}
+
 
 void ShowBootLog::appendToBootLog()
 {
-	QByteArray read = journalProcess->read(4096000);
+    QByteArray read = journalProcess->read(8192000);
 	QString readString = QString(read);
 
 	// Append string to the UI and increment byte counter
@@ -168,6 +186,24 @@ void ShowBootLog::appendToBootLog()
 		ui->numberOfEntriesLabel->setText("Showing <b>0</b> lines (0 bytes)");
 	}
 
+    // Collect identifiers for auto completion
+    QRegularExpression identifierRegexp = QRegularExpression(" ([a-zA-Z0-9\\_]+)\\[\\d+\\]\\: ", QRegularExpression::MultilineOption);
+    QRegularExpressionMatchIterator matches = identifierRegexp.globalMatch(readString);
+
+    QSet<QString> identifierSet;
+
+    while(matches.hasNext()){
+        QRegularExpressionMatch identifier = matches.next();
+        identifierSet.insert(identifier.captured(1));
+    }
+
+    this->allIdentifiers += identifierSet;
+    QCompleter *completer = new QCompleter(this->allIdentifiers.toList());
+    completer->setCaseSensitivity(Qt::CaseInsensitive);
+    completer->setCompletionMode(QCompleter::PopupCompletion);
+    ui->identifiersLineEdit->setCompleter(completer);
+
+    connect(completer, static_cast<void(QCompleter::*)(const QString &)>(&QCompleter::activated), [=](void){ acceptIdentifier(); });
 }
 
 
@@ -205,19 +241,19 @@ void ShowBootLog::on_filterButton_clicked()
 {
 	QString inputIdentifiers = ui->identifiersLineEdit->text();
     if(inputIdentifiers == ""){
-//        return;
+        return;
     }
 
-	QStringList identifiers = inputIdentifiers.split(" ");
+    QStringList acceptedIdentifiers = inputIdentifiers.split(" ")   +    ui->acceptedIdentifierLabel->text().split(" ", QString::SkipEmptyParts);
 
 	identifierFlags = "";
-	for(QString identifier : identifiers){
+    for(QString identifier : acceptedIdentifiers){
 		if(identifier != ""){
 			identifierFlags += " -t " + identifier;
 		}
 	}
 
-	updateBootLog();
+    updateBootLog(true);
 }
 
 void ShowBootLog::on_exportButton_clicked()
@@ -307,4 +343,13 @@ void ShowBootLog::on_findLineEdit_returnPressed()
 void ShowBootLog::on_identifiersLineEdit_returnPressed()
 {
     on_filterButton_clicked();
+}
+
+
+void ShowBootLog::on_identifiersLineEdit_textEdited(const QString &arg1)
+{
+    // If the filter has been deleted, update the list!
+    if(arg1 == ""){
+        on_filterButton_clicked();
+    }
 }

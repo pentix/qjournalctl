@@ -210,6 +210,13 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_4">
        <item>
+        <widget class="QLabel" name="acceptedIdentifierLabel">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QLineEdit" name="identifiersLineEdit">
          <property name="focusPolicy">
           <enum>Qt::StrongFocus</enum>
@@ -338,9 +345,6 @@
      </item>
      <item>
       <widget class="QGroupBox" name="findBox">
-        <property name="visible">
-         <bool>false</bool>
-        </property>
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -353,10 +357,13 @@
          <height>45</height>
         </size>
        </property>
+       <property name="visible">
+        <bool>false</bool>
+       </property>
        <property name="title">
         <string/>
        </property>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>10</x>
@@ -382,7 +389,7 @@
             </font>
            </property>
            <property name="visible">
-            <bool>true</bool>
+            <bool>false</bool>
            </property>
            <property name="text">
             <string>Find:</string>
@@ -392,7 +399,7 @@
          <item>
           <widget class="QLineEdit" name="findLineEdit">
            <property name="visible">
-            <bool>true</bool>
+            <bool>false</bool>
            </property>
           </widget>
          </item>
@@ -457,7 +464,7 @@
             </font>
            </property>
            <property name="visible">
-            <bool>true</bool>
+            <bool>false</bool>
            </property>
            <property name="text">
             <string/>
