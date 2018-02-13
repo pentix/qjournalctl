@@ -1,4 +1,4 @@
-# QJournalctl v0.4
+# QJournalctl v0.5
 ### A Qt-based Graphical User Interface for systemd's journalctl command 
 
 
@@ -35,9 +35,7 @@ If you like this project or if you want to see qjournalctl outside of the AUR in
 
 
 #### Screenshots
-![Searching the journal in realtime](http://image.prntscr.com/image/1c42499604ae4a69882af8869efac24e.png "Searching the journal")
-
-![Looking through an old boot log](http://image.prntscr.com/image/13de56e1fa74401283ec2593afa51a89.png "Looking through an old boot log")
+![Searching the journal in realtime](https://image.prntscr.com/image/lWwWdJV2Qk_nLOKxVl54xg.png "Searching the journal")
 
 ![Show all saved boot logs or the complete journal](http://image.prntscr.com/image/3d7ba5b4d684489db4184b5cd97743c9.png "Show all saved boot logs or the complete journal")
 
