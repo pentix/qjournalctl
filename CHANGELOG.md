@@ -2,7 +2,7 @@
 
 #### v0.5
 * Press [Ctrl][F] to search the journal for a normal string or a RegExp (#11)
-* Added a button to export the filtered journal (#12)
+* Added a button to export the filtered journal or only the current selection (#12)
 * Added more keyboard shortcuts in the main window (Ctrl+A, Ctrl+B, Ctrl+L)
 * Added autocompletion for filtering by syslog identifiers. When loading
   the journal, a list of all identifiers is created (even if you're
