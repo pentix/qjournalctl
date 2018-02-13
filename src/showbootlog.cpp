@@ -52,7 +52,7 @@ ShowBootLog::ShowBootLog(QWidget *parent, bool completeJournal, bool realtime, b
 
     // Create find and escape shortcut
     new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_F), this, SLOT(on_find_keyshortcut_triggered()));
-    new QShortcut(QKeySequence(Qt::Key_Escape), this, SLOT(on_find_hide_keyshortcut_triggered()));
+    new QShortcut(QKeySequence(Qt::Key_Escape), this, SLOT(on_escape_keyshortcut_triggered()));
 
 
 	this->bootid = bootid;
@@ -172,8 +172,14 @@ void ShowBootLog::updateBootLog(bool keepIdentifiers)
 void ShowBootLog::acceptIdentifier(void){
     qDebug() << "Accept identifier " << ui->identifiersLineEdit->text();
     this->acceptedIdentifiers.insert(ui->identifiersLineEdit->text());
+    //ui->identifiersLineEdit->clear();
+
+    qDebug() << "before clear " << ui->identifiersLineEdit->text() << endl;
     ui->identifiersLineEdit->clear();
     ui->identifiersLineEdit->setText("");
+    ui->identifiersLineEdit->repaint();
+    qDebug() << "after clear " << ui->identifiersLineEdit->text() << endl;
+
     updateBootLog(true);
 }
 
@@ -213,6 +219,12 @@ void ShowBootLog::appendToBootLog()
     completer->setCompletionMode(QCompleter::PopupCompletion);
     ui->identifiersLineEdit->setCompleter(completer);
 
+    // Clearing the LineEdit using clear() does not work due to the focus being
+    // on the completer popup. (Some strange Qt behaviour)
+    // Solution: Stackoverflow, again!  https://stackoverflow.com/a/11905995/2628569
+    QObject::connect(completer, SIGNAL(activated(const QString&)),
+                     ui->identifiersLineEdit, SLOT(clear()),
+                     Qt::QueuedConnection);
 }
 
 
@@ -270,9 +282,13 @@ void ShowBootLog::on_find_keyshortcut_triggered()
     ui->findLineEdit->setFocus();
 }
 
-void ShowBootLog::on_find_hide_keyshortcut_triggered()
+void ShowBootLog::on_escape_keyshortcut_triggered()
 {
-    ui->findBox->setVisible(false);
+    if(ui->identifiersLineEdit->hasFocus()){
+        on_clearButton_clicked();
+    } else if(ui->findLineEdit->hasFocus() || ui->useRegexpCheckBox->hasFocus() || ui->ignoreCaseCheckBox->hasFocus()){
+        ui->findBox->setVisible(false);
+    }
 }
 
 void ShowBootLog::execute_find(QRegExp regexp, QTextDocument::FindFlags findFlags) {

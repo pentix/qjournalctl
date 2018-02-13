@@ -49,7 +49,7 @@ private slots:
 
     void on_find_keyshortcut_triggered();
 
-    void on_find_hide_keyshortcut_triggered();
+    void on_escape_keyshortcut_triggered();
 
     void on_findLineEdit_returnPressed();
 
