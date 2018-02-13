@@ -95,7 +95,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>70</x>
      <y>40</y>
-     <width>311</width>
+     <width>601</width>
      <height>18</height>
     </rect>
    </property>
@@ -105,7 +105,7 @@ p, li { white-space: pre-wrap; }
     </font>
    </property>
    <property name="text">
-    <string>A Qt-based GUI for systemd's journalctl command</string>
+    <string>A Qt-based graphical user interface for systemd's journalctl command</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButton_2">
