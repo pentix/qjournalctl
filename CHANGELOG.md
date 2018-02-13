@@ -1,13 +1,15 @@
 ## Changelog
 
 #### v0.5
-* Press [Ctrl][F] to search the journal for a normal string or a RegExp (#11)
-* Added a button to export the filtered journal or only the current selection (#12)
-* Added more keyboard shortcuts in the main window (Ctrl+A, Ctrl+B, Ctrl+L)
+* `make install` creates a .desktop file in `/usr/share/applications/` (#7)
 * Added autocompletion for filtering by syslog identifiers. When loading
   the journal, a list of all identifiers is created (even if you're
   following the journal in realtime) and QJournalctl suggests you
   already appeared identifiers when filtering. (#9)
+* Compile against C++11 by default (#10)
+* Press [Ctrl][F] to search the journal for a normal string or a RegExp (#11)
+* Added a button to export the filtered journal or only the current selection (#12)
+* Added more keyboard shortcuts in the main window (Ctrl+A, Ctrl+B, Ctrl+L)
 
 
 #### v0.4
