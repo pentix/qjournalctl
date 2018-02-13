@@ -99,11 +99,16 @@ void ShowBootLog::updateBootLog(bool keepIdentifiers)
 	ui->plainTextEdit->clear();
 
     if(!keepIdentifiers){
-        qDebug() << "Clearing identifiers" << endl;
+        // Reset all previously accepted but also read identifiers   (clear the filter but also do a full reload!)
         this->allIdentifiers.clear();
-        ui->acceptedIdentifierLabel->setText("");
+        this->acceptedIdentifiers.clear();
         identifierFlags = "";
+
+        // Also reset the UI parts
+        ui->acceptedIdentifierLabel->setText("");
+
     } else {
+        // Regenerate all flags
         identifierFlags = "";
         QString acceptedIdentifierLabelText = "";
         for(QString identifier : this->acceptedIdentifiers){
@@ -113,6 +118,7 @@ void ShowBootLog::updateBootLog(bool keepIdentifiers)
 
         ui->acceptedIdentifierLabel->setText(acceptedIdentifierLabelText);
     }
+
 
 	// Fixing realtime bug: Maybe there isn't a single entry with
 	// the selected properties. Therefore appendToBootLog() never
@@ -152,7 +158,6 @@ void ShowBootLog::updateBootLog(bool keepIdentifiers)
 	// Enable filtering by syslog identifiers
 	command += identifierFlags;
 
-    qDebug() << command << endl;
 
 	// Connect readyRead signal to appendToBootLog slot
 	// or close already opened process
@@ -170,16 +175,7 @@ void ShowBootLog::updateBootLog(bool keepIdentifiers)
 }
 
 void ShowBootLog::acceptIdentifier(void){
-    qDebug() << "Accept identifier " << ui->identifiersLineEdit->text();
-    this->acceptedIdentifiers.insert(ui->identifiersLineEdit->text());
-    //ui->identifiersLineEdit->clear();
-
-    qDebug() << "before clear " << ui->identifiersLineEdit->text() << endl;
-    ui->identifiersLineEdit->clear();
-    ui->identifiersLineEdit->setText("");
-    ui->identifiersLineEdit->repaint();
-    qDebug() << "after clear " << ui->identifiersLineEdit->text() << endl;
-
+    this->acceptedIdentifiers.insert(ui->identifiersLineEdit->text()); 
     updateBootLog(true);
 }
 
@@ -208,6 +204,7 @@ void ShowBootLog::appendToBootLog()
 
     QSet<QString> identifierSet;
 
+    // Iterate over all found identifiers
     while(matches.hasNext()){
         QRegularExpressionMatch identifier = matches.next();
         identifierSet.insert(identifier.captured(1));
