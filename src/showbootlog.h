@@ -57,6 +57,10 @@ private slots:
 
     void on_clearButton_clicked();
 
+    void on_plainTextEdit_selectionChanged();
+
+    void on_exportSelectionButton_clicked();
+
 private:
     void updateBootLog(bool keepIdentifiers=false);
 

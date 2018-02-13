@@ -56,7 +56,17 @@
         <string notr="true"/>
        </property>
        <property name="text">
-        <string>Export</string>
+        <string>Export the filtered journal</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="exportSelectionButton">
+       <property name="visible">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>Export Selection</string>
        </property>
       </widget>
      </item>
@@ -407,11 +417,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="findLineEdit">
-           <property name="visible">
-            <bool>true</bool>
-           </property>
-          </widget>
+          <widget class="QLineEdit" name="findLineEdit"/>
          </item>
          <item>
           <widget class="QCheckBox" name="ignoreCaseCheckBox">
@@ -474,7 +480,7 @@
             </font>
            </property>
            <property name="visible">
-            <bool>true</bool>
+            <bool>false</bool>
            </property>
            <property name="text">
             <string/>

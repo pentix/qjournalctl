@@ -47,8 +47,9 @@ ShowBootLog::ShowBootLog(QWidget *parent, bool completeJournal, bool realtime, b
 	ui->setupUi(this);
 	journalProcess = new QProcess(this);
 
-    // Set save icon for the export button
+    // Set save icon for the export buttons
     ui->exportButton->setIcon(style()->standardIcon(QStyle::SP_DialogSaveButton));
+    ui->exportSelectionButton->setIcon(style()->standardIcon(QStyle::SP_DialogSaveButton));
 
     // Create find and escape shortcut
     new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_F), this, SLOT(on_find_keyshortcut_triggered()));
@@ -263,16 +264,22 @@ void ShowBootLog::on_filterButton_clicked()
     updateBootLog(true);
 }
 
-void ShowBootLog::on_exportButton_clicked()
-{
-    QString fileName = QFileDialog::getSaveFileName(this, "Export filtered journal entries");
+void writeToExportFile(QString fileName, const char *data){
     if(fileName != ""){
         QFile *exportFile = new QFile(fileName);
         exportFile->open(QFile::ReadWrite);
-        exportFile->write(ui->plainTextEdit->toPlainText().toLocal8Bit().data());
+        exportFile->write(data);
         exportFile->close();
     }
 }
+
+
+void ShowBootLog::on_exportButton_clicked()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, "Export filtered journal entries");
+    writeToExportFile(fileName, ui->plainTextEdit->toPlainText().toLocal8Bit().data());
+}
+
 
 void ShowBootLog::on_find_keyshortcut_triggered()
 {
@@ -363,4 +370,25 @@ void ShowBootLog::on_clearButton_clicked()
     ui->identifiersLineEdit->clear();
     this->acceptedIdentifiers.clear();
     updateBootLog(false);
+}
+
+
+void ShowBootLog::on_plainTextEdit_selectionChanged()
+{
+    // Get the selected text and decide whether to show the the exportSelectionButton or not
+    QString selection = ui->plainTextEdit->textCursor().selectedText();
+    if(selection != ""){
+        ui->exportSelectionButton->setVisible(true);
+    } else {
+        ui->exportSelectionButton->setVisible(false);
+    }
+}
+
+
+void ShowBootLog::on_exportSelectionButton_clicked()
+{
+    QString selection = ui->plainTextEdit->textCursor().selectedText();
+    QString fileName = QFileDialog::getSaveFileName(this, "Export selected journal entries");
+
+    writeToExportFile(fileName, selection.toLocal8Bit().data());
 }
