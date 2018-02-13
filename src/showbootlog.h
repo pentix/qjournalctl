@@ -55,8 +55,6 @@ private slots:
 
     void on_identifiersLineEdit_returnPressed();
 
-    void on_identifiersLineEdit_textEdited(const QString &arg1);
-
     void on_clearButton_clicked();
 
 private:

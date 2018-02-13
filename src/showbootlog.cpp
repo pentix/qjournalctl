@@ -105,9 +105,13 @@ void ShowBootLog::updateBootLog(bool keepIdentifiers)
         identifierFlags = "";
     } else {
         identifierFlags = "";
+        QString acceptedIdentifierLabelText = "";
         for(QString identifier : this->acceptedIdentifiers){
             identifierFlags += " -t " + identifier;
+            acceptedIdentifierLabelText += identifier + "  ";
         }
+
+        ui->acceptedIdentifierLabel->setText(acceptedIdentifierLabelText);
     }
 
 	// Fixing realtime bug: Maybe there isn't a single entry with
@@ -168,12 +172,9 @@ void ShowBootLog::updateBootLog(bool keepIdentifiers)
 void ShowBootLog::acceptIdentifier(void){
     qDebug() << "Accept identifier " << ui->identifiersLineEdit->text();
     this->acceptedIdentifiers.insert(ui->identifiersLineEdit->text());
-
-
-    ui->acceptedIdentifierLabel->setText(ui->acceptedIdentifierLabel->text() + "   " + ui->identifiersLineEdit->text());
-    ui->identifiersLineEdit->setFocus();
-    updateBootLog(true);
     ui->identifiersLineEdit->clear();
+    ui->identifiersLineEdit->setText("");
+    updateBootLog(true);
 }
 
 
@@ -212,7 +213,6 @@ void ShowBootLog::appendToBootLog()
     completer->setCompletionMode(QCompleter::PopupCompletion);
     ui->identifiersLineEdit->setCompleter(completer);
 
-    connect(completer, static_cast<void(QCompleter::*)(const QString &)>(&QCompleter::activated), [=](void){ acceptIdentifier(); });
 }
 
 
@@ -339,17 +339,9 @@ void ShowBootLog::on_findLineEdit_returnPressed()
 
 void ShowBootLog::on_identifiersLineEdit_returnPressed()
 {
-    //acceptIdentifier();
+    acceptIdentifier();
 }
 
-
-void ShowBootLog::on_identifiersLineEdit_textEdited(const QString &arg1)
-{
-    // If the filter has been deleted, update the list!
-    if(arg1 == ""){
-        on_filterButton_clicked();
-    }
-}
 
 void ShowBootLog::on_clearButton_clicked()
 {
