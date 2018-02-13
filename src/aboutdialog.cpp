@@ -26,6 +26,9 @@ AboutDialog::AboutDialog(QWidget *parent) :
 		gitStr = QString("  (git commit: ") + GITREV + QString(")");
 
 	ui->versionLabel->setText(QString("v") + QString(VERSION) + gitStr);
+
+    // Set the about dialog as a fixed-size dialog
+    this->setFixedSize(688, 483);
 }
 
 AboutDialog::~AboutDialog()

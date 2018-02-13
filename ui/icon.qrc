@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/ui">
         <file>icon.xpm</file>
+        <file>qjournalctl.png</file>
     </qresource>
 </RCC>

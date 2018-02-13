@@ -11,6 +11,8 @@
 
 #include <QDialog>
 #include <QProcess>
+#include <QTextDocument>
+#include <QSet>
 
 namespace Ui {
 class ShowBootLog;
@@ -27,7 +29,7 @@ public:
 
 
 private slots:
-	void on_pushButton_clicked();
+    void on_closeButton_clicked();
 
 	void on_sinceCheckBox_clicked();
 
@@ -43,8 +45,24 @@ private slots:
 
 	void on_filterButton_clicked();
 
+    void on_exportButton_clicked();
+
+    void on_find_keyshortcut_triggered();
+
+    void on_escape_keyshortcut_triggered();
+
+    void on_findLineEdit_returnPressed();
+
+    void on_identifiersLineEdit_returnPressed();
+
+    void on_clearButton_clicked();
+
+    void on_plainTextEdit_selectionChanged();
+
+    void on_exportSelectionButton_clicked();
+
 private:
-	void updateBootLog();
+    void updateBootLog(bool keepIdentifiers=false);
 
 	Ui::ShowBootLog *ui;
 	QProcess *journalProcess;
@@ -57,6 +75,12 @@ private:
 	int maxPriority=3;
 	int numberOfBytesRead=0;
 	QString identifierFlags="";
+    QSet<QString> allIdentifiers;
+    QSet<QString> acceptedIdentifiers;
+
+    void execute_find(QRegExp regexp, QTextDocument::FindFlags findFlags);
+    void execute_find(QString string, QTextDocument::FindFlags findFlags);
+    void acceptIdentifier(void);
 
 };
 
