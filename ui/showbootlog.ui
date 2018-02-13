@@ -62,6 +62,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="exportSelectionButton">
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
        <property name="visible">
         <bool>false</bool>
        </property>
