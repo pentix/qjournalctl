@@ -243,6 +243,12 @@ void ShowBootLog::on_find_hide_keyshortcut_triggered()
 }
 
 void ShowBootLog::execute_find(QRegExp regexp, QTextDocument::FindFlags findFlags) {
+    if(!regexp.isValid()){
+        ui->findStatusLabel->setText("Invalid RegExp!");
+        ui->findStatusLabel->setStyleSheet("color: #F00;");
+        return;
+    }
+
     if(!ui->plainTextEdit->find(regexp, findFlags)){
         QTextCursor cur = ui->plainTextEdit->textCursor();
         cur.movePosition(QTextCursor::Start, QTextCursor::MoveAnchor, 1);
