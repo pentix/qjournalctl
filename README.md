@@ -35,8 +35,16 @@ If you like this project or if you want to see qjournalctl outside of the AUR in
 
 
 #### Screenshots
+##### Use the filter option and regular expressions to find what you are looking for
+![Use the filter option and regular expressions to find what you are looking for](https://user-images.githubusercontent.com/3193006/36170961-3fbc1ed0-1101-11e8-9123-ceda9a1b6c8c.gif)
+
+##### Finally found the interesting log entries? Directly export your selection!
+![Finally found the interesting log entries? Directly export your selection!](https://user-images.githubusercontent.com/3193006/36171008-5f55351a-1101-11e8-8885-f17723944868.gif)
+
+##### Search the journal while it keeps itself up-to-date
 ![Searching the journal in realtime](https://image.prntscr.com/image/lWwWdJV2Qk_nLOKxVl54xg.png "Searching the journal")
 
+##### The current boot is not enough? Search the entire (!) journal of all boots or select a previous boot
 ![Show all saved boot logs or the complete journal](http://image.prntscr.com/image/3d7ba5b4d684489db4184b5cd97743c9.png "Show all saved boot logs or the complete journal")
 
 
