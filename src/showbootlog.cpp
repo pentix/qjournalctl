@@ -257,8 +257,9 @@ void ShowBootLog::on_horizontalSlider_sliderMoved(int position)
 
 void ShowBootLog::on_filterButton_clicked()
 {
-    /// TODO: accept here?
-    // acceptIdentifers();
+    acceptIdentifier();
+    ui->identifiersLineEdit->clear();
+
     updateBootLog(true);
 }
 
