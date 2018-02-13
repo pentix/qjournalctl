@@ -16,7 +16,7 @@ Maybe you want to checkout the [Changelog](https://github.com/pentix/qjournalctl
 #### How to get QJournalctl
 ##### Build Dependencies
 * Make sure your compiler supports (at least) C++11 (E.g. `g++` ≥ 4.8.1, `clang` ≥ 3.3)
-* Also QJournalctl relies on Qt 5, ensure to have the Qt5 development libaries (E.g. `qtbase5-dev` for Debian/Ubuntu) installed, when compiling
+* Also, QJournalctl relies on Qt 5, ensure to have the Qt5 development libaries (E.g. `qtbase5-dev` for Debian/Ubuntu) installed, when compiling!
 
 
 ##### Building QJournalctl
