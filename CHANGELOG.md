@@ -1,5 +1,11 @@
 ## Changelog
 
+#### v0.5.1 (2018, Feb. 18)
+* Remove the trailing newline when realtime following is enabled (#16)
+* Resized ShowBootLog window and other small design fixes to increase readability
+* identifiersLineEdit gets cleared when entering a non-suggested identifier 
+
+
 #### v0.5 (2018, Feb. 13)
 * `make install` creates a .desktop file in `/usr/share/applications/` (#7)
 * Added autocompletion for filtering by syslog identifiers. When loading

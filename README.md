@@ -1,4 +1,4 @@
-# QJournalctl v0.5
+# QJournalctl v0.5.1
 ### A Qt-based Graphical User Interface for systemd's journalctl command 
 
 
