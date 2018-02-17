@@ -178,6 +178,8 @@ void ShowBootLog::updateBootLog(bool keepIdentifiers)
 void ShowBootLog::acceptIdentifier(void){
     this->acceptedIdentifiers.insert(ui->identifiersLineEdit->text()); 
     updateBootLog(true);
+    ui->identifiersLineEdit->clear();
+    ui->identifiersLineEdit->setFocus();
 }
 
 
