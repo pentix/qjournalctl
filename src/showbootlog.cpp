@@ -184,7 +184,8 @@ void ShowBootLog::acceptIdentifier(void){
 void ShowBootLog::appendToBootLog()
 {
     QByteArray read = journalProcess->read(8192000);
-	QString readString = QString(read);
+    QString readString = QString(read);
+    readString = readString.left(readString.size()-1);
 
 	// Append string to the UI and increment byte counter
 	ui->plainTextEdit->appendPlainText(readString);
