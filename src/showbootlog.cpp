@@ -259,6 +259,11 @@ void ShowBootLog::on_horizontalSlider_sliderMoved(int position)
     updateBootLog(true);
 }
 
+void ShowBootLog::on_horizontalSlider_valueChanged(int value)
+{
+	ShowBootLog::on_horizontalSlider_sliderMoved(value);
+}
+
 void ShowBootLog::on_filterButton_clicked()
 {
     acceptIdentifier();
@@ -395,3 +400,4 @@ void ShowBootLog::on_exportSelectionButton_clicked()
 
     writeToExportFile(fileName, selection.toLocal8Bit().data());
 }
+

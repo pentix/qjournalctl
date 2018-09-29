@@ -61,6 +61,8 @@ private slots:
 
     void on_exportSelectionButton_clicked();
 
+	void on_horizontalSlider_valueChanged(int value);
+
 private:
     void updateBootLog(bool keepIdentifiers=false);
 
