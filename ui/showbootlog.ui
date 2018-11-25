@@ -216,7 +216,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Filter by syslog identifiers   (seperate multiple identifiers by a space)</string>
+        <string>Filter by syslog identifiers   (separate multiple identifiers by a space)</string>
        </property>
       </widget>
      </item>
