@@ -1,0 +1,11 @@
+language: cpp
+
+services:
+  - docker
+
+before_script:
+  - docker pull cm0x4d/ubuntu-qt5-cmake
+
+script:
+  - docker run -it cm0x4d/ubuntu-qt5-cmake sh -c "git clone https://github.com/pentix/qjournalctl; cd qjournalctl; ./autogen.sh; make; ls -lh qjournalctl"
+
