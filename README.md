@@ -1,4 +1,4 @@
-# QJournalctl v0.5.1
+# QJournalctl v0.5.1 [![Build Status](https://travis-ci.org/pentix/qjournalctl.svg?branch=master)](https://travis-ci.org/pentix/qjournalctl)
 ### A Qt-based Graphical User Interface for systemd's journalctl command 
 
 
