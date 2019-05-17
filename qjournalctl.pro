@@ -15,12 +15,16 @@ TEMPLATE = app
 CONFIG += c++11
 
 SOURCES += src/main.cpp\
+    src/connection.cpp \
+    src/local.cpp \
     src/mainwindow.cpp \
     src/aboutdialog.cpp \
     src/showbootlog.cpp
 
 HEADERS  += src/mainwindow.h \
     src/aboutdialog.h \
+    src/connection.h \
+    src/local.h \
     src/version.h \
     src/showbootlog.h
 

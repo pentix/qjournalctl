@@ -14,6 +14,8 @@
 #include <QTextDocument>
 #include <QSet>
 
+#include "connection.h"
+
 namespace Ui {
 class ShowBootLog;
 }
@@ -29,60 +31,63 @@ public:
 
 
 private slots:
-    void on_closeButton_clicked();
+	void on_closeButton_clicked();
 
 	void on_sinceCheckBox_clicked();
 
 	void on_untilCheckBox_clicked();
 
-    void on_sinceDateTimeEdit_dateTimeChanged();
+	void on_sinceDateTimeEdit_dateTimeChanged();
 
-    void on_untilDateTimeEdit_dateTimeChanged();
+	void on_untilDateTimeEdit_dateTimeChanged();
 
 	void on_horizontalSlider_sliderMoved(int position);
 
-	void appendToBootLog();
+	void appendToBootLog(QString readString);
 
 	void on_filterButton_clicked();
 
-    void on_exportButton_clicked();
+	void on_exportButton_clicked();
 
-    void on_find_keyshortcut_triggered();
+	void on_find_keyshortcut_triggered();
 
-    void on_escape_keyshortcut_triggered();
+	void on_escape_keyshortcut_triggered();
 
-    void on_findLineEdit_returnPressed();
+	void on_findLineEdit_returnPressed();
 
-    void on_identifiersLineEdit_returnPressed();
+	void on_identifiersLineEdit_returnPressed();
 
-    void on_clearButton_clicked();
+	void on_clearButton_clicked();
 
-    void on_plainTextEdit_selectionChanged();
+	void on_plainTextEdit_selectionChanged();
 
-    void on_exportSelectionButton_clicked();
+	void on_exportSelectionButton_clicked();
 
 	void on_horizontalSlider_valueChanged(int value);
 
 private:
-    void updateBootLog(bool keepIdentifiers=false);
+	void updateBootLog(bool keepIdentifiers=false);
 
 	Ui::ShowBootLog *ui;
-	QProcess *journalProcess;
+	Connection *connection;
 
+	// Only journalctl options
 	QString bootid;
 	bool sinceFlag=false, untilFlag=false;
 	bool completeJournal=false;
 	bool realtime=false;
 	bool reverse=false;
 	int maxPriority=3;
+
+	// Internal display variables
 	int numberOfBytesRead=0;
 	QString identifierFlags="";
-    QSet<QString> allIdentifiers;
-    QSet<QString> acceptedIdentifiers;
+	QSet<QString> allIdentifiers;
+	QSet<QString> acceptedIdentifiers;
 
-    void execute_find(QRegExp regexp, QTextDocument::FindFlags findFlags);
-    void execute_find(QString string, QTextDocument::FindFlags findFlags);
-    void acceptIdentifier(void);
+	void execute_find(QRegExp regexp, QTextDocument::FindFlags findFlags);
+	void execute_find(QString string, QTextDocument::FindFlags findFlags);
+	void acceptIdentifier(void);
 
 };
 
