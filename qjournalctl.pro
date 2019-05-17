@@ -15,17 +15,22 @@ TEMPLATE = app
 CONFIG += c++11
 
 SOURCES += src/main.cpp\
+    src/connectiondialog.cpp \
+    src/connectionsettings.cpp \
     src/mainwindow.cpp \
     src/aboutdialog.cpp \
     src/showbootlog.cpp
 
 HEADERS  += src/mainwindow.h \
     src/aboutdialog.h \
+    src/connectiondialog.h \
+    src/connectionsettings.h \
     src/version.h \
     src/showbootlog.h
 
 FORMS    += ui/mainwindow.ui \
     ui/aboutdialog.ui \
+    ui/connectiondialog.ui \
     ui/showbootlog.ui
 
 DISTFILES += \

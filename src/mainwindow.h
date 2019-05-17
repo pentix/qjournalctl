@@ -52,6 +52,8 @@ private slots:
 
 	void on_reverseCheckBox_stateChanged(int arg1);
 
+    void on_actionOpen_a_new_SSH_connection_triggered();
+
 private:
 	Ui::MainWindow *ui;
 	QStandardItemModel *itemModel;

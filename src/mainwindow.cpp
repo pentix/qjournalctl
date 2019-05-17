@@ -10,6 +10,7 @@
 #include "ui_mainwindow.h"
 #include "aboutdialog.h"
 #include "showbootlog.h"
+#include "connectiondialog.h"
 
 #include <QProcess>
 #include <QMessageBox>
@@ -228,4 +229,11 @@ void MainWindow::on_reverseCheckBox_stateChanged(int arg1)
 	if(arg1 == Qt::Checked){
 		ui->realtimeCheckBox->setChecked(false);
 	}
+}
+
+void MainWindow::on_actionOpen_a_new_SSH_connection_triggered()
+{
+    ConnectionDialog connectionDialog;
+    connectionDialog.exec();
+
 }

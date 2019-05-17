@@ -190,7 +190,19 @@
     </property>
     <addaction name="actionAbout"/>
    </widget>
+   <widget class="QMenu" name="menuRemote">
+    <property name="title">
+     <string>Remote</string>
+    </property>
+    <addaction name="actionOpen_a_new_SSH_connection"/>
+    <addaction name="separator"/>
+    <addaction name="actionLast_Connection_1"/>
+    <addaction name="actionLast_Connection_2"/>
+    <addaction name="actionLast_Connection_3"/>
+    <addaction name="actionLast_Connection_4"/>
+   </widget>
    <addaction name="menuJournalctl_Analyzer_Demo"/>
+   <addaction name="menuRemote"/>
    <addaction name="menuOK"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
@@ -231,6 +243,31 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+B</string>
+   </property>
+  </action>
+  <action name="actionOpen_a_new_SSH_connection">
+   <property name="text">
+    <string>Open a new SSH connection</string>
+   </property>
+  </action>
+  <action name="actionLast_Connection_1">
+   <property name="text">
+    <string>Last Connection #1</string>
+   </property>
+  </action>
+  <action name="actionLast_Connection_2">
+   <property name="text">
+    <string>Last Connection #2</string>
+   </property>
+  </action>
+  <action name="actionLast_Connection_3">
+   <property name="text">
+    <string>Last Connection #3</string>
+   </property>
+  </action>
+  <action name="actionLast_Connection_4">
+   <property name="text">
+    <string>Last Connection #4</string>
    </property>
   </action>
  </widget>
