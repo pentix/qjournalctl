@@ -47,3 +47,6 @@ desktop-icon.path = /usr/share/pixmaps
 desktop-icon.files += ui/qjournalctl.png
 
 INSTALLS += target desktop-file desktop-icon
+
+unix: CONFIG += link_pkgconfig
+unix: PKGCONFIG += libssh
