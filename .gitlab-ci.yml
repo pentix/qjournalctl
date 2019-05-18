@@ -5,6 +5,8 @@ stages:
 build:
     stage: build
     script:
+        - apt-get --yes update
+        - apt-get --yes install pkg-config libssh-dev
         - ./autogen.sh
         - make
         - ls -lh qjournalctl
