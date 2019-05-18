@@ -9,7 +9,7 @@ Connection::Connection(QObject *qObject)
 	this->localConnection = new Local(qObject);
 
 	// Make sure we forward the local process output
-	connect(localConnection->journalProcess, SIGNAL(readyRead()), this, SLOT(processHasData()));
+	connect(localConnection, SIGNAL(localDataAvailable(QString)), this, SLOT(processData(QString)));
 }
 
 Connection::~Connection()
@@ -17,37 +17,24 @@ Connection::~Connection()
 	delete localConnection;
 }
 
+void Connection::processData(QString data)
+{
+	emit connectionDataAvailable(data);
+}
+
 void Connection::run(QString cmd)
 {
-	// Make sure to terminate an already running process first
-	if(isRunning()){
-		localConnection->journalProcess->close();
-	}
-
-	localConnection->journalProcess->start(cmd);
+	localConnection->run(cmd);
 }
 
 bool Connection::isRunning()
 {
-	return (localConnection->journalProcess->state() == QProcess::Running
-			|| localConnection->journalProcess->state() == QProcess::Starting);
+	return localConnection->isRunning();
 }
-
 
 void Connection::close()
 {
-	localConnection->journalProcess->close();
+	localConnection->close();
 }
 
 
-void Connection::processHasData()
-{
-	// Collect the process output, then forward this
-	// event through the abstraction layers
-	QByteArray read = localConnection->journalProcess->read(8192000);
-
-	QString readString = QString(read);
-	readString = readString.left(readString.size()-1);
-
-	emit connectionDataAvailable(readString);
-}

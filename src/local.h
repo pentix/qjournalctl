@@ -3,12 +3,26 @@
 
 #include <QProcess>
 
-class Local
+class Local: public QObject
 {
+	Q_OBJECT
+
 public:
-	QProcess *journalProcess;
 	Local(QObject *qObject);
 	~Local();
+
+	void run(QString);
+	void close();
+	bool isRunning();
+
+private:
+	QProcess *journalProcess;
+
+signals:
+	void localDataAvailable(QString);
+
+public slots:
+	void processHasData();
 };
 
 #endif // LOCAL_H

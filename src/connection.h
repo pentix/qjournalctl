@@ -24,7 +24,7 @@ signals:
 	void connectionDataAvailable(QString);
 
 public slots:
-	void processHasData();
+	void processData(QString);
 
 private:
 	Local *localConnection;
