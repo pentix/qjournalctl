@@ -15,29 +15,33 @@ TEMPLATE = app
 CONFIG += c++11
 
 SOURCES += src/main.cpp\
-    src/connectiondialog.cpp \
-    src/connectionsettings.cpp \
-    src/mainwindow.cpp \
-    src/aboutdialog.cpp \
-    src/showbootlog.cpp
+	src/connectiondialog.cpp \
+	src/connectionsettings.cpp \
+	src/connection.cpp \
+	src/local.cpp \
+	src/mainwindow.cpp \
+	src/aboutdialog.cpp \
+	src/showbootlog.cpp
 
 HEADERS  += src/mainwindow.h \
-    src/aboutdialog.h \
-    src/connectiondialog.h \
-    src/connectionsettings.h \
-    src/version.h \
-    src/showbootlog.h
+	src/aboutdialog.h \
+	src/connectiondialog.h \
+	src/connectionsettings.h \
+	src/connection.h \
+	src/local.h \
+	src/version.h \
+	src/showbootlog.h
 
 FORMS    += ui/mainwindow.ui \
-    ui/aboutdialog.ui \
-    ui/connectiondialog.ui \
-    ui/showbootlog.ui
+	ui/aboutdialog.ui \
+	ui/connectiondialog.ui \
+	ui/showbootlog.ui
 
 DISTFILES += \
-    ui/icon.xpm
+	ui/icon.xpm
 
 RESOURCES += \
-    ui/icon.qrc
+	ui/icon.qrc
 
 
 # This prevents qmake from failing when trying to install

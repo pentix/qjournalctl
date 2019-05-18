@@ -1,0 +1,10 @@
+image: cm0x4d/ubuntu-qt5-cmake
+stages:
+    - build
+
+build:
+    stage: build
+    script:
+        - ./autogen.sh
+        - make
+        - ls -lh qjournalctl
