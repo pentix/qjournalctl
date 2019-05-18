@@ -32,7 +32,6 @@
 #include <QCompleter>
 #include <QThread>
 
-
 ShowBootLog::ShowBootLog(QWidget *parent) :
 	QDialog(parent),
 	ui(new Ui::ShowBootLog)
@@ -41,14 +40,15 @@ ShowBootLog::ShowBootLog(QWidget *parent) :
 }
 
 
-ShowBootLog::ShowBootLog(QWidget *parent, bool completeJournal, bool realtime, bool reverse, QString bootid) :
+// todo: Fix this mess!
+ShowBootLog::ShowBootLog(QWidget *parent, bool completeJournal, bool realtime, bool reverse, QString bootid, Connection *connection) :
 	QDialog(parent),
 	ui(new Ui::ShowBootLog)
 {
 
 	// Call simple constructor first
 	ui->setupUi(this);
-	connection = new Connection(this);
+	this->connection = connection;
 
 	// Set save icon for the export buttons
 	ui->exportButton->setIcon(style()->standardIcon(QStyle::SP_DialogSaveButton));

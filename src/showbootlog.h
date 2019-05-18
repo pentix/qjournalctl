@@ -15,6 +15,7 @@
 #include <QSet>
 
 #include "connection.h"
+#include "connectionsettings.h"
 
 namespace Ui {
 class ShowBootLog;
@@ -25,8 +26,8 @@ class ShowBootLog : public QDialog
 	Q_OBJECT
 
 public:
-	explicit ShowBootLog(QWidget *parent = 0);
-	explicit ShowBootLog(QWidget *parent = 0, bool completeJournal=false, bool realtime=false, bool reverse=false, QString bootid="");
+	explicit ShowBootLog(QWidget *parent = nullptr);
+	explicit ShowBootLog(QWidget *parent = nullptr, bool completeJournal=false, bool realtime=false, bool reverse=false, QString bootid="", Connection *connection=nullptr);
 	~ShowBootLog();
 
 

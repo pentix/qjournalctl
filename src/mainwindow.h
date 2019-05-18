@@ -12,6 +12,9 @@
 #include <QMainWindow>
 #include <QStandardItemModel>
 
+#include "connection.h"
+#include "connectionsettings.h"
+
 
 namespace Ui {
 class MainWindow;
@@ -36,13 +39,13 @@ private slots:
 
 	void on_actionQuit_triggered();
 
-    void on_tableView_doubleClicked();
+	void on_tableView_doubleClicked();
 
 	void on_actionShowCompleteJournal_triggered();
 
 	void on_actionSizeOfTheJournalOnTheDisk_triggered();
 
-    void on_tableView_clicked();
+	void on_tableView_clicked();
 
 	void on_showCurrentBootLogButton_clicked();
 
@@ -52,13 +55,15 @@ private slots:
 
 	void on_reverseCheckBox_stateChanged(int arg1);
 
-    void on_actionOpen_a_new_SSH_connection_triggered();
+	void on_actionOpen_a_new_SSH_connection_triggered();
 
 private:
 	Ui::MainWindow *ui;
 	QStandardItemModel *itemModel;
 
 	QString lastSelection;
+	Connection *currentConnection;
+	ConnectionSettings *currentConnectionSettings;
 
 };
 

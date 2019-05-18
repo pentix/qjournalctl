@@ -33,7 +33,6 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 	ui->setupUi(this);
 
-
 	// Set Item Model
 	itemModel = new QStandardItemModel(this);
 	ui->tableView->setModel(itemModel);
@@ -41,10 +40,15 @@ MainWindow::MainWindow(QWidget *parent) :
 	QShortcut *shortcutQuit = new QShortcut(QKeySequence("Ctrl+Q"),this);
 	connect(shortcutQuit, SIGNAL(activated()), ui->actionQuit, SLOT(trigger()));
 
+	// Create default (local) connection
+	currentConnection = new Connection(this);
+	currentConnectionSettings = nullptr;
+
 }
 
 MainWindow::~MainWindow()
 {
+	delete currentConnection;
 	delete ui;
 }
 
@@ -115,7 +119,7 @@ void MainWindow::on_showBootLogButton_clicked()
 	QModelIndex ind = selection->selectedRows().at(0);
 	QStandardItem *mod = bootModel->item(ind.row(), 0);
 
-	ShowBootLog *b = new ShowBootLog(this, false, ui->realtimeCheckBox->isChecked(), ui->reverseCheckBox->isChecked(), mod->text());
+	ShowBootLog *b = new ShowBootLog(this, false, ui->realtimeCheckBox->isChecked(), ui->reverseCheckBox->isChecked(), mod->text(), currentConnection);
 	b->show();
 
 }
@@ -147,7 +151,7 @@ void MainWindow::on_tableView_doubleClicked()
 
 void MainWindow::on_actionShowCompleteJournal_triggered()
 {
-	ShowBootLog *b = new ShowBootLog(this, true, true, false, "");
+	ShowBootLog *b = new ShowBootLog(this, true, true, false, "", currentConnection);
 	b->show();
 }
 
@@ -204,7 +208,7 @@ void MainWindow::on_tableView_clicked()
 
 void MainWindow::on_showCurrentBootLogButton_clicked()
 {
-	ShowBootLog *b = new ShowBootLog(this, false, true, false, "");
+	ShowBootLog *b = new ShowBootLog(this, false, true, false, "", currentConnection);
 	b->show();
 }
 
@@ -233,7 +237,14 @@ void MainWindow::on_reverseCheckBox_stateChanged(int arg1)
 
 void MainWindow::on_actionOpen_a_new_SSH_connection_triggered()
 {
-    ConnectionDialog connectionDialog;
-    connectionDialog.exec();
+	ConnectionDialog connectionDialog(this, &currentConnectionSettings);
+	connectionDialog.exec();
 
+	if(currentConnectionSettings != nullptr){
+		ui->label->setText("QJournalctl @ " + currentConnectionSettings->getHostname());
+		delete currentConnection;
+		currentConnection = new Connection(this, currentConnectionSettings->getHostname(), currentConnectionSettings->getUsername());
+	} else {
+		ui->label->setText("QJournalctl");
+	}
 }

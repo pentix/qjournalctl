@@ -11,22 +11,17 @@
 
 #include <QMessageBox>
 
-ConnectionDialog::ConnectionDialog(QWidget *parent) :
+ConnectionDialog::ConnectionDialog(QWidget *parent, ConnectionSettings **settings) :
 	QDialog(parent),
 	ui(new Ui::ConnectionDialog)
 {
 	ui->setupUi(this);
-	connection = 0;
+	this->settings = settings;
 }
 
 ConnectionDialog::~ConnectionDialog()
 {
 	delete ui;
-}
-
-ConnectionSettings *ConnectionDialog::getConnectionSettings()
-{
-	return connection;
 }
 
 ConnectionSettings *ConnectionDialog::generateConnectionSettingsFromData()
@@ -35,7 +30,7 @@ ConnectionSettings *ConnectionDialog::generateConnectionSettingsFromData()
 
 	if(ui->hostnameLineEdit->text().trimmed() == ""){
 		incompleteMessageBox->show();
-		return 0;
+		return nullptr;
 	}
 
 	int port = ui->portLineEdit->text().toInt();
@@ -45,7 +40,7 @@ ConnectionSettings *ConnectionDialog::generateConnectionSettingsFromData()
 	if(port < 0 || port > 65635){
 		incompleteMessageBox->setText("Please provide a correct port! The default port for ssh is 22.");
 		incompleteMessageBox->show();
-		return 0;
+		return nullptr;
 	}
 
 	return new ConnectionSettings(ui->connectionNameLineEdit->text().replace("\"", "\\\"").trimmed(),
@@ -57,12 +52,13 @@ ConnectionSettings *ConnectionDialog::generateConnectionSettingsFromData()
 
 void ConnectionDialog::on_openButton_clicked()
 {
-
+	*settings = generateConnectionSettingsFromData();
+	close();
 }
 
 void ConnectionDialog::on_saveOpenButton_clicked()
 {
-	ConnectionSettings *newConnectionSettings = generateConnectionSettingsFromData();
+
 
 }
 

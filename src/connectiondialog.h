@@ -22,18 +22,16 @@ class ConnectionDialog : public QDialog
 	Q_OBJECT
 
 public:
-	explicit ConnectionDialog(QWidget *parent = 0);
+	explicit ConnectionDialog(QWidget *parent=nullptr, ConnectionSettings **settings=nullptr);
 	~ConnectionDialog();
-	ConnectionSettings *getConnectionSettings();
 
 private slots:
 	void on_openButton_clicked();
-
 	void on_saveOpenButton_clicked();
 
 private:
 	Ui::ConnectionDialog *ui;
-	ConnectionSettings *connection;
+	ConnectionSettings **settings;
 
 	ConnectionSettings *generateConnectionSettingsFromData();
 };

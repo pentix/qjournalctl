@@ -21,6 +21,8 @@ SOURCES += src/main.cpp\
 	src/local.cpp \
 	src/mainwindow.cpp \
 	src/aboutdialog.cpp \
+	src/passworddialog.cpp \
+	src/remote.cpp \
 	src/showbootlog.cpp
 
 HEADERS  += src/mainwindow.h \
@@ -29,12 +31,15 @@ HEADERS  += src/mainwindow.h \
 	src/connectionsettings.h \
 	src/connection.h \
 	src/local.h \
+	src/passworddialog.h \
+	src/remote.h \
 	src/version.h \
 	src/showbootlog.h
 
 FORMS    += ui/mainwindow.ui \
 	ui/aboutdialog.ui \
 	ui/connectiondialog.ui \
+	ui/passworddialog.ui \
 	ui/showbootlog.ui
 
 DISTFILES += \
