@@ -1,6 +1,7 @@
 #ifndef REMOTE_H
 #define REMOTE_H
 
+#include <assert.h>
 #include <libssh/libssh.h>
 #include <QObject>
 

@@ -5,8 +5,19 @@ stages:
 build:
     stage: build
     script:
+        # Get dependencies
         - apt-get --yes update
-        - apt-get --yes install pkg-config libssh-dev
+        - apt-get --yes install pkg-config libssh-dev wget
+        - wget https://www.libssh.org/files/0.8/libssh-0.8.7.tar.xz
+        - tar xf libssh-0.8.7.tar.xz
+        - cd libssh-0.8.7
+        - mkdir build
+        - cd build
+        - cmake ..
+        - make install
+        - cd ../..
+        
+        # Actually build and install QJournalctl
         - ./autogen.sh
         - make
         - ls -lh qjournalctl
