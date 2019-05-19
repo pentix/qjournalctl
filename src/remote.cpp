@@ -47,38 +47,111 @@ Remote::Remote(QObject *qObject, QString hostnameString, QString usernameString)
 
 	const char *password = passwordString.toUtf8().data();
 	const char *username = usernameString.toUtf8().data();
-	const char *hostname = hostnameString.toUtf8().data();
 
 	ok = ssh_userauth_password(ssh, username, password);
 	assert(ok == SSH_AUTH_SUCCESS);
 
 	qDebug() << "Authenticated :)";
 
+    initSSHChannel();
 
+	// Reader thread
+	destroyAllThreads = false;
+	sshCmd = "";
+
+	readerThread = new std::thread([&]() {
+
+		char buffer[8192];
+
+		while(!destroyAllThreads){
+            usleep(50000); // todo decrease this, investigate why it crashes < 100000
+
+            sshMutex.lock();
+			if(sshCmd != ""){
+				char *data = sshCmd.toUtf8().data();
+				ssh_channel_write(sshChannel, data, strlen(data));
+            }
+
+            // Reset ssh stuff
+            sshCmd = "";
+
+			assert(!ssh_channel_is_eof(sshChannel));
+			assert(ssh_channel_is_open(sshChannel));
+
+            int bytesRead = ssh_channel_read_nonblocking(sshChannel, buffer, 8192, 0);
+            sshMutex.unlock();
+
+            if(bytesRead > 0){
+                buffer[bytesRead] = '\0';
+                QString dataString(buffer);
+
+                emit remoteDataAvailable(dataString);
+            }
+		}
+	});
 }
-
 
 Remote::~Remote()
 {
+	destroyAllThreads = true;
+	readerThread->join();
+
+	//ssh_channel_send_eof(sshChannel);
+	ssh_channel_close(sshChannel);
+	ssh_channel_free(sshChannel);
+
 	ssh_disconnect(ssh);
 	ssh_free(ssh);
 }
 
 
+void Remote::initSSHChannel()
+{
+    sshChannel = ssh_channel_new(ssh);
+    assert(sshChannel != nullptr);
+
+    int ok;
+    ok = ssh_channel_open_session(sshChannel);
+    assert(ok == SSH_OK);
+
+    ok = ssh_channel_request_pty_size(sshChannel, "v100", 100, 40);
+    assert(ok == SSH_OK);
+
+    ok = ssh_channel_request_shell(sshChannel);
+    assert(ok == SSH_OK);
+
+}
+
+
 void Remote::run(QString cmd)
 {
+	sshMutex.lock();
+    if(isRunning()){
+        ssh_channel_close(sshChannel);
+        ssh_channel_free(sshChannel);
+    }
 
+    initSSHChannel();
+
+	sshCmd = cmd + "\n";
+	sshMutex.unlock();
 }
 
 void Remote::close()
 {
+	sshMutex.lock();
 
+    sshCmd = "";
+    ssh_channel_close(sshChannel);
+    ssh_channel_free(sshChannel);
+
+	sshMutex.unlock();
 }
 
 
 bool Remote::isRunning()
 {
-	return false;
+    return ssh_channel_is_open(sshChannel);
 }
 
 

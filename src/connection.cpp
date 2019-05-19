@@ -19,10 +19,10 @@ Connection::Connection(QObject *qObject, QString hostname, QString username)
 {
 	this->qObject = qObject;
 	this->remoteConnection = new Remote(qObject, hostname, username);
-	this->remote = false;
+	this->remote = true;
 
 	// Make sure we forward the local process output
-	connect(localConnection, SIGNAL(localDataAvailable(QString)), this, SLOT(processData(QString)));
+	connect(remoteConnection, SIGNAL(remoteDataAvailable(QString)), this, SLOT(processData(QString)));
 }
 
 Connection::~Connection()
@@ -36,21 +36,16 @@ Connection::~Connection()
 
 void Connection::processData(QString data)
 {
-	if(remote){
-
-	} else {
-		emit connectionDataAvailable(data);
-	}
+    emit connectionDataAvailable(data);
 }
 
 void Connection::run(QString cmd)
 {
 	if(remote){
-
+		remoteConnection->run(cmd);
 	} else {
 		localConnection->run(cmd);
 	}
-
 }
 
 bool Connection::isRemote()
@@ -61,7 +56,7 @@ bool Connection::isRemote()
 bool Connection::isRunning()
 {
 	if(remote){
-		return false;
+        return remoteConnection->isRunning();
 	} else {
 		return localConnection->isRunning();
 	}
@@ -70,7 +65,7 @@ bool Connection::isRunning()
 void Connection::close()
 {
 	if(remote){
-
+		remoteConnection->close();
 	} else {
 		localConnection->close();
 	}

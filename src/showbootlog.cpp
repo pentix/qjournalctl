@@ -78,6 +78,11 @@ ShowBootLog::ShowBootLog(QWidget *parent, bool completeJournal, bool realtime, b
 		}
 	}
 
+	// Remote connections require initial setup
+	if(connection->isRemote()){
+		connect(connection, SIGNAL(connectionDataAvailable(QString)), this, SLOT(appendToBootLog(QString)));
+	}
+
 	updateBootLog();
 }
 
@@ -162,14 +167,13 @@ void ShowBootLog::updateBootLog(bool keepIdentifiers)
 	// Enable filtering by syslog identifiers
 	command += identifierFlags;
 
-
 	// As soon as the connection has data available, we want to append it to the boot log.
 	// If the connection is already open, we close it!
-	if(!connection->isRunning()){
-		connect(connection, SIGNAL(connectionDataAvailable(QString)), this, SLOT(appendToBootLog(QString)));
-	} else {
-		connection->close();
-	}
+    if(!connection->isRunning()){
+        connect(connection, SIGNAL(connectionDataAvailable(QString)), this, SLOT(appendToBootLog(QString)));
+    } else {
+        connection->close();
+    }
 
 	// Reset byte counter
 	numberOfBytesRead = 0;

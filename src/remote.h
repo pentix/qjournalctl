@@ -1,8 +1,11 @@
 #ifndef REMOTE_H
 #define REMOTE_H
 
-#include <assert.h>
+#include <thread>
+#include <mutex>
+#include <cassert>
 #include <libssh/libssh.h>
+#include <libssh/callbacks.h>
 #include <QObject>
 
 class Remote: public QObject
@@ -18,7 +21,14 @@ public:
 	bool isRunning();
 
 private:
+	std::thread *readerThread;
+	volatile bool destroyAllThreads;
+	QString sshCmd;
+
+	std::mutex sshMutex;
 	ssh_session ssh;
+	ssh_channel sshChannel;
+    void initSSHChannel();
 
 signals:
 	void remoteDataAvailable(QString);

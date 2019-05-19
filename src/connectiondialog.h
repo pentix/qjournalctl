@@ -29,6 +29,8 @@ private slots:
 	void on_openButton_clicked();
 	void on_saveOpenButton_clicked();
 
+	void on_hostnameLineEdit_returnPressed();
+
 private:
 	Ui::ConnectionDialog *ui;
 	ConnectionSettings **settings;

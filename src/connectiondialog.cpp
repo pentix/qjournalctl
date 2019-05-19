@@ -62,3 +62,8 @@ void ConnectionDialog::on_saveOpenButton_clicked()
 
 }
 
+
+void ConnectionDialog::on_hostnameLineEdit_returnPressed()
+{
+	on_openButton_clicked();
+}
