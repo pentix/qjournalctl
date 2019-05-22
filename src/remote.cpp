@@ -1,5 +1,6 @@
 #include "remote.h"
 #include "passworddialog.h"
+#include "error.h"
 
 #include <QProcess>
 #include <QDebug>
@@ -49,6 +50,10 @@ Remote::Remote(QObject *qObject, QString hostnameString, QString usernameString)
 	const char *username = usernameString.toUtf8().data();
 
 	ok = ssh_userauth_password(ssh, username, password);
+    if(ok != SSH_AUTH_SUCCESS){
+        throw new Error("SSH Authentication failed. Please try again!");
+    }
+
 	assert(ok == SSH_AUTH_SUCCESS);
 
 	qDebug() << "Authenticated :)";

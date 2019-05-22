@@ -18,6 +18,7 @@ Connection::Connection(QObject *qObject)
 Connection::Connection(QObject *qObject, QString hostname, QString username)
 {
 	this->qObject = qObject;
+
 	this->remoteConnection = new Remote(qObject, hostname, username);
 	this->remote = true;
 

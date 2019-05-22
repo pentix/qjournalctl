@@ -11,6 +11,7 @@
 #include "aboutdialog.h"
 #include "showbootlog.h"
 #include "connectiondialog.h"
+#include "error.h"
 
 #include <QProcess>
 #include <QMessageBox>
@@ -243,7 +244,14 @@ void MainWindow::on_actionOpen_a_new_SSH_connection_triggered()
 	if(currentConnectionSettings != nullptr){
 		ui->label->setText("QJournalctl @ " + currentConnectionSettings->getHostname());
 		delete currentConnection;
-		currentConnection = new Connection(this, currentConnectionSettings->getHostname(), currentConnectionSettings->getUsername());
+
+        try {
+            currentConnection = new Connection(this, currentConnectionSettings->getHostname(), currentConnectionSettings->getUsername());
+        } catch (Error *err) {
+            err->showErrorBox();
+            return;
+        }
+
 	} else {
 		ui->label->setText("QJournalctl");
 	}
