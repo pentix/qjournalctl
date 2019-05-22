@@ -88,11 +88,6 @@ ShowBootLog::ShowBootLog(QWidget *parent, bool completeJournal, bool realtime, b
 
 ShowBootLog::~ShowBootLog()
 {
-	if(connection->isRunning()){
-		connection->close();
-	}
-
-	delete connection;
 	delete ui;
 }
 

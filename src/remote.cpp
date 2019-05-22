@@ -14,12 +14,10 @@ Remote::Remote(QObject *qObject, QString hostnameString, QString usernameString)
 	int ok;
 
 	ok = ssh_connect(ssh);
-
-	if(ok != SSH_OK){
-		// todo: catch this
-		ssh_free(ssh);
-		assert(ok == SSH_OK);
-	}
+    if(ok != SSH_OK){
+        ssh_free(ssh);
+        throw new Error("Establishing a connection to the remote host failed. Please try again!");
+    }
 
 	unsigned char *hash = nullptr;
 	ssh_key srv_pubkey = nullptr;
@@ -28,17 +26,14 @@ Remote::Remote(QObject *qObject, QString hostnameString, QString usernameString)
 	ok = ssh_get_server_publickey(ssh, &srv_pubkey);
 	assert(ok>=0);
 
-	ok = ssh_get_publickey_hash(srv_pubkey,
-								SSH_PUBLICKEY_HASH_SHA1,
-								&hash,
-								&hlen);
-	ssh_key_free(srv_pubkey);
-	assert(ok >= 0);
-
+    // Todo: Provide better case destinction
 	ok = ssh_session_is_known_server(ssh);
-	assert(ok >= 0);
-
-	qDebug() << "connection established!";
+    if(ok != SSH_KNOWN_HOSTS_OK){
+        ssh_free(ssh);
+        throw new Error("Remote server is either unknown, unavailable, or has changed its public keys. "
+                        "Please verify your connection manually, adjust your .ssh/known_hosts file "
+                        "and come back!");
+    }
 
 
 	// Get the required password
@@ -51,10 +46,8 @@ Remote::Remote(QObject *qObject, QString hostnameString, QString usernameString)
 
 	ok = ssh_userauth_password(ssh, username, password);
     if(ok != SSH_AUTH_SUCCESS){
-        throw new Error("SSH Authentication failed. Please try again!");
+        throw new Error("SSH Authentication on the remote host failed. Please try again!");
     }
-
-	assert(ok == SSH_AUTH_SUCCESS);
 
 	qDebug() << "Authenticated :)";
 
@@ -74,7 +67,8 @@ Remote::Remote(QObject *qObject, QString hostnameString, QString usernameString)
             sshMutex.lock();
 			if(sshCmd != ""){
 				char *data = sshCmd.toUtf8().data();
-				ssh_channel_write(sshChannel, data, strlen(data));
+                ssh_channel_request_exec(sshChannel, data);
+                //ssh_channel_write(sshChannel, data, strlen(data));
             }
 
             // Reset ssh stuff
@@ -101,9 +95,7 @@ Remote::~Remote()
 	destroyAllThreads = true;
 	readerThread->join();
 
-	//ssh_channel_send_eof(sshChannel);
-	ssh_channel_close(sshChannel);
-	ssh_channel_free(sshChannel);
+    close();
 
 	ssh_disconnect(ssh);
 	ssh_free(ssh);
@@ -119,10 +111,10 @@ void Remote::initSSHChannel()
     ok = ssh_channel_open_session(sshChannel);
     assert(ok == SSH_OK);
 
-    ok = ssh_channel_request_pty_size(sshChannel, "v100", 100, 40);
+    //ok = ssh_channel_request_pty_size(sshChannel, "v100", 100, 40);
     assert(ok == SSH_OK);
 
-    ok = ssh_channel_request_shell(sshChannel);
+    //ok = ssh_channel_request_shell(sshChannel);
     assert(ok == SSH_OK);
 
 }
