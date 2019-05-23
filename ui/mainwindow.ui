@@ -195,6 +195,7 @@
      <string>Remote</string>
     </property>
     <addaction name="actionOpen_a_new_SSH_connection"/>
+    <addaction name="actionDisconnect_from_current_host"/>
     <addaction name="separator"/>
     <addaction name="actionLast_Connection_1"/>
     <addaction name="actionLast_Connection_2"/>
@@ -268,6 +269,14 @@
   <action name="actionLast_Connection_4">
    <property name="text">
     <string>Last Connection #4</string>
+   </property>
+  </action>
+  <action name="actionDisconnect_from_current_host">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Disconnect from current host</string>
    </property>
   </action>
  </widget>

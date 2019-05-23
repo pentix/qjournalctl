@@ -57,6 +57,8 @@ private slots:
 
 	void on_actionOpen_a_new_SSH_connection_triggered();
 
+    void on_actionDisconnect_from_current_host_triggered();
+
 private:
 	Ui::MainWindow *ui;
 	QStandardItemModel *itemModel;
