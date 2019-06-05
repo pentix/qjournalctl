@@ -13,7 +13,7 @@
 #include <QStandardItemModel>
 
 #include "connection.h"
-#include "connectionsettings.h"
+#include "sshconnectionsettings.h"
 
 
 namespace Ui {
@@ -65,7 +65,7 @@ private:
 
 	QString lastSelection;
 	Connection *currentConnection;
-	ConnectionSettings *currentConnectionSettings;
+	SSHConnectionSettings *currentConnectionSettings;
 
 };
 

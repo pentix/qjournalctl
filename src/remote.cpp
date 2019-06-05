@@ -5,29 +5,29 @@
 #include <QProcess>
 #include <QDebug>
 
-Remote::Remote(QObject *qObject, QString hostnameString, QString usernameString)
+Remote::Remote(QObject *qObject, SSHConnectionSettings *sshSettings)
 {
-	ssh = ssh_new();
-	assert(ssh != nullptr);
+    ssh = ssh_new();
+    assert(ssh != nullptr);
 
-	ssh_options_set(ssh, SSH_OPTIONS_HOST, "localhost");
-	int ok;
+    ssh_options_set(ssh, SSH_OPTIONS_HOST, "localhost");
+    int ok;
 
-	ok = ssh_connect(ssh);
+    ok = ssh_connect(ssh);
     if(ok != SSH_OK){
         ssh_free(ssh);
         throw new Error("Establishing a connection to the remote host failed. Please try again!");
     }
 
-	unsigned char *hash = nullptr;
-	ssh_key srv_pubkey = nullptr;
-	size_t hlen;
+    unsigned char *hash = nullptr;
+    ssh_key srv_pubkey = nullptr;
+    size_t hlen;
 
-	ok = ssh_get_server_publickey(ssh, &srv_pubkey);
-	assert(ok>=0);
+    ok = ssh_get_server_publickey(ssh, &srv_pubkey);
+    assert(ok>=0);
 
     // Todo: Provide better case destinction
-	ok = ssh_session_is_known_server(ssh);
+    ok = ssh_session_is_known_server(ssh);
     if(ok != SSH_KNOWN_HOSTS_OK){
         ssh_free(ssh);
         throw new Error("Remote server is either unknown, unavailable, or has changed its public keys. "
@@ -36,37 +36,38 @@ Remote::Remote(QObject *qObject, QString hostnameString, QString usernameString)
     }
 
 
-	// Get the required password
-	QString passwordString;
-	PasswordDialog passwordDialog(nullptr, &passwordString);
-	passwordDialog.exec();
+    // Get the required password
+    QString passwordString;
+    PasswordDialog passwordDialog(nullptr, &passwordString);
+    passwordDialog.exec();
 
-	const char *password = passwordString.toUtf8().data();
-	const char *username = usernameString.toUtf8().data();
+    const char *password = passwordString.toUtf8().data();
+    const char *username = sshSettings->getUsername().toUtf8().data();
 
-	ok = ssh_userauth_password(ssh, username, password);
+
+    ok = ssh_userauth_password(ssh, username, password);
     if(ok != SSH_AUTH_SUCCESS){
         throw new Error("SSH Authentication on the remote host failed. Please try again!");
     }
 
-	qDebug() << "Authenticated :)";
+    qDebug() << "Authenticated :)";
 
     initSSHChannel();
 
-	// Reader thread
-	destroyAllThreads = false;
-	sshCmd = "";
+    // Reader thread
+    destroyAllThreads = false;
+    sshCmd = "";
 
-	readerThread = new std::thread([&]() {
+    readerThread = new std::thread([&]() {
 
-		char buffer[8192];
+        char buffer[8192];
 
-		while(!destroyAllThreads){
+        while(!destroyAllThreads){
             usleep(50000); // todo decrease this, investigate why it crashes < 100000
 
             sshMutex.lock();
-			if(sshCmd != ""){
-				char *data = sshCmd.toUtf8().data();
+            if(sshCmd != ""){
+                char *data = sshCmd.toUtf8().data();
                 ssh_channel_request_exec(sshChannel, data);
                 //ssh_channel_write(sshChannel, data, strlen(data));
             }
@@ -74,8 +75,8 @@ Remote::Remote(QObject *qObject, QString hostnameString, QString usernameString)
             // Reset ssh stuff
             sshCmd = "";
 
-			assert(!ssh_channel_is_eof(sshChannel));
-			assert(ssh_channel_is_open(sshChannel));
+            assert(!ssh_channel_is_eof(sshChannel));
+            assert(ssh_channel_is_open(sshChannel));
 
             int bytesRead = ssh_channel_read_nonblocking(sshChannel, buffer, 8192, 0);
             sshMutex.unlock();
@@ -86,19 +87,19 @@ Remote::Remote(QObject *qObject, QString hostnameString, QString usernameString)
 
                 emit remoteDataAvailable(dataString);
             }
-		}
-	});
+        }
+    });
 }
 
 Remote::~Remote()
 {
-	destroyAllThreads = true;
-	readerThread->join();
+    destroyAllThreads = true;
+    readerThread->join();
 
     close();
 
-	ssh_disconnect(ssh);
-	ssh_free(ssh);
+    ssh_disconnect(ssh);
+    ssh_free(ssh);
 }
 
 
@@ -122,7 +123,7 @@ void Remote::initSSHChannel()
 
 void Remote::run(QString cmd)
 {
-	sshMutex.lock();
+    sshMutex.lock();
     if(isRunning()){
         ssh_channel_close(sshChannel);
         ssh_channel_free(sshChannel);
@@ -130,19 +131,19 @@ void Remote::run(QString cmd)
 
     initSSHChannel();
 
-	sshCmd = cmd + "\n";
-	sshMutex.unlock();
+    sshCmd = cmd + "\n";
+    sshMutex.unlock();
 }
 
 void Remote::close()
 {
-	sshMutex.lock();
+    sshMutex.lock();
 
     sshCmd = "";
     ssh_channel_close(sshChannel);
     ssh_channel_free(sshChannel);
 
-	sshMutex.unlock();
+    sshMutex.unlock();
 }
 
 
@@ -154,8 +155,8 @@ bool Remote::isRunning()
 
 void Remote::processHasData()
 {
-	QString readString = "\n";
-	readString = readString.left(readString.size()-1);
+    QString readString = "\n";
+    readString = readString.left(readString.size()-1);
 
-	emit remoteDataAvailable(readString);
+    emit remoteDataAvailable(readString);
 }

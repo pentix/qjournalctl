@@ -8,12 +8,14 @@
 #include <libssh/callbacks.h>
 #include <QObject>
 
+#include "sshconnectionsettings.h"
+
 class Remote: public QObject
 {
 	Q_OBJECT
 
 public:
-	Remote(QObject *qObject, QString hostnameString, QString usernameString);
+	Remote(QObject *qObject, SSHConnectionSettings *sshSettings);
 	~Remote();
 
 	void run(QString);
@@ -28,7 +30,7 @@ private:
 	std::mutex sshMutex;
 	ssh_session ssh;
 	ssh_channel sshChannel;
-    void initSSHChannel();
+	void initSSHChannel();
 
 signals:
 	void remoteDataAvailable(QString);

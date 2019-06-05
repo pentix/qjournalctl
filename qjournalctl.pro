@@ -16,7 +16,6 @@ CONFIG += c++11
 
 SOURCES += src/main.cpp\
 	src/connectiondialog.cpp \
-	src/connectionsettings.cpp \
 	src/connection.cpp \
 	src/error.cpp \
 	src/local.cpp \
@@ -24,17 +23,18 @@ SOURCES += src/main.cpp\
 	src/aboutdialog.cpp \
 	src/passworddialog.cpp \
 	src/remote.cpp \
-	src/showbootlog.cpp
+	src/showbootlog.cpp \
+	src/sshconnectionsettings.cpp
 
 HEADERS  += src/mainwindow.h \
 	src/aboutdialog.h \
 	src/connectiondialog.h \
-	src/connectionsettings.h \
 	src/connection.h \
 	src/error.h \
 	src/local.h \
 	src/passworddialog.h \
 	src/remote.h \
+	src/sshconnectionsettings.h \
 	src/version.h \
 	src/showbootlog.h
 

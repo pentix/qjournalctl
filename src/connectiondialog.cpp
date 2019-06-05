@@ -11,7 +11,7 @@
 
 #include <QMessageBox>
 
-ConnectionDialog::ConnectionDialog(QWidget *parent, ConnectionSettings **settings) :
+ConnectionDialog::ConnectionDialog(QWidget *parent, SSHConnectionSettings **settings) :
 	QDialog(parent),
 	ui(new Ui::ConnectionDialog)
 {
@@ -24,7 +24,7 @@ ConnectionDialog::~ConnectionDialog()
 	delete ui;
 }
 
-ConnectionSettings *ConnectionDialog::generateConnectionSettingsFromData()
+SSHConnectionSettings *ConnectionDialog::generateConnectionSettingsFromData()
 {
 	QMessageBox *incompleteMessageBox = new QMessageBox(QMessageBox::Warning, "Incomplete data", "Please provide a correct hostname!");
 
@@ -43,7 +43,7 @@ ConnectionSettings *ConnectionDialog::generateConnectionSettingsFromData()
 		return nullptr;
 	}
 
-	return new ConnectionSettings(ui->connectionNameLineEdit->text().replace("\"", "\\\"").trimmed(),
+	return new SSHConnectionSettings(ui->connectionNameLineEdit->text().replace("\"", "\\\"").trimmed(),
 											   ui->hostnameLineEdit->text().replace("\"", "\\\"").trimmed(),
 											   (unsigned short)port,
 											   ui->usernameLineEdit->text().replace("\"", "\\\"").trimmed()

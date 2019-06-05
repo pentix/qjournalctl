@@ -15,11 +15,11 @@ Connection::Connection(QObject *qObject)
 }
 
 // Constructor for a remote SSH connection
-Connection::Connection(QObject *qObject, QString hostname, QString username)
+Connection::Connection(QObject *qObject, SSHConnectionSettings *sshSettings)
 {
 	this->qObject = qObject;
 
-	this->remoteConnection = new Remote(qObject, hostname, username);
+	this->remoteConnection = new Remote(qObject, sshSettings);
 	this->remote = true;
 
 	// Make sure we forward the local process output
@@ -37,7 +37,7 @@ Connection::~Connection()
 
 void Connection::processData(QString data)
 {
-    emit connectionDataAvailable(data);
+	emit connectionDataAvailable(data);
 }
 
 void Connection::run(QString cmd)
@@ -57,7 +57,7 @@ bool Connection::isRemote()
 bool Connection::isRunning()
 {
 	if(remote){
-        return remoteConnection->isRunning();
+		return remoteConnection->isRunning();
 	} else {
 		return localConnection->isRunning();
 	}

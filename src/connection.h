@@ -14,7 +14,7 @@ public:
 	Connection(QObject *qObject);
 
 	// Remote connection
-	Connection(QObject *qObject, QString hostname, QString username);
+	Connection(QObject *qObject, SSHConnectionSettings *sshSettings);
 	~Connection();
 
 	bool isRemote();

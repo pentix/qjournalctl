@@ -241,22 +241,22 @@ void MainWindow::on_actionOpen_a_new_SSH_connection_triggered()
 	ConnectionDialog connectionDialog(this, &currentConnectionSettings);
 	connectionDialog.exec();
 
-    Connection *newConnection;
+	Connection *newConnection;
 	if(currentConnectionSettings != nullptr){
-        try {
-            newConnection = new Connection(this, currentConnectionSettings->getHostname(), currentConnectionSettings->getUsername());
-        } catch (Error *err) {
-            err->showErrorBox();
-            return;
-        }
+		try {
+			newConnection = new Connection(this, currentConnectionSettings);
+		} catch (Error *err) {
+			err->showErrorBox();
+			return;
+		}
 
-        // Delete current connection only on success
-        delete currentConnection;
-        currentConnection = newConnection;
+		// Delete current connection only on success
+		delete currentConnection;
+		currentConnection = newConnection;
 
-        // Update connection label
-        ui->label->setText("QJournalctl @ " + currentConnectionSettings->getHostname());
-        ui->actionDisconnect_from_current_host->setEnabled(true);
+		// Update connection label
+		ui->label->setText("QJournalctl @ " + currentConnectionSettings->getHostname());
+		ui->actionDisconnect_from_current_host->setEnabled(true);
 	} else {
 		ui->label->setText("QJournalctl");
 	}
@@ -264,7 +264,7 @@ void MainWindow::on_actionOpen_a_new_SSH_connection_triggered()
 
 void MainWindow::on_actionDisconnect_from_current_host_triggered()
 {
-    currentConnection = new Connection(this);
-    ui->actionDisconnect_from_current_host->setDisabled(true);
-    ui->label->setText("QJournalctl");
+	currentConnection = new Connection(this);
+	ui->actionDisconnect_from_current_host->setDisabled(true);
+	ui->label->setText("QJournalctl");
 }

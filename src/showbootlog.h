@@ -15,7 +15,7 @@
 #include <QSet>
 
 #include "connection.h"
-#include "connectionsettings.h"
+#include "sshconnectionsettings.h"
 
 namespace Ui {
 class ShowBootLog;
