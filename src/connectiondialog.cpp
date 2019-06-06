@@ -69,6 +69,11 @@ void ConnectionDialog::on_hostnameLineEdit_returnPressed()
     on_openButton_clicked();
 }
 
+void ConnectionDialog::on_usernameLineEdit_returnPressed()
+{
+    on_openButton_clicked();
+}
+
 void ConnectionDialog::on_authKeyfileRadio_toggled(bool checked)
 {
     ui->keyfileLineEdit->setEnabled(checked);

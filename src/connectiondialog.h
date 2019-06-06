@@ -32,6 +32,8 @@ private slots:
 
     void on_authKeyfileRadio_toggled(bool checked);
 
+    void on_usernameLineEdit_returnPressed();
+
 private:
     Ui::ConnectionDialog *ui;
     SSHConnectionSettings **settings;
