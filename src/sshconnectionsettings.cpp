@@ -1,29 +1,68 @@
 #include "sshconnectionsettings.h"
 
-SSHConnectionSettings::SSHConnectionSettings(QString name, QString hostname, unsigned int port, QString username)
+// ** Static helper functions **
+
+// Allocates a new C-style string that can be passed to libssh.
+// Needs to be freed afterwards!
+const char *SSHConnectionSettings::qstringToChar(QString s)
 {
-		this->name = name;
-		this->hostname = hostname;
-		this->port = port;
-		this->username = username;
+    const char   *tmpStr    = s.toUtf8().constData();
+    const size_t  tmpStrLen = strlen(tmpStr);
+          char   *cStr      = (char *)malloc(tmpStrLen+1);
+
+    strncpy(cStr, tmpStr, tmpStrLen+1);
+
+    return cStr;
 }
 
-QString SSHConnectionSettings::getHostname() const
+
+
+// ** Actual class code **
+
+SSHConnectionSettings::SSHConnectionSettings(QString name, QString hostname, unsigned int port, QString username, QString keyfile, bool useKeyfile)
 {
-		return hostname;
+    this->name = qstringToChar(name);
+    this->hostname = qstringToChar(hostname);
+    this->port = port;
+    this->username = qstringToChar(username);
+    this->keyfile = qstringToChar(keyfile);
+    this->keyfileAuthentication = useKeyfile;
 }
 
-QString SSHConnectionSettings::getName() const
+SSHConnectionSettings::~SSHConnectionSettings()
 {
-		return name;
+    free((void *)this->name);
+    free((void *)this->hostname);
+    free((void *)this->username);
+    free((void *)this->keyfile);
+}
+
+const char *SSHConnectionSettings::getHostname() const
+{
+     return hostname;
+}
+
+const char *SSHConnectionSettings::getName() const
+{
+    return name;
 }
 
 unsigned int SSHConnectionSettings::getPort() const
 {
-		return port;
+    return port;
 }
 
-QString SSHConnectionSettings::getUsername() const
+const char *SSHConnectionSettings::getUsername() const
 {
-		return username;
+    return username;
+}
+
+const char *SSHConnectionSettings::getKeyfile() const
+{
+    return keyfile;
+}
+
+bool SSHConnectionSettings::useKeyfile() const
+{
+    return keyfileAuthentication;
 }

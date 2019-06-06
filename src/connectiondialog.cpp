@@ -47,7 +47,8 @@ SSHConnectionSettings *ConnectionDialog::generateConnectionSettingsFromData()
                                         ui->hostnameLineEdit->text().replace("\"", "\\\"").trimmed(),
                                         port,
                                         ui->usernameLineEdit->text().replace("\"", "\\\"").trimmed(),
-                                        ui->keyfileLineEdit->text().replace("\"", "\\\"").trimmed()
+                                        ui->keyfileLineEdit->text().replace("\"", "\\\"").trimmed(),
+                                        ui->authKeyfileRadio->isChecked()
                                     );
 }
 

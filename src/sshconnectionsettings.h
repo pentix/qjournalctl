@@ -2,23 +2,30 @@
 #define SSHCONNECTIONSETTINGS_H
 
 #include <QString>
+#include <cstring>
 
 class SSHConnectionSettings
 {
 public:
-   SSHConnectionSettings(QString name, QString hostname, unsigned int port, QString username);
-   SSHConnectionSettings();
+   SSHConnectionSettings(QString name, QString hostname, unsigned int port, QString username, QString keyfile, bool useKeyfile);
+   ~SSHConnectionSettings();
 
-   QString getName() const;
-   QString getHostname() const;
+   const char *getName() const;
+   const char *getHostname() const;
    unsigned int getPort() const;
-   QString getUsername() const;
+   const char *getUsername() const;
+   const char *getKeyfile() const;
+   bool useKeyfile() const;
+
+   static const char *qstringToChar(QString s);
 
 private:
-   QString name;
-   QString hostname;
+   const char *name;
+   const char *hostname;
    unsigned int port;	// Note: libssh requires an unsigned int
-   QString username;
+   const char *username;
+   const char *keyfile;
+   bool keyfileAuthentication;
 };
 
 #endif // SSHCONNECTIONSETTINGS_H

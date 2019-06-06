@@ -255,8 +255,9 @@ void MainWindow::on_actionOpen_a_new_SSH_connection_triggered()
 		currentConnection = newConnection;
 
 		// Update connection label
-		ui->label->setText("QJournalctl @ " + currentConnectionSettings->getHostname());
+        ui->label->setText("QJournalctl @ " + QString::fromUtf8(currentConnectionSettings->getHostname()));
 		ui->actionDisconnect_from_current_host->setEnabled(true);
+
 	} else {
 		ui->label->setText("QJournalctl");
 	}

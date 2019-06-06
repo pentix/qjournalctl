@@ -36,22 +36,53 @@ Remote::Remote(QObject *qObject, SSHConnectionSettings *sshSettings)
     }
 
 
-    // Get the required password
-    QString passwordString;
-    PasswordDialog passwordDialog(nullptr, &passwordString);
-    passwordDialog.exec();
+    if(sshSettings->useKeyfile()){
+        // Try to load SSH key
+        ssh_key privateKey = ssh_key_new();
 
-    const char *password = passwordString.toUtf8().data();
-    const char *username = sshSettings->getUsername().toUtf8().data();
+        // First try without a password
+        ok = ssh_pki_import_privkey_file(sshSettings->getKeyfile(), nullptr, nullptr, nullptr, &privateKey);
 
+        if(ok == SSH_EOF){
+            // It didn't work, try asking for key decryption password
+            PasswordDialog passwordDialog;
+            passwordDialog.exec();
+            const char *password = passwordDialog.getPassword();
 
-    ok = ssh_userauth_password(ssh, username, password);
+            ok = ssh_pki_import_privkey_file(sshSettings->getKeyfile(), password, nullptr, nullptr, &privateKey);
+        }
+
+        // Neither loading plain nor loading encrypted keyfile worked
+        if(ok != SSH_OK){
+            throw new Error("Could not load given keyfile!");
+        }
+
+        // { Keyfile is ready }
+        ok = ssh_userauth_publickey(ssh, sshSettings->getUsername(), privateKey);
+        if(ok != SSH_AUTH_SUCCESS){
+            throw new Error("Authentication using the given keyfile failed!");
+        }
+
+    } else {
+        // Try password authentication
+        PasswordDialog passwordDialog;
+        passwordDialog.exec();
+        const char *password = passwordDialog.getPassword();
+
+        ok = ssh_userauth_password(ssh, sshSettings->getUsername(), password);
+    }
+
+    // Check if authentication worked
     if(ok != SSH_AUTH_SUCCESS){
+        qDebug() << "Error: " << QString(ssh_get_error(ssh));
         throw new Error("SSH Authentication on the remote host failed. Please try again!");
     }
 
-    qDebug() << "Authenticated :)";
 
+
+    // { Authenticated connection is established }
+
+    qDebug() << "Authenticated :)";
     initSSHChannel();
 
     // Reader thread
