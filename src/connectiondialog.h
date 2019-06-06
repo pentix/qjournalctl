@@ -19,23 +19,24 @@ class ConnectionDialog;
 
 class ConnectionDialog : public QDialog
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	explicit ConnectionDialog(QWidget *parent=nullptr, SSHConnectionSettings **settings=nullptr);
-	~ConnectionDialog();
+    explicit ConnectionDialog(QWidget *parent=nullptr, SSHConnectionSettings **settings=nullptr);
+    ~ConnectionDialog();
 
 private slots:
-	void on_openButton_clicked();
-	void on_saveOpenButton_clicked();
+    void on_openButton_clicked();
+    void on_saveOpenButton_clicked();
+    void on_hostnameLineEdit_returnPressed();
 
-	void on_hostnameLineEdit_returnPressed();
+    void on_authKeyfileRadio_toggled(bool checked);
 
 private:
-	Ui::ConnectionDialog *ui;
-	SSHConnectionSettings **settings;
+    Ui::ConnectionDialog *ui;
+    SSHConnectionSettings **settings;
 
-	SSHConnectionSettings *generateConnectionSettingsFromData();
+    SSHConnectionSettings *generateConnectionSettingsFromData();
 };
 
 #endif // CONNECTIONDIALOG_H

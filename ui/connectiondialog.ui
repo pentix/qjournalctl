@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>210</height>
+    <width>500</width>
+    <height>250</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -18,14 +18,14 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>400</width>
-    <height>210</height>
+    <width>500</width>
+    <height>250</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>400</width>
-    <height>210</height>
+    <width>500</width>
+    <height>250</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -34,7 +34,7 @@
   <widget class="QLabel" name="title">
    <property name="geometry">
     <rect>
-     <x>0</x>
+     <x>10</x>
      <y>10</y>
      <width>391</width>
      <height>31</height>
@@ -46,29 +46,19 @@
     </font>
    </property>
    <property name="text">
-    <string>Open a new ssh connection</string>
+    <string>Connect via SSH</string>
    </property>
   </widget>
   <widget class="QWidget" name="gridLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>0</x>
+     <x>10</x>
      <y>50</y>
-     <width>391</width>
-     <height>117</height>
+     <width>473</width>
+     <height>191</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
-    <item row="1" column="1">
-     <widget class="QLineEdit" name="hostnameLineEdit">
-      <property name="text">
-       <string>localhost</string>
-      </property>
-      <property name="placeholderText">
-       <string>ssh-styled hostname</string>
-      </property>
-     </widget>
-    </item>
     <item row="3" column="1" colspan="3">
      <widget class="QLineEdit" name="usernameLineEdit">
       <property name="text">
@@ -79,7 +69,59 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="3">
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_3">
+      <property name="text">
+       <string>connection name</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>username</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="0" colspan="4">
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QPushButton" name="openButton">
+        <property name="text">
+         <string>Open only</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="saveOpenButton">
+        <property name="text">
+         <string>Save and Open</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="5" column="1" colspan="3">
+     <widget class="QLineEdit" name="keyfileLineEdit">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="text">
+       <string>~/.ssh/id_rsa</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QLineEdit" name="hostnameLineEdit">
+      <property name="text">
+       <string>localhost</string>
+      </property>
+      <property name="placeholderText">
+       <string>ssh-styled hostname</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="3">
      <widget class="QLineEdit" name="portLineEdit">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -98,7 +140,21 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="2">
+    <item row="1" column="1" colspan="3">
+     <widget class="QLineEdit" name="connectionNameLineEdit">
+      <property name="placeholderText">
+       <string>optional</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="0">
+     <widget class="QLabel" name="label_5">
+      <property name="text">
+       <string>ssh keyfile</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="2">
      <widget class="QLabel" name="label_4">
       <property name="maximumSize">
        <size>
@@ -111,71 +167,38 @@
       </property>
      </widget>
     </item>
-    <item row="0" column="1" colspan="3">
-     <widget class="QLineEdit" name="connectionNameLineEdit">
-      <property name="placeholderText">
-       <string>optional</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="0">
-     <widget class="QLabel" name="label_3">
-      <property name="text">
-       <string>connection name</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="0">
+    <item row="2" column="0">
      <widget class="QLabel" name="label">
       <property name="text">
        <string>remote host</string>
       </property>
      </widget>
     </item>
-    <item row="3" column="0">
-     <widget class="QLabel" name="label_2">
-      <property name="text">
-       <string>username</string>
-      </property>
-     </widget>
+    <item row="4" column="1" colspan="3">
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QRadioButton" name="authPasswordRadio">
+        <property name="text">
+         <string>Password</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="authKeyfileRadio">
+        <property name="text">
+         <string>Keyfile</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
-    <item row="2" column="0">
-     <widget class="QLabel" name="label_5">
+    <item row="4" column="0">
+     <widget class="QLabel" name="label_6">
       <property name="text">
-       <string>ssh keyfile</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="1" colspan="3">
-     <widget class="QLineEdit" name="lineEdit">
-      <property name="text">
-       <string>~/.ssh/id_rsa</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QWidget" name="horizontalLayoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>170</y>
-     <width>391</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <layout class="QHBoxLayout" name="horizontalLayout">
-    <item>
-     <widget class="QPushButton" name="saveOpenButton">
-      <property name="text">
-       <string>Save and Open</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="openButton">
-      <property name="text">
-       <string>Open only</string>
+       <string>auth. method</string>
       </property>
      </widget>
     </item>
@@ -185,9 +208,7 @@
  <tabstops>
   <tabstop>hostnameLineEdit</tabstop>
   <tabstop>portLineEdit</tabstop>
-  <tabstop>usernameLineEdit</tabstop>
   <tabstop>connectionNameLineEdit</tabstop>
-  <tabstop>saveOpenButton</tabstop>
   <tabstop>openButton</tabstop>
  </tabstops>
  <resources/>
