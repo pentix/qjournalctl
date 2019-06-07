@@ -12,7 +12,7 @@ public:
 
    const char *getName() const;
    const char *getHostname() const;
-   unsigned int getPort() const;
+   const unsigned int *getPort() const;
    const char *getUsername() const;
    const char *getKeyfile() const;
    bool useKeyfile() const;

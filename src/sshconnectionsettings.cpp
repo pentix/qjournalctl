@@ -47,9 +47,9 @@ const char *SSHConnectionSettings::getName() const
     return name;
 }
 
-unsigned int SSHConnectionSettings::getPort() const
+const unsigned int *SSHConnectionSettings::getPort() const
 {
-    return port;
+    return &port;
 }
 
 const char *SSHConnectionSettings::getUsername() const

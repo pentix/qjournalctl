@@ -10,7 +10,9 @@ Remote::Remote(QObject *qObject, SSHConnectionSettings *sshSettings)
     ssh = ssh_new();
     assert(ssh != nullptr);
 
-    ssh_options_set(ssh, SSH_OPTIONS_HOST, "localhost");
+    ssh_options_set(ssh, SSH_OPTIONS_HOST, sshSettings->getHostname());
+    ssh_options_set(ssh, SSH_OPTIONS_USER, sshSettings->getUsername());
+    ssh_options_set(ssh, SSH_OPTIONS_PORT, sshSettings->getPort());
     int ok;
 
     ok = ssh_connect(ssh);
