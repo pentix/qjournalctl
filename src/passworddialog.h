@@ -10,20 +10,21 @@ class PasswordDialog;
 
 class PasswordDialog : public QDialog
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
     PasswordDialog(QWidget *parent = nullptr);
-	~PasswordDialog();
+    ~PasswordDialog();
 
     const char *getPassword();
 
 private slots:
-	void on_acceptButton_clicked();
-	void on_passwordEdit_returnPressed();
+    void on_acceptButton_clicked();
+    void on_passwordEdit_returnPressed();
 
 private:
-	Ui::PasswordDialog *ui;
+    Ui::PasswordDialog *ui;
+    char *allocatedPassword;
 };
 
 #endif // PASSWORDDIALOG_H
