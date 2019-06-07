@@ -10,6 +10,7 @@
 #include "ui_connectiondialog.h"
 
 #include <QMessageBox>
+#include <QDir>
 
 ConnectionDialog::ConnectionDialog(QWidget *parent, SSHConnectionSettings **settings) :
     QDialog(parent),
@@ -17,6 +18,9 @@ ConnectionDialog::ConnectionDialog(QWidget *parent, SSHConnectionSettings **sett
 {
     ui->setupUi(this);
     this->settings = settings;
+
+    // Adjust keyfile path to standard ssh rsa key location
+    ui->keyfileLineEdit->setText(QDir::homePath() + "/.ssh/id_rsa");
 }
 
 ConnectionDialog::~ConnectionDialog()
