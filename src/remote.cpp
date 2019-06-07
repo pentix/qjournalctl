@@ -40,10 +40,16 @@ Remote::Remote(QObject *qObject, SSHConnectionSettings *sshSettings)
         // Try to load SSH key
         ssh_key privateKey = ssh_key_new();
 
-        // First try without a password
+        // First assume keyfile is unencrypted
         ok = ssh_pki_import_privkey_file(sshSettings->getKeyfile(), nullptr, nullptr, nullptr, &privateKey);
 
+        // File cannot be accessed
         if(ok == SSH_EOF){
+            throw new Error(QString("Keyfile '") + sshSettings->getKeyfile() + "' does not seem to exist or cannot be accessed.");
+        }
+
+        // File cannot be loaded
+        if(ok == SSH_ERROR){
             // It didn't work, try asking for key decryption password
             PasswordDialog passwordDialog;
             passwordDialog.exec();
@@ -52,19 +58,24 @@ Remote::Remote(QObject *qObject, SSHConnectionSettings *sshSettings)
             ok = ssh_pki_import_privkey_file(sshSettings->getKeyfile(), password, nullptr, nullptr, &privateKey);
         }
 
+
         // Neither loading plain nor loading encrypted keyfile worked
         if(ok != SSH_OK){
             throw new Error("Could not load given keyfile!");
         }
 
-        // { Keyfile is ready }
+
+        // { Keyfile is ready for authentication }
+
         ok = ssh_userauth_publickey(ssh, sshSettings->getUsername(), privateKey);
         if(ok != SSH_AUTH_SUCCESS){
             throw new Error("Authentication using the given keyfile failed!");
         }
 
+
     } else {
-        // Try password authentication
+        // Don't use keyfiles, try password authentication
+
         PasswordDialog passwordDialog;
         passwordDialog.exec();
         const char *password = passwordDialog.getPassword();
@@ -72,12 +83,12 @@ Remote::Remote(QObject *qObject, SSHConnectionSettings *sshSettings)
         ok = ssh_userauth_password(ssh, sshSettings->getUsername(), password);
     }
 
-    // Check if authentication worked
+
+    // Check if the selected authentication method worked
     if(ok != SSH_AUTH_SUCCESS){
         qDebug() << "Error: " << QString(ssh_get_error(ssh));
         throw new Error("SSH Authentication on the remote host failed. Please try again!");
     }
-
 
 
     // { Authenticated connection is established }
