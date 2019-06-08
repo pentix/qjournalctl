@@ -2,12 +2,15 @@
 #include "ui_passworddialog.h"
 #include "sshconnectionsettings.h"
 
-PasswordDialog::PasswordDialog(QWidget *parent) :
+PasswordDialog::PasswordDialog(QWidget *parent, QString text) :
     QDialog(parent),
     ui(new Ui::PasswordDialog)
 {
     allocatedPassword = nullptr;
     ui->setupUi(this);
+
+    // Set the "Enter password:" text
+    ui->textLabel->setText(text);
 }
 
 PasswordDialog::~PasswordDialog()

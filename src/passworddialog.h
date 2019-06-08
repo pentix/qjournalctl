@@ -13,7 +13,7 @@ class PasswordDialog : public QDialog
     Q_OBJECT
 
 public:
-    PasswordDialog(QWidget *parent = nullptr);
+    PasswordDialog(QWidget *parent=nullptr, QString text="Enter password:");
     ~PasswordDialog();
 
     const char *getPassword();
