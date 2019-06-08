@@ -53,7 +53,7 @@ Remote::Remote(QObject *qObject, SSHConnectionSettings *sshSettings)
         // File cannot be loaded
         if(ok == SSH_ERROR){
             // It didn't work, try asking for key decryption password
-            PasswordDialog passwordDialog;
+            PasswordDialog passwordDialog(nullptr, "Please enter the password to decrypt the keyfile:");
             passwordDialog.exec();
             const char *password = passwordDialog.getPassword();
 
@@ -78,7 +78,8 @@ Remote::Remote(QObject *qObject, SSHConnectionSettings *sshSettings)
     } else {
         // Don't use keyfiles, try password authentication
 
-        PasswordDialog passwordDialog;
+        QString userAndHost = QString(sshSettings->getUsername()) + "@" + QString(sshSettings->getHostname());
+        PasswordDialog passwordDialog(nullptr, "Please enter the password to login as "+userAndHost+":");
         passwordDialog.exec();
         const char *password = passwordDialog.getPassword();
 
