@@ -44,6 +44,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // Load saved connections
     sshConnectionSerializer = new SSHConnectionSerializer();
+    refreshSavedConnectionsMenu();
 
     // Create default (local) connection
     currentConnection = new Connection(this);
@@ -57,7 +58,26 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::refreshSavedConnectionsMenu()
+{
+    // First remove old "savedConnection" entries
+    for(QAction *menuEntry : savedConnectionsActions){
+        ui->menuRemote->removeAction(menuEntry);
+        // todo: qt disconnect?
+        delete menuEntry;
+    }
+    savedConnectionsActions.clear();
 
+    // Now insert the new connections into the "Remote" menu
+    int id=0;
+    for(SSHConnectionSettings *sshSettings : *sshConnectionSerializer->getConnectionsVector()){
+        QAction *newEntry = new QAction(sshSettings->getName());
+        savedConnectionsActions.push_back(newEntry);
+        ui->menuRemote->addAction(newEntry);
+
+        id++;
+    }
+}
 
 void MainWindow::on_listBootsButton_clicked()
 {
@@ -262,6 +282,9 @@ void MainWindow::on_actionOpen_a_new_SSH_connection_triggered()
         ui->label->setText("QJournalctl @ " + QString::fromUtf8(currentConnectionSettings->getHostname()));
         ui->actionDisconnect_from_current_host->setEnabled(true);
 
+        // Update "savedConnections menu"
+        refreshSavedConnectionsMenu();
+
     } else {
         ui->label->setText("QJournalctl");
     }
@@ -278,4 +301,7 @@ void MainWindow::on_actionEdit_saved_connections_triggered()
 {
     ConnectionManager m(nullptr, sshConnectionSerializer);
     m.exec();
+
+    // Update "savedConnections menu"
+    refreshSavedConnectionsMenu();
 }

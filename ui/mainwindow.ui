@@ -168,7 +168,7 @@
      <x>0</x>
      <y>0</y>
      <width>700</width>
-     <height>30</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuJournalctl_Analyzer_Demo">
@@ -198,10 +198,7 @@
     <addaction name="actionDisconnect_from_current_host"/>
     <addaction name="actionEdit_saved_connections"/>
     <addaction name="separator"/>
-    <addaction name="actionLast_Connection_1"/>
-    <addaction name="actionLast_Connection_2"/>
-    <addaction name="actionLast_Connection_3"/>
-    <addaction name="actionLast_Connection_4"/>
+    <addaction name="actionYour_last_connections"/>
    </widget>
    <addaction name="menuJournalctl_Analyzer_Demo"/>
    <addaction name="menuRemote"/>
@@ -283,6 +280,21 @@
   <action name="actionEdit_saved_connections">
    <property name="text">
     <string>Edit saved connections</string>
+   </property>
+  </action>
+  <action name="actionYour_last_connections">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Your saved connections:</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
    </property>
   </action>
  </widget>

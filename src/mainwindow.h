@@ -11,6 +11,7 @@
 
 #include <QMainWindow>
 #include <QStandardItemModel>
+#include <QVector>
 
 #include "connection.h"
 #include "sshconnectionsettings.h"
@@ -70,7 +71,9 @@ private:
     Connection *currentConnection;
     SSHConnectionSettings *currentConnectionSettings;
     SSHConnectionSerializer *sshConnectionSerializer;
+    QVector<QAction *> savedConnectionsActions;
 
+    void refreshSavedConnectionsMenu();
 };
 
 #endif // MAINWINDOW_H
