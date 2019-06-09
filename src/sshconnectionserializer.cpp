@@ -52,6 +52,11 @@ SSHConnectionSerializer::~SSHConnectionSerializer()
     savedConnectionsFile.close();
 }
 
+QVector<SSHConnectionSettings> *SSHConnectionSerializer::getConnectionsVector()
+{
+    return &savedConnections;
+}
+
 void SSHConnectionSerializer::add(SSHConnectionSettings *sshSettings)
 {
     SSHConnectionSettings settings = *sshSettings;

@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QVector>
+#include <QStandardItemModel>
 #include "sshconnectionsettings.h"
 
 namespace Ui {
@@ -19,6 +20,7 @@ public:
 
 private:
     Ui::ConnectionManager *ui;
+    QStandardItemModel *connectionsModel;
 };
 
 #endif // CONNECTIONMANAGER_H

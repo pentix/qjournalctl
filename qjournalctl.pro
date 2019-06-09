@@ -18,7 +18,6 @@ SOURCES += src/main.cpp\
 	src/connectiondialog.cpp \
 	src/connection.cpp \
 	src/connectionmanager.cpp \
-	src/connectionserializer.cpp \
 	src/error.cpp \
 	src/local.cpp \
 	src/mainwindow.cpp \
@@ -26,6 +25,7 @@ SOURCES += src/main.cpp\
 	src/passworddialog.cpp \
 	src/remote.cpp \
 	src/showbootlog.cpp \
+	src/sshconnectionserializer.cpp \
 	src/sshconnectionsettings.cpp
 
 HEADERS  += src/mainwindow.h \

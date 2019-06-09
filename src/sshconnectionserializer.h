@@ -15,7 +15,9 @@ public:
     SSHConnectionSerializer();
     ~SSHConnectionSerializer();
 
-    void   add(SSHConnectionSettings *sshSettings);
+    void add(SSHConnectionSettings *sshSettings);
+    QVector<SSHConnectionSettings> *getConnectionsVector();
+
     static QJsonObject sshSettingsToJSON(SSHConnectionSettings *sshSettings);
     static SSHConnectionSettings jsonToSSHSettings(QString name, QJsonObject jsonSettings);
 
