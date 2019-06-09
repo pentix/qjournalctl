@@ -63,6 +63,8 @@ private slots:
 
     void on_actionEdit_saved_connections_triggered();
 
+    void connectToSavedConnection(int id);
+
 private:
     Ui::MainWindow *ui;
     QStandardItemModel *itemModel;
@@ -74,6 +76,7 @@ private:
     QVector<QAction *> savedConnectionsActions;
 
     void refreshSavedConnectionsMenu();
+    void setupRemoteConnection();
 };
 
 #endif // MAINWINDOW_H

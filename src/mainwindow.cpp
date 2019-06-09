@@ -17,7 +17,7 @@
 #include <QProcess>
 #include <QMessageBox>
 #include <QShortcut>
-#include <iostream>
+#include <QDebug>
 
 #include <QMessageBox>
 
@@ -63,7 +63,6 @@ void MainWindow::refreshSavedConnectionsMenu()
     // First remove old "savedConnection" entries
     for(QAction *menuEntry : savedConnectionsActions){
         ui->menuRemote->removeAction(menuEntry);
-        // todo: qt disconnect?
         delete menuEntry;
     }
     savedConnectionsActions.clear();
@@ -74,6 +73,10 @@ void MainWindow::refreshSavedConnectionsMenu()
         QAction *newEntry = new QAction(sshSettings->getName());
         savedConnectionsActions.push_back(newEntry);
         ui->menuRemote->addAction(newEntry);
+
+        // Use a lambda-functor to pass the argument
+        // Greetings to https://stackoverflow.com/a/22411267/2628569
+        connect(newEntry, &QAction::triggered, this, [this,id]{ connectToSavedConnection(id); });
 
         id++;
     }
@@ -264,30 +267,36 @@ void MainWindow::on_actionOpen_a_new_SSH_connection_triggered()
 {
     ConnectionDialog connectionDialog(this, &currentConnectionSettings, sshConnectionSerializer);
     connectionDialog.exec();
+    setupRemoteConnection();
+}
 
+void MainWindow::setupRemoteConnection()
+{
     Connection *newConnection;
-    if(currentConnectionSettings != nullptr){
-        try {
-            newConnection = new Connection(this, currentConnectionSettings);
-        } catch (Error *err) {
-            err->showErrorBox();
-            return;
-        }
-
-        // Delete current connection only on success
-        delete currentConnection;
-        currentConnection = newConnection;
-
-        // Update connection label
-        ui->label->setText("QJournalctl @ " + QString::fromUtf8(currentConnectionSettings->getHostname()));
-        ui->actionDisconnect_from_current_host->setEnabled(true);
-
-        // Update "savedConnections menu"
-        refreshSavedConnectionsMenu();
-
-    } else {
+    if(currentConnectionSettings == nullptr){
         ui->label->setText("QJournalctl");
+        return;
     }
+
+
+    // Connection Details are correct and available, continue to connect!
+    try {
+        newConnection = new Connection(this, currentConnectionSettings);
+    } catch (Error *err) {
+        err->showErrorBox();
+        return;
+    }
+
+    // Delete current connection only on success
+    delete currentConnection;
+    currentConnection = newConnection;
+
+    // Update connection label
+    ui->label->setText("QJournalctl @ " + QString::fromUtf8(currentConnectionSettings->getHostname()));
+    ui->actionDisconnect_from_current_host->setEnabled(true);
+
+    // Update "savedConnections menu"
+    refreshSavedConnectionsMenu();
 }
 
 void MainWindow::on_actionDisconnect_from_current_host_triggered()
@@ -304,4 +313,10 @@ void MainWindow::on_actionEdit_saved_connections_triggered()
 
     // Update "savedConnections menu"
     refreshSavedConnectionsMenu();
+}
+
+void MainWindow::connectToSavedConnection(int id)
+{
+    currentConnectionSettings = sshConnectionSerializer->get(id);
+    setupRemoteConnection();
 }
