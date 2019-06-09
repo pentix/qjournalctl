@@ -22,7 +22,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Saved connections</string>
+      <string>Saved SSH connections</string>
      </property>
     </widget>
    </item>
@@ -76,6 +76,13 @@
           </size>
          </property>
         </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="closeButton">
+         <property name="text">
+          <string>Close</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>

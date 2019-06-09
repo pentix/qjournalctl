@@ -27,6 +27,8 @@ private slots:
 
     void on_listView_doubleClicked();
 
+    void on_closeButton_clicked();
+
 private:
     Ui::ConnectionManager *ui;
     QStandardItemModel *connectionsModel;

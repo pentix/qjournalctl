@@ -65,3 +65,8 @@ void ConnectionManager::on_listView_doubleClicked()
 {
     on_editConnectionButton_clicked();
 }
+
+void ConnectionManager::on_closeButton_clicked()
+{
+    close();
+}
