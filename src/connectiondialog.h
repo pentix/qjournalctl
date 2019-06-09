@@ -9,8 +9,10 @@
 #ifndef CONNECTIONDIALOG_H
 #define CONNECTIONDIALOG_H
 
-#include "sshconnectionsettings.h"
 #include <QDialog>
+
+#include "sshconnectionsettings.h"
+#include "sshconnectionserializer.h"
 
 namespace Ui {
 class ConnectionDialog;
@@ -22,7 +24,7 @@ class ConnectionDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit ConnectionDialog(QWidget *parent=nullptr, SSHConnectionSettings **settings=nullptr);
+    explicit ConnectionDialog(QWidget *parent=nullptr, SSHConnectionSettings **settings=nullptr, SSHConnectionSerializer *sshConnectionSerializer=nullptr);
     ~ConnectionDialog();
 
 private slots:
@@ -39,6 +41,7 @@ private:
     SSHConnectionSettings **settings;
 
     SSHConnectionSettings *generateConnectionSettingsFromData();
+    SSHConnectionSerializer *sshConnectionSerializer;
 };
 
 #endif // CONNECTIONDIALOG_H

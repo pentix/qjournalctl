@@ -7,6 +7,7 @@
 class SSHConnectionSettings
 {
 public:
+   SSHConnectionSettings();
    SSHConnectionSettings(QString name, QString hostname, unsigned int port, QString username, QString keyfile, bool useKeyfile);
    ~SSHConnectionSettings();
 

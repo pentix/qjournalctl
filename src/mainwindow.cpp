@@ -11,6 +11,7 @@
 #include "aboutdialog.h"
 #include "showbootlog.h"
 #include "connectiondialog.h"
+#include "connectionmanager.h"
 #include "error.h"
 
 #include <QProcess>
@@ -29,81 +30,84 @@ QStandardItemModel *bootModel;
 
 
 MainWindow::MainWindow(QWidget *parent) :
-	QMainWindow(parent),
-	ui(new Ui::MainWindow)
+    QMainWindow(parent),
+    ui(new Ui::MainWindow)
 {
-	ui->setupUi(this);
+    ui->setupUi(this);
 
-	// Set Item Model
-	itemModel = new QStandardItemModel(this);
-	ui->tableView->setModel(itemModel);
+    // Set Item Model
+    itemModel = new QStandardItemModel(this);
+    ui->tableView->setModel(itemModel);
 
-	QShortcut *shortcutQuit = new QShortcut(QKeySequence("Ctrl+Q"),this);
-	connect(shortcutQuit, SIGNAL(activated()), ui->actionQuit, SLOT(trigger()));
+    QShortcut *shortcutQuit = new QShortcut(QKeySequence("Ctrl+Q"),this);
+    connect(shortcutQuit, SIGNAL(activated()), ui->actionQuit, SLOT(trigger()));
 
-	// Create default (local) connection
-	currentConnection = new Connection(this);
-	currentConnectionSettings = nullptr;
+    // Load saved connections
+    sshConnectionSerializer = new SSHConnectionSerializer();
 
+    // Create default (local) connection
+    currentConnection = new Connection(this);
+    currentConnectionSettings = nullptr;
 }
 
 MainWindow::~MainWindow()
 {
-	delete currentConnection;
-	delete ui;
+    delete sshConnectionSerializer;
+    delete currentConnection;
+    delete ui;
 }
 
 
 
 void MainWindow::on_listBootsButton_clicked()
 {
-	QProcess process;
-	process.start("journalctl --list-boots");
-	process.waitForFinished(-1);
+    QProcess process;
+    process.start("journalctl --list-boots");
+    process.waitForFinished(-1);
 
-	QString stdout = process.readAllStandardOutput();
-	if (stdout.length() == 0) {
-		QMessageBox message_box;
-		message_box.critical(nullptr, "Error", "No boots have been found :\n"+process.readAllStandardError());
-		message_box.setFixedSize(500, 200);
-		message_box.show();
-		return;
-	}
-	QStringList lines = stdout.split("\n", QString::SkipEmptyParts);
-
-
-	bootModel = new QStandardItemModel(1, 5, this);
-	bootModel->setHorizontalHeaderItem(0, new QStandardItem(QString("Boot No.")));
-	bootModel->setHorizontalHeaderItem(1, new QStandardItem(QString("Boot ID")));
-	bootModel->setHorizontalHeaderItem(2, new QStandardItem(QString("Day")));
-	bootModel->setHorizontalHeaderItem(3, new QStandardItem(QString("Date")));
-	bootModel->setHorizontalHeaderItem(4, new QStandardItem(QString("Time")));
-
-	for(int i=0; i<lines.size(); i++){
-		QString line = QString(lines.at(i).toLocal8Bit().constData());
-		QStringList columns = line.split(" ", QString::SkipEmptyParts);
-
-		for(int j=0; j<5; j++){
-			QStandardItem *item = new QStandardItem(columns.at(j).toLocal8Bit().constData());
-			bootModel->setItem(lines.size()-i-1, j, item);
-		}
-
-	}
-
-	ui->tableView->verticalHeader()->setVisible(false);
+    QString stdout = process.readAllStandardOutput();
+    if (stdout.length() == 0) {
+        QMessageBox message_box;
+        message_box.critical(nullptr, "Error", "No boots have been found :\n"+process.readAllStandardError());
+        message_box.setFixedSize(500, 200);
+        message_box.show();
+        return;
+    }
+    QStringList lines = stdout.split("\n", QString::SkipEmptyParts);
 
 
-	// Connect Model-View
-	ui->tableView->setModel(bootModel);
+    bootModel = new QStandardItemModel(1, 5, this);
+    bootModel->setHorizontalHeaderItem(0, new QStandardItem(QString("Boot No.")));
+    bootModel->setHorizontalHeaderItem(1, new QStandardItem(QString("Boot ID")));
+    bootModel->setHorizontalHeaderItem(2, new QStandardItem(QString("Day")));
+    bootModel->setHorizontalHeaderItem(3, new QStandardItem(QString("Date")));
+    bootModel->setHorizontalHeaderItem(4, new QStandardItem(QString("Time")));
 
-	// Resize columns to their content
-	ui->tableView->resizeColumnsToContents();
+    for(int i=0; i<lines.size(); i++){
+        QString line = QString(lines.at(i).toLocal8Bit().constData());
+        QStringList columns = line.split(" ", QString::SkipEmptyParts);
+
+        for(int j=0; j<5; j++){
+            QStandardItem *item = new QStandardItem(columns.at(j).toLocal8Bit().constData());
+            bootModel->setItem(lines.size()-i-1, j, item);
+        }
+
+    }
+
+    ui->tableView->verticalHeader()->setVisible(false);
 
 
-	ui->listBootsButton->setEnabled(false);
-	ui->actionLoadBoots->setEnabled(false);
-	ui->showBootLogButton->setEnabled(true);
-	ui->reverseCheckBox->setEnabled(true);
+    // Connect Model-View
+    ui->tableView->setModel(bootModel);
+
+    // Resize columns to their content
+    ui->tableView->resizeColumnsToContents();
+
+
+    ui->listBootsButton->setEnabled(false);
+    ui->actionLoadBoots->setEnabled(false);
+    ui->showBootLogButton->setEnabled(true);
+    ui->reverseCheckBox->setEnabled(true);
 
 }
 
@@ -111,65 +115,65 @@ void MainWindow::on_listBootsButton_clicked()
 // Get selected boot information
 void MainWindow::on_showBootLogButton_clicked()
 {
-	QItemSelectionModel *selection = ui->tableView->selectionModel();
+    QItemSelectionModel *selection = ui->tableView->selectionModel();
 
-	if(!selection->hasSelection())
-		return;
+    if(!selection->hasSelection())
+        return;
 
 
-	QModelIndex ind = selection->selectedRows().at(0);
-	QStandardItem *mod = bootModel->item(ind.row(), 0);
+    QModelIndex ind = selection->selectedRows().at(0);
+    QStandardItem *mod = bootModel->item(ind.row(), 0);
 
-	ShowBootLog *b = new ShowBootLog(this, false, ui->realtimeCheckBox->isChecked(), ui->reverseCheckBox->isChecked(), mod->text(), currentConnection);
-	b->show();
+    ShowBootLog *b = new ShowBootLog(this, false, ui->realtimeCheckBox->isChecked(), ui->reverseCheckBox->isChecked(), mod->text(), currentConnection);
+    b->show();
 
 }
 
 void MainWindow::on_actionAbout_triggered()
 {
-	AboutDialog *a = new AboutDialog(this);
-	a->show();
+    AboutDialog *a = new AboutDialog(this);
+    a->show();
 }
 
 
 void MainWindow::on_actionLoadBoots_triggered()
 {
-	// Load system boots
-	this->on_listBootsButton_clicked();
+    // Load system boots
+    this->on_listBootsButton_clicked();
 }
 
 void MainWindow::on_actionQuit_triggered()
 {
-	// Quit
-	this->close();
+    // Quit
+    this->close();
 }
 
 void MainWindow::on_tableView_doubleClicked()
 {
-	this->on_showBootLogButton_clicked();
+    this->on_showBootLogButton_clicked();
 }
 
 
 void MainWindow::on_actionShowCompleteJournal_triggered()
 {
-	ShowBootLog *b = new ShowBootLog(this, true, true, false, "", currentConnection);
-	b->show();
+    ShowBootLog *b = new ShowBootLog(this, true, true, false, "", currentConnection);
+    b->show();
 }
 
 
 
 void MainWindow::on_actionSizeOfTheJournalOnTheDisk_triggered()
 {
-	QProcess p;
-	p.start("journalctl --disk-usage");
-	p.waitForFinished(-1);
+    QProcess p;
+    p.start("journalctl --disk-usage");
+    p.waitForFinished(-1);
 
-	QMessageBox msgBox;
+    QMessageBox msgBox;
 
-	msgBox.setIcon(QMessageBox::Information);
-	msgBox.setText("\n" + p.readAllStandardOutput());
+    msgBox.setIcon(QMessageBox::Information);
+    msgBox.setText("\n" + p.readAllStandardOutput());
 
-	msgBox.exec();
+    msgBox.exec();
 
 }
 
@@ -177,31 +181,31 @@ void MainWindow::on_actionSizeOfTheJournalOnTheDisk_triggered()
 
 void MainWindow::on_tableView_clicked()
 {
-	QItemSelectionModel *selection = ui->tableView->selectionModel();
+    QItemSelectionModel *selection = ui->tableView->selectionModel();
 
-	if(!selection->hasSelection())
-		return;
-
-
-	QModelIndex ind = selection->selectedRows().at(0);
-	QStandardItem *mod = bootModel->item(ind.row(), 0);
-
-	// Avoid singleClick-execution when the user double clicked
-	if(mod->text() == this->lastSelection){
-		return;
-	}
-
-	lastSelection = mod->text();
+    if(!selection->hasSelection())
+        return;
 
 
-	if(mod->text() == "0"){
-		ui->realtimeCheckBox->setEnabled(true);
-		ui->realtimeCheckBox->setChecked(true);
-		ui->reverseCheckBox->setChecked(false);
-	} else {
-		ui->realtimeCheckBox->setEnabled(false);
-		ui->realtimeCheckBox->setChecked(false);
-	}
+    QModelIndex ind = selection->selectedRows().at(0);
+    QStandardItem *mod = bootModel->item(ind.row(), 0);
+
+    // Avoid singleClick-execution when the user double clicked
+    if(mod->text() == this->lastSelection){
+        return;
+    }
+
+    lastSelection = mod->text();
+
+
+    if(mod->text() == "0"){
+        ui->realtimeCheckBox->setEnabled(true);
+        ui->realtimeCheckBox->setChecked(true);
+        ui->reverseCheckBox->setChecked(false);
+    } else {
+        ui->realtimeCheckBox->setEnabled(false);
+        ui->realtimeCheckBox->setChecked(false);
+    }
 }
 
 
@@ -209,63 +213,69 @@ void MainWindow::on_tableView_clicked()
 
 void MainWindow::on_showCurrentBootLogButton_clicked()
 {
-	ShowBootLog *b = new ShowBootLog(this, false, true, false, "", currentConnection);
-	b->show();
+    ShowBootLog *b = new ShowBootLog(this, false, true, false, "", currentConnection);
+    b->show();
 }
 
 
 void MainWindow::on_actionShowCurrentBootLog_triggered()
 {
-	// Same as "showCurrentBootLogButton"
-	on_showCurrentBootLogButton_clicked();
+    // Same as "showCurrentBootLogButton"
+    on_showCurrentBootLogButton_clicked();
 }
 
 void MainWindow::on_realtimeCheckBox_stateChanged(int arg1)
 {
-	// Disable the "reverse" option if "follow" has been checked
-	if(arg1 == Qt::Checked){
-		ui->reverseCheckBox->setChecked(false);
-	}
+    // Disable the "reverse" option if "follow" has been checked
+    if(arg1 == Qt::Checked){
+        ui->reverseCheckBox->setChecked(false);
+    }
 }
 
 void MainWindow::on_reverseCheckBox_stateChanged(int arg1)
 {
-	// Disable the "follow" option if "reverse" has been checked
-	if(arg1 == Qt::Checked){
-		ui->realtimeCheckBox->setChecked(false);
-	}
+    // Disable the "follow" option if "reverse" has been checked
+    if(arg1 == Qt::Checked){
+        ui->realtimeCheckBox->setChecked(false);
+    }
 }
 
 void MainWindow::on_actionOpen_a_new_SSH_connection_triggered()
 {
-	ConnectionDialog connectionDialog(this, &currentConnectionSettings);
-	connectionDialog.exec();
+    ConnectionDialog connectionDialog(this, &currentConnectionSettings, sshConnectionSerializer);
+    connectionDialog.exec();
 
-	Connection *newConnection;
-	if(currentConnectionSettings != nullptr){
-		try {
-			newConnection = new Connection(this, currentConnectionSettings);
-		} catch (Error *err) {
-			err->showErrorBox();
-			return;
-		}
+    Connection *newConnection;
+    if(currentConnectionSettings != nullptr){
+        try {
+            newConnection = new Connection(this, currentConnectionSettings);
+        } catch (Error *err) {
+            err->showErrorBox();
+            return;
+        }
 
-		// Delete current connection only on success
-		delete currentConnection;
-		currentConnection = newConnection;
+        // Delete current connection only on success
+        delete currentConnection;
+        currentConnection = newConnection;
 
-		// Update connection label
+        // Update connection label
         ui->label->setText("QJournalctl @ " + QString::fromUtf8(currentConnectionSettings->getHostname()));
-		ui->actionDisconnect_from_current_host->setEnabled(true);
+        ui->actionDisconnect_from_current_host->setEnabled(true);
 
-	} else {
-		ui->label->setText("QJournalctl");
-	}
+    } else {
+        ui->label->setText("QJournalctl");
+    }
 }
 
 void MainWindow::on_actionDisconnect_from_current_host_triggered()
 {
-	currentConnection = new Connection(this);
-	ui->actionDisconnect_from_current_host->setDisabled(true);
-	ui->label->setText("QJournalctl");
+    currentConnection = new Connection(this);
+    ui->actionDisconnect_from_current_host->setDisabled(true);
+    ui->label->setText("QJournalctl");
+}
+
+void MainWindow::on_actionEdit_saved_connections_triggered()
+{
+    ConnectionManager m;
+    m.exec();
 }

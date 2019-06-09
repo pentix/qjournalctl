@@ -196,6 +196,7 @@
     </property>
     <addaction name="actionOpen_a_new_SSH_connection"/>
     <addaction name="actionDisconnect_from_current_host"/>
+    <addaction name="actionEdit_saved_connections"/>
     <addaction name="separator"/>
     <addaction name="actionLast_Connection_1"/>
     <addaction name="actionLast_Connection_2"/>
@@ -277,6 +278,11 @@
    </property>
    <property name="text">
     <string>Disconnect from current host</string>
+   </property>
+  </action>
+  <action name="actionEdit_saved_connections">
+   <property name="text">
+    <string>Edit saved connections</string>
    </property>
   </action>
  </widget>

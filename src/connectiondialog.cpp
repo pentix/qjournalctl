@@ -12,12 +12,13 @@
 #include <QMessageBox>
 #include <QDir>
 
-ConnectionDialog::ConnectionDialog(QWidget *parent, SSHConnectionSettings **settings) :
+ConnectionDialog::ConnectionDialog(QWidget *parent, SSHConnectionSettings **settings, SSHConnectionSerializer *sshConnectionSerializer) :
     QDialog(parent),
     ui(new Ui::ConnectionDialog)
 {
     ui->setupUi(this);
     this->settings = settings;
+    this->sshConnectionSerializer = sshConnectionSerializer;
 
     // Adjust keyfile path to standard ssh rsa key location
     ui->keyfileLineEdit->setText(QDir::homePath() + "/.ssh/id_rsa");
@@ -58,14 +59,24 @@ SSHConnectionSettings *ConnectionDialog::generateConnectionSettingsFromData()
 
 void ConnectionDialog::on_openButton_clicked()
 {
+    // todo: Check for nullptr first
+    // todo: free?
     *settings = generateConnectionSettingsFromData();
     close();
 }
 
 void ConnectionDialog::on_saveOpenButton_clicked()
 {
+    // todo: Check for nullptr first
+    // todo: free?
+    // check: has name set!
 
+    *settings = generateConnectionSettingsFromData();
+    if(*settings != nullptr){
+        sshConnectionSerializer->add(*settings);
+    }
 
+    close();
 }
 
 

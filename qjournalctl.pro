@@ -17,6 +17,8 @@ CONFIG += c++11
 SOURCES += src/main.cpp\
 	src/connectiondialog.cpp \
 	src/connection.cpp \
+	src/connectionmanager.cpp \
+	src/connectionserializer.cpp \
 	src/error.cpp \
 	src/local.cpp \
 	src/mainwindow.cpp \
@@ -30,10 +32,12 @@ HEADERS  += src/mainwindow.h \
 	src/aboutdialog.h \
 	src/connectiondialog.h \
 	src/connection.h \
+	src/connectionmanager.h \
 	src/error.h \
 	src/local.h \
 	src/passworddialog.h \
 	src/remote.h \
+	src/sshconnectionserializer.h \
 	src/sshconnectionsettings.h \
 	src/version.h \
 	src/showbootlog.h
@@ -41,6 +45,7 @@ HEADERS  += src/mainwindow.h \
 FORMS    += ui/mainwindow.ui \
 	ui/aboutdialog.ui \
 	ui/connectiondialog.ui \
+	ui/connectionmanager.ui \
 	ui/passworddialog.ui \
 	ui/showbootlog.ui
 

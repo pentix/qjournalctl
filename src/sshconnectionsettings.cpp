@@ -18,6 +18,10 @@ const char *SSHConnectionSettings::qstringToChar(QString s)
 
 
 // ** Actual class code **
+SSHConnectionSettings::SSHConnectionSettings()
+{
+    // Need this for the class to work with QVector
+}
 
 SSHConnectionSettings::SSHConnectionSettings(QString name, QString hostname, unsigned int port, QString username, QString keyfile, bool useKeyfile)
 {
@@ -30,12 +34,14 @@ SSHConnectionSettings::SSHConnectionSettings(QString name, QString hostname, uns
 }
 
 SSHConnectionSettings::~SSHConnectionSettings()
-{
+{/*
+   todo: fix this
+
     free((void *)this->name);
     free((void *)this->hostname);
     free((void *)this->username);
     free((void *)this->keyfile);
-}
+*/}
 
 const char *SSHConnectionSettings::getHostname() const
 {
