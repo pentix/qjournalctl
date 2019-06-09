@@ -60,3 +60,8 @@ void ConnectionManager::on_removeConnectionButton_clicked()
     sshConnectionSerializer->remove(id);
     refreshSavedConnections();
 }
+
+void ConnectionManager::on_listView_doubleClicked()
+{
+    on_editConnectionButton_clicked();
+}
