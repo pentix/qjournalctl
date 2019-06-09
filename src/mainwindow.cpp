@@ -276,6 +276,6 @@ void MainWindow::on_actionDisconnect_from_current_host_triggered()
 
 void MainWindow::on_actionEdit_saved_connections_triggered()
 {
-    ConnectionManager m(nullptr, sshConnectionSerializer->getConnectionsVector());
+    ConnectionManager m(nullptr, sshConnectionSerializer);
     m.exec();
 }

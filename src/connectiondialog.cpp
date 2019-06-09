@@ -12,16 +12,23 @@
 #include <QMessageBox>
 #include <QDir>
 
-ConnectionDialog::ConnectionDialog(QWidget *parent, SSHConnectionSettings **settings, SSHConnectionSerializer *sshConnectionSerializer) :
+ConnectionDialog::ConnectionDialog(QWidget *parent, SSHConnectionSettings **settings, SSHConnectionSerializer *sshConnectionSerializer, bool createOnly) :
     QDialog(parent),
     ui(new Ui::ConnectionDialog)
 {
     ui->setupUi(this);
+    this->createOnly = createOnly;
     this->settings = settings;
     this->sshConnectionSerializer = sshConnectionSerializer;
 
     // Adjust keyfile path to standard ssh rsa key location
     ui->keyfileLineEdit->setText(QDir::homePath() + "/.ssh/id_rsa");
+
+    // If we only want to use the Dialog to create a new connection, don't display the "Open" button
+    if(createOnly){
+        ui->openButton->hide();
+        ui->saveOpenButton->setText("Save");
+    }
 }
 
 ConnectionDialog::~ConnectionDialog()
@@ -71,11 +78,18 @@ void ConnectionDialog::on_saveOpenButton_clicked()
     // todo: free?
     // check: has name set!
 
-    *settings = generateConnectionSettingsFromData();
-    if(*settings != nullptr){
-        sshConnectionSerializer->add(*settings);
+    SSHConnectionSettings *newSettings = generateConnectionSettingsFromData();
+    if(newSettings == nullptr){
+        return;
     }
 
+    // Prepare the new connection details
+    if(!createOnly){
+        *settings = newSettings;
+    }
+
+    // Add the connection to the serializer
+    sshConnectionSerializer->add(newSettings);
     close();
 }
 

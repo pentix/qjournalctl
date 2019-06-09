@@ -24,7 +24,7 @@ class ConnectionDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit ConnectionDialog(QWidget *parent=nullptr, SSHConnectionSettings **settings=nullptr, SSHConnectionSerializer *sshConnectionSerializer=nullptr);
+    explicit ConnectionDialog(QWidget *parent=nullptr, SSHConnectionSettings **settings=nullptr, SSHConnectionSerializer *sshConnectionSerializer=nullptr, bool createOnly=false);
     ~ConnectionDialog();
 
 private slots:
@@ -40,6 +40,7 @@ private:
     Ui::ConnectionDialog *ui;
     SSHConnectionSettings **settings;
 
+    bool createOnly;
     SSHConnectionSettings *generateConnectionSettingsFromData();
     SSHConnectionSerializer *sshConnectionSerializer;
 };

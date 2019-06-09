@@ -40,14 +40,14 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <widget class="QPushButton" name="pushButton_3">
+        <widget class="QPushButton" name="newConnectionButton">
          <property name="text">
           <string>New</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_2">
+        <widget class="QPushButton" name="editConnectionButton">
          <property name="text">
           <string>Edit</string>
          </property>
@@ -58,7 +58,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="removeConnectionButton">
          <property name="text">
           <string>Remove</string>
          </property>
