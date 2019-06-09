@@ -25,6 +25,8 @@ private:
     Ui::ConnectionManager *ui;
     QStandardItemModel *connectionsModel;
     SSHConnectionSerializer *sshConnectionSerializer;
+
+    void refreshSavedConnections();
 };
 
 #endif // CONNECTIONMANAGER_H
