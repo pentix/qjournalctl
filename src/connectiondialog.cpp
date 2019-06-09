@@ -48,11 +48,11 @@ SSHConnectionSettings *ConnectionDialog::generateConnectionSettingsFromData()
         return nullptr;
     }
 
-    return new SSHConnectionSettings(ui->connectionNameLineEdit->text().replace("\"", "\\\"").trimmed(),
-                                        ui->hostnameLineEdit->text().replace("\"", "\\\"").trimmed(),
+    return new SSHConnectionSettings(ui->connectionNameLineEdit->text().trimmed(),
+                                        ui->hostnameLineEdit->text().trimmed(),
                                         port,
-                                        ui->usernameLineEdit->text().replace("\"", "\\\"").trimmed(),
-                                        ui->keyfileLineEdit->text().replace("\"", "\\\"").trimmed(),
+                                        ui->usernameLineEdit->text().trimmed(),
+                                        ui->keyfileLineEdit->text().trimmed(),
                                         ui->authKeyfileRadio->isChecked()
                                     );
 }
