@@ -21,13 +21,6 @@ Remote::Remote(QObject *qObject, SSHConnectionSettings *sshSettings)
         throw new Error("Establishing a connection to the remote host failed. Please try again!");
     }
 
-    unsigned char *hash = nullptr;
-    ssh_key srv_pubkey = nullptr;
-    size_t hlen;
-
-    ok = ssh_get_server_publickey(ssh, &srv_pubkey);
-    assert(ok>=0);
-
     // Todo: Provide better case destinction
     ok = ssh_session_is_known_server(ssh);
     if(ok != SSH_KNOWN_HOSTS_OK){
