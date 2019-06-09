@@ -20,7 +20,7 @@ SSHConnectionSerializer::SSHConnectionSerializer()
 
     // Parsing
     QJsonDocument doc = QJsonDocument::fromJson(savedConnectionsData);
-    QJsonObject connectionsDoc = doc["connections"].toObject();
+    QJsonObject connectionsDoc = doc.object().value("connections").toObject();
 
     for(QString name : connectionsDoc.keys()){
         savedConnections.push_back(jsonToSSHSettings(name, connectionsDoc[name].toObject()));
