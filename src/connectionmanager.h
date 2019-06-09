@@ -23,6 +23,8 @@ private slots:
 
     void on_editConnectionButton_clicked();
 
+    void on_removeConnectionButton_clicked();
+
 private:
     Ui::ConnectionManager *ui;
     QStandardItemModel *connectionsModel;

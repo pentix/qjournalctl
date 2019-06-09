@@ -52,3 +52,11 @@ void ConnectionManager::on_editConnectionButton_clicked()
     dialog.exec();
     refreshSavedConnections();
 }
+
+void ConnectionManager::on_removeConnectionButton_clicked()
+{
+    int id = ui->listView->selectionModel()->selectedIndexes().first().row();
+
+    sshConnectionSerializer->remove(id);
+    refreshSavedConnections();
+}

@@ -74,6 +74,12 @@ void SSHConnectionSerializer::update(int id, SSHConnectionSettings *sshSettings)
     modifiedConnectionsFile = true;
 }
 
+void SSHConnectionSerializer::remove(int id)
+{
+    savedConnections.remove(id);
+    modifiedConnectionsFile = true;
+}
+
 QJsonObject SSHConnectionSerializer::sshSettingsToJSON(SSHConnectionSettings *sshSettings)
 {
     QJsonObject jsonSettings;

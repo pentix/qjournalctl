@@ -18,6 +18,7 @@ public:
     void add(SSHConnectionSettings *sshSettings);
     SSHConnectionSettings *get(int id);
     void update(int id, SSHConnectionSettings *sshSettings);
+    void remove(int id);
     QVector<SSHConnectionSettings *> *getConnectionsVector();
 
     static QJsonObject sshSettingsToJSON(SSHConnectionSettings *sshSettings);
