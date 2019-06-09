@@ -36,9 +36,9 @@ SSHConnectionSerializer::~SSHConnectionSerializer()
 
     // Otherwise serialize all settings to JSON and save it!
     QJsonObject connectionsJson;
-    for(SSHConnectionSettings settings : savedConnections){
-        qDebug() << "Saving connection: " << settings.getName();
-        connectionsJson[settings.getName()] = sshSettingsToJSON(&settings);
+    for(SSHConnectionSettings *settings : savedConnections){
+        qDebug() << "Saving connection: " << settings->getName();
+        connectionsJson[settings->getName()] = sshSettingsToJSON(settings);
     }
 
     // For compatibility reasons, wrap this as a "connections" object
@@ -52,14 +52,25 @@ SSHConnectionSerializer::~SSHConnectionSerializer()
     savedConnectionsFile.close();
 }
 
-QVector<SSHConnectionSettings> *SSHConnectionSerializer::getConnectionsVector()
+QVector<SSHConnectionSettings *> *SSHConnectionSerializer::getConnectionsVector()
 {
     return &savedConnections;
 }
 
 void SSHConnectionSerializer::add(SSHConnectionSettings *sshSettings)
 {
-    savedConnections.push_front(*sshSettings);
+    savedConnections.push_front(sshSettings);
+    modifiedConnectionsFile = true;
+}
+
+SSHConnectionSettings *SSHConnectionSerializer::get(int id)
+{
+    return savedConnections[id];
+}
+
+void SSHConnectionSerializer::update(int id, SSHConnectionSettings *sshSettings)
+{
+    savedConnections[id] = sshSettings;
     modifiedConnectionsFile = true;
 }
 
@@ -67,7 +78,7 @@ QJsonObject SSHConnectionSerializer::sshSettingsToJSON(SSHConnectionSettings *ss
 {
     QJsonObject jsonSettings;
     jsonSettings.insert("hostname", QJsonValue(sshSettings->getHostname()));
-    jsonSettings.insert("port", QJsonValue(QString::number(*sshSettings->getPort())));
+    jsonSettings.insert("port", QJsonValue((int)*sshSettings->getPort()));
     jsonSettings.insert("username", QJsonValue(sshSettings->getUsername()));
     jsonSettings.insert("keyfile", QJsonValue(sshSettings->getKeyfile()));
     jsonSettings.insert("useKeyfile", QJsonValue(sshSettings->useKeyfile()));
@@ -75,13 +86,13 @@ QJsonObject SSHConnectionSerializer::sshSettingsToJSON(SSHConnectionSettings *ss
     return jsonSettings;
 }
 
-SSHConnectionSettings SSHConnectionSerializer::jsonToSSHSettings(QString name, QJsonObject jsonSettings)
+SSHConnectionSettings *SSHConnectionSerializer::jsonToSSHSettings(QString name, QJsonObject jsonSettings)
 {
     QString hostname = jsonSettings["hostname"].toString();
-    unsigned int port = jsonSettings["port"].toInt();
+    unsigned int port = (unsigned int)jsonSettings["port"].toInt();
     QString username = jsonSettings["username"].toString();
     QString keyfile = jsonSettings["keyfile"].toString();
     bool useKeyfile = jsonSettings["useKeyfile"].toBool();
 
-    return SSHConnectionSettings(name, hostname, port, username, keyfile, useKeyfile);
+    return new SSHConnectionSettings(name, hostname, port, username, keyfile, useKeyfile);
 }

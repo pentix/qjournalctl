@@ -28,8 +28,8 @@ void ConnectionManager::refreshSavedConnections()
     connectionsModel->clear();
 
     // Add known connections
-    for(SSHConnectionSettings settings : *sshConnectionSerializer->getConnectionsVector()){
-        connectionsModel->appendRow(new QStandardItem(settings.getName()));
+    for(SSHConnectionSettings *settings : *sshConnectionSerializer->getConnectionsVector()){
+        connectionsModel->appendRow(new QStandardItem(settings->getName()));
     }
 
     // Update ui
@@ -40,6 +40,15 @@ void ConnectionManager::on_newConnectionButton_clicked()
 {
     // We can omit current SSHSettings since we don't want to connect to another host from there
     ConnectionDialog dialog(nullptr, nullptr, sshConnectionSerializer, true);
+    dialog.exec();
+    refreshSavedConnections();
+}
+
+void ConnectionManager::on_editConnectionButton_clicked()
+{
+    int id = ui->listView->selectionModel()->selectedIndexes().first().row();
+
+    ConnectionDialog dialog(sshConnectionSerializer, id);
     dialog.exec();
     refreshSavedConnections();
 }

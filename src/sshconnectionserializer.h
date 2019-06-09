@@ -16,14 +16,16 @@ public:
     ~SSHConnectionSerializer();
 
     void add(SSHConnectionSettings *sshSettings);
-    QVector<SSHConnectionSettings> *getConnectionsVector();
+    SSHConnectionSettings *get(int id);
+    void update(int id, SSHConnectionSettings *sshSettings);
+    QVector<SSHConnectionSettings *> *getConnectionsVector();
 
     static QJsonObject sshSettingsToJSON(SSHConnectionSettings *sshSettings);
-    static SSHConnectionSettings jsonToSSHSettings(QString name, QJsonObject jsonSettings);
+    static SSHConnectionSettings *jsonToSSHSettings(QString name, QJsonObject jsonSettings);
 
 private:
     QFile savedConnectionsFile;
-    QVector<SSHConnectionSettings> savedConnections;
+    QVector<SSHConnectionSettings *> savedConnections;
     bool modifiedConnectionsFile;
 };
 

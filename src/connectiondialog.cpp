@@ -11,12 +11,14 @@
 
 #include <QMessageBox>
 #include <QDir>
+#include <QDebug>
 
 ConnectionDialog::ConnectionDialog(QWidget *parent, SSHConnectionSettings **settings, SSHConnectionSerializer *sshConnectionSerializer, bool createOnly) :
     QDialog(parent),
     ui(new Ui::ConnectionDialog)
 {
     ui->setupUi(this);
+    this->updateOnly = false;
     this->createOnly = createOnly;
     this->settings = settings;
     this->sshConnectionSerializer = sshConnectionSerializer;
@@ -31,6 +33,34 @@ ConnectionDialog::ConnectionDialog(QWidget *parent, SSHConnectionSettings **sett
     }
 }
 
+// Construct Dialog from existing SSHConnectionSettings to edit values
+ConnectionDialog::ConnectionDialog(SSHConnectionSerializer *sshConnectionSerializer, int id) :
+    QDialog(),
+    ui(new Ui::ConnectionDialog)
+{
+    ui->setupUi(this);
+
+    // Prepare UI
+    setWindowTitle("Edit saved connection details");
+    SSHConnectionSettings *sshSettings = sshConnectionSerializer->get(id);
+    ui->connectionNameLineEdit->setText(sshSettings->getName());
+    ui->hostnameLineEdit->setText(sshSettings->getHostname());
+    ui->portLineEdit->setText(QString::number(*sshSettings->getPort()));
+    ui->usernameLineEdit->setText(sshSettings->getUsername());
+    ui->keyfileLineEdit->setText(sshSettings->getKeyfile());
+    ui->authKeyfileRadio->setChecked(sshSettings->useKeyfile());
+
+    // UI adjustments because of already existing connection entry
+    ui->openButton->hide();
+    ui->saveOpenButton->setText("Save");
+    createOnly = true;
+
+    // Remember update-specific data
+    this->sshConnectionSerializer = sshConnectionSerializer;
+    idToUpdate = id;
+    updateOnly = true;
+}
+
 ConnectionDialog::~ConnectionDialog()
 {
     delete ui;
@@ -38,10 +68,12 @@ ConnectionDialog::~ConnectionDialog()
 
 SSHConnectionSettings *ConnectionDialog::generateConnectionSettingsFromData()
 {
-    QMessageBox *incompleteMessageBox = new QMessageBox(QMessageBox::Warning, "Incomplete data", "Please provide a correct hostname!");
+    QMessageBox incompleteMessageBox(QMessageBox::Warning, "Incomplete data", "Please provide a correct hostname!");
 
     if(ui->hostnameLineEdit->text().trimmed() == ""){
-        incompleteMessageBox->show();
+        incompleteMessageBox.show();
+        qDebug() << "oof";
+
         return nullptr;
     }
 
@@ -50,8 +82,8 @@ SSHConnectionSettings *ConnectionDialog::generateConnectionSettingsFromData()
         port = 22;
 
     if(port > 65635){
-        incompleteMessageBox->setText("Please provide a correct port! The default port for ssh is 22.");
-        incompleteMessageBox->show();
+        incompleteMessageBox.setText("Please provide a correct port! The default port for ssh is 22.");
+        incompleteMessageBox.show();
         return nullptr;
     }
 
@@ -76,7 +108,10 @@ void ConnectionDialog::on_saveOpenButton_clicked()
 {
     // todo: Check for nullptr first
     // todo: free?
-    // check: has name set!
+
+    if(ui->connectionNameLineEdit->text().trimmed() == ""){
+        return;
+    }
 
     SSHConnectionSettings *newSettings = generateConnectionSettingsFromData();
     if(newSettings == nullptr){
@@ -88,8 +123,15 @@ void ConnectionDialog::on_saveOpenButton_clicked()
         *settings = newSettings;
     }
 
-    // Add the connection to the serializer
-    sshConnectionSerializer->add(newSettings);
+    // Add/Update the connection to the serializer
+    if(updateOnly){
+        // todo: free old settings?
+        sshConnectionSerializer->update(idToUpdate, newSettings);
+
+    } else {
+        sshConnectionSerializer->add(newSettings);
+    }
+
     close();
 }
 
