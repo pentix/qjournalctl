@@ -37,7 +37,6 @@ SSHConnectionSerializer::~SSHConnectionSerializer()
     // Otherwise serialize all settings to JSON and save it!
     QJsonObject connectionsJson;
     for(SSHConnectionSettings *settings : savedConnections){
-        qDebug() << "Saving connection: " << settings->getName();
         connectionsJson[settings->getName()] = sshSettingsToJSON(settings);
     }
 
