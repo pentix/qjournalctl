@@ -267,6 +267,10 @@ void MainWindow::on_actionOpen_a_new_SSH_connection_triggered()
 {
     ConnectionDialog connectionDialog(this, &currentConnectionSettings, sshConnectionSerializer);
     connectionDialog.exec();
+
+    // Update "savedConnections menu"
+    refreshSavedConnectionsMenu();
+
     setupRemoteConnection();
 }
 
@@ -294,9 +298,6 @@ void MainWindow::setupRemoteConnection()
     // Update connection label
     ui->label->setText("QJournalctl @ " + QString::fromUtf8(currentConnectionSettings->getHostname()));
     ui->actionDisconnect_from_current_host->setEnabled(true);
-
-    // Update "savedConnections menu"
-    refreshSavedConnectionsMenu();
 }
 
 void MainWindow::on_actionDisconnect_from_current_host_triggered()
