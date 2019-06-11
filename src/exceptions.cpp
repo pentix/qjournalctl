@@ -40,9 +40,15 @@ bool Error::userWantsRetry()
 }
 
 
+void Exceptions::warning(const QString &warningMessage)
+{
+    QMessageBox box(QMessageBox::Warning, "", warningMessage);
+    box.exec();
+}
+
 bool Exceptions::userAcceptsWarning(const QString &warningMessage)
 {
-    QMessageBox box(QMessageBox::Warning, "Connect to remote host", warningMessage);
+    QMessageBox box(QMessageBox::Warning, "", warningMessage);
     QPushButton *yes = box.addButton(QMessageBox::Yes);
                        box.addButton(QMessageBox::No);
     box.exec();

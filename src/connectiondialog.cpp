@@ -8,6 +8,7 @@
 
 #include "connectiondialog.h"
 #include "ui_connectiondialog.h"
+#include "exceptions.h"
 
 #include <QMessageBox>
 #include <QDir>
@@ -68,22 +69,18 @@ ConnectionDialog::~ConnectionDialog()
 
 SSHConnectionSettings *ConnectionDialog::generateConnectionSettingsFromData()
 {
-    QMessageBox incompleteMessageBox(QMessageBox::Warning, "Incomplete data", "Please provide a correct hostname!");
-
     if(ui->hostnameLineEdit->text().trimmed() == ""){
-        incompleteMessageBox.show();
-        qDebug() << "oof";
-
+        Exceptions::warning("Please provide a correct hostname!");
         return nullptr;
     }
 
     unsigned int port = ui->portLineEdit->text().toUInt();
-    if(port == 0)
+    if(port == 0){
         port = 22;
+    }
 
     if(port > 65635){
-        incompleteMessageBox.setText("Please provide a correct port! The default port for ssh is 22.");
-        incompleteMessageBox.show();
+        Exceptions::warning("Please provide a correct port! The default port for ssh is 22.");
         return nullptr;
     }
 

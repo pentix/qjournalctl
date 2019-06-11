@@ -23,6 +23,7 @@ private:
 
 
 namespace Exceptions {
+    void warning(const QString &warningMessage);
     bool userAcceptsWarning(const QString &warningMessage);
 }
 
