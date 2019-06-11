@@ -63,10 +63,13 @@ Remote::Remote(QObject *qObject, SSHConnectionSettings *sshSettings)
         // { Keyfile is ready for authentication }
 
         ok = ssh_userauth_publickey(ssh, sshSettings->getUsername(), privateKey);
+
+        // Free key after authentication
+        ssh_key_free(privateKey);
+
         if(ok != SSH_AUTH_SUCCESS){
             throw new Error("Authentication using the given keyfile failed!");
         }
-
 
     } else {
         // Don't use keyfiles, try password authentication
