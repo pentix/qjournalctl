@@ -18,7 +18,7 @@ SOURCES += src/main.cpp\
 	src/connectiondialog.cpp \
 	src/connection.cpp \
 	src/connectionmanager.cpp \
-	src/error.cpp \
+	src/exceptions.cpp \
 	src/local.cpp \
 	src/mainwindow.cpp \
 	src/aboutdialog.cpp \
@@ -33,7 +33,7 @@ HEADERS  += src/mainwindow.h \
 	src/connectiondialog.h \
 	src/connection.h \
 	src/connectionmanager.h \
-	src/error.h \
+	src/exceptions.h \
 	src/local.h \
 	src/passworddialog.h \
 	src/remote.h \

@@ -1,6 +1,6 @@
 #include "remote.h"
 #include "passworddialog.h"
-#include "error.h"
+#include "exceptions.h"
 
 #include <QProcess>
 #include <QDebug>
@@ -23,13 +23,47 @@ Remote::Remote(QObject *qObject, SSHConnectionSettings *sshSettings)
 
     // Todo: Provide better case destinction
     ok = ssh_session_is_known_server(ssh);
-    if(ok != SSH_KNOWN_HOSTS_OK){
+    switch(ok) {
+    case SSH_KNOWN_HOSTS_OK:
+        // Nothing happens
+    break;
+
+    // Remote server is not in known_hosts file
+    case SSH_KNOWN_HOSTS_NOT_FOUND:
+    case SSH_KNOWN_HOSTS_UNKNOWN:
+        if(Exceptions::userAcceptsWarning("The authenticity of this host can't be established. Its key "
+                                          "fingerprint is 0xDEADBEEF. Do you want to continue?")){
+
+            // Add the host to the known hosts file
+            ssh_session_update_known_hosts(ssh);
+
+        } else {
+            // User doesn't want to add host, fail quietly!
+            ssh_free(ssh);
+            throw new Error;
+        }
+
+    break;
+
+    case SSH_KNOWN_HOSTS_CHANGED:
+    case SSH_KNOWN_HOSTS_OTHER:
         ssh_free(ssh);
-        throw new Error("Remote server is either unknown, unavailable, or has changed its public keys. "
-                        "Please verify your connection manually, adjust your .ssh/known_hosts file "
-                        "and come back!");
+        throw new Error("WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!\nSomeone could be "
+                        "eavesdropping on you right now (man-in-the-middle attack)! "
+                        "It is also possible that a host key has just been changed.\n\n"
+                        "Please use ssh to connect to the host and confirm the keys manually.");
+    break;
+
+
+    // Uncovered error
+    default:
+        ssh_free(ssh);
+        throw new Error("Key verification using your .ssh/known_hosts file failed. "
+                        "Please use ssh to connect to the host and confirm the keys manually.");
     }
 
+
+    // { Everything with the server is okay }
 
     if(sshSettings->useKeyfile()){
         // Try to load SSH key

@@ -12,7 +12,7 @@
 #include "showbootlog.h"
 #include "connectiondialog.h"
 #include "connectionmanager.h"
-#include "error.h"
+#include "exceptions.h"
 
 #include <QProcess>
 #include <QMessageBox>
@@ -284,11 +284,27 @@ void MainWindow::setupRemoteConnection()
 
 
     // Connection Details are correct and available, continue to connect!
-    try {
-        newConnection = new Connection(this, currentConnectionSettings);
-    } catch (Error *err) {
-        err->showErrorBox();
-        return;
+    while(true){
+        try {
+            newConnection = new Connection(this, currentConnectionSettings);
+        } catch (Error *error) {
+            error->showErrorBox();
+
+            // If retry option isn't given or not chosen, quit here
+            bool quit = !error->userWantsRetry();
+            delete error;
+
+            if(quit){
+                // Not able to continue
+                return;
+            } else {
+                // Retry!
+                continue;
+            }
+        }
+
+        // No errors occurred -> exit loop to continue with setup
+        break;
     }
 
     // Delete current connection only on success
