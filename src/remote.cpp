@@ -25,14 +25,47 @@ Remote::Remote(QObject *qObject, SSHConnectionSettings *sshSettings)
     ok = ssh_session_is_known_server(ssh);
     switch(ok) {
     case SSH_KNOWN_HOSTS_OK:
+    {
         // Nothing happens
-    break;
+        break;
+    }
 
     // Remote server is not in known_hosts file
     case SSH_KNOWN_HOSTS_NOT_FOUND:
     case SSH_KNOWN_HOSTS_UNKNOWN:
-        if(Exceptions::userAcceptsWarning("The authenticity of this host can't be established. Its key "
-                                          "fingerprint is 0xDEADBEEF. Do you want to continue?")){
+    {
+        // Get the server's public key
+        ssh_key serverPublicKey;
+        ssh_get_server_publickey(ssh, &serverPublicKey);
+
+        // Calculate fingerprints
+        unsigned char *bufferMD5, *bufferSHA1, *bufferSHA256;
+        size_t lengthMD5, lengthSHA1, lengthSHA256;
+        ssh_get_publickey_hash(serverPublicKey, SSH_PUBLICKEY_HASH_MD5, &bufferMD5, &lengthMD5);
+        ssh_get_publickey_hash(serverPublicKey, SSH_PUBLICKEY_HASH_SHA1, &bufferSHA1, &lengthSHA1);
+        ssh_get_publickey_hash(serverPublicKey, SSH_PUBLICKEY_HASH_SHA256, &bufferSHA256, &lengthSHA256);
+
+        // Get hex digest
+        char *hexMD5 = ssh_get_hexa(bufferMD5, lengthMD5);
+        char *hexSHA1 = ssh_get_hexa(bufferSHA1, lengthSHA1);
+        char *hexSHA256 = ssh_get_hexa(bufferSHA256, lengthSHA256);
+
+        QString hashes = "MD5:    " + QString(hexMD5) + "\n" +
+                         "SHA1:   " + QString(hexSHA1) + "\n" +
+                         "SHA256: " + QString(hexSHA256) + "\n";
+
+        // Free library memory
+        ssh_string_free_char(hexMD5);
+        ssh_string_free_char(hexSHA1);
+        ssh_string_free_char(hexSHA256);
+        ssh_clean_pubkey_hash(&bufferMD5);
+        ssh_clean_pubkey_hash(&bufferSHA1);
+        ssh_clean_pubkey_hash(&bufferSHA256);
+        ssh_key_free(serverPublicKey);
+
+        if(Exceptions::userAcceptsWarning("The authenticity of this host can't be established. Please "
+                                          "verify the key fingerprints manually:\n\n" +
+                                          hashes + "\nAre you sure you want to continue?")){
 
             // Add the host to the known hosts file
             ssh_session_update_known_hosts(ssh);
@@ -43,16 +76,19 @@ Remote::Remote(QObject *qObject, SSHConnectionSettings *sshSettings)
             throw new Error;
         }
 
-    break;
+        break;
+    }
 
     case SSH_KNOWN_HOSTS_CHANGED:
     case SSH_KNOWN_HOSTS_OTHER:
+    {
         ssh_free(ssh);
         throw new Error("WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!\nSomeone could be "
                         "eavesdropping on you right now (man-in-the-middle attack)! "
                         "It is also possible that a host key has just been changed.\n\n"
                         "Please use ssh to connect to the host and confirm the keys manually.");
-    break;
+        break;
+    }
 
 
     // Uncovered error
@@ -60,6 +96,7 @@ Remote::Remote(QObject *qObject, SSHConnectionSettings *sshSettings)
         ssh_free(ssh);
         throw new Error("Key verification using your .ssh/known_hosts file failed. "
                         "Please use ssh to connect to the host and confirm the keys manually.");
+
     }
 
 
