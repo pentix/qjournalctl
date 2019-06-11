@@ -13,24 +13,41 @@ quickly for specific reports or errors.
 
 Maybe you want to checkout the [Changelog](https://github.com/pentix/qjournalctl/blob/master/CHANGELOG.md).
 
-#### How to get QJournalctl
-##### Build Dependencies
+#### Build Dependencies
 * Make sure your compiler supports (at least) C++11 (E.g. `g++` ≥ 4.8.1, `clang` ≥ 3.3)
-* Also, QJournalctl relies on Qt 5, ensure to have the Qt5 development libaries (E.g. `qtbase5-dev` for Debian/Ubuntu) installed, when compiling!
+* QJournalctl relies on Qt5, please ensure to have the Qt5 development libaries (E.g. `qtbase5-dev` for Debian/Ubuntu) installed, when compiling!
+* To access remote hosts QJournalctl heavily relies on `libssh` ≥ [0.8.7](https://www.libssh.org/files/0.8/)
 
 
-##### Building QJournalctl
+#### Build Dependencies for Debian, Ubuntu, et al.
+Your distribution's supplied version of `libssh` might be too old for a successful build. You need
+to build and install libssh yourself (< 2 minutes!)
+
+`sudo apt-get install qtbase5-dev cmake`
+
+`wget https://www.libssh.org/files/0.8/libssh-0.8.7.tar.xz`
+
+`tar xf libssh-0.8.7.tar.xz ; cd libssh-0.8.7`
+
+`mkdir build ; cd build`
+
+`cmake .. && sudo make install`
+
+`cd ../..`
+
+
+#### Build Dependencies for ArchLinux and Manjaro
+`sudo pacman -S qt5-base libssh`
+
+QJournalctl is available on the AUR. You can either download the corresponding PKGBUILD or install the package `qjournalctl` using your AUR helper.
+[Visit the AUR page for more information.](https://aur.archlinux.org/packages/qjournalctl/)
+
+
+
+#### Building QJournalctl
 1. Download the source code and extract it
 2. Run `./autogen.sh`
-3. Run `make` to compile qjournalctl
-
-
-##### ArchLinux
-QJournalctl is available on the AUR. You can either download the corresponding PKGBUILD or install the package via `yaourt -S qjournalctl`
-
-If you like this project or if you want to see qjournalctl outside of the AUR in the official Arch community repository you can also vote for it!
-
-[Visit the AUR page for more information](https://aur.archlinux.org/packages/qjournalctl/)
+3. Run `make -j5` to compile qjournalctl
 
 
 
