@@ -104,7 +104,7 @@ Remote::Remote(QObject *qObject, SSHConnectionSettings *sshSettings)
 
     if(sshSettings->useKeyfile()){
         // Try to load SSH key
-        ssh_key privateKey = ssh_key_new();
+        ssh_key privateKey;
 
         // First assume keyfile is unencrypted
         ok = ssh_pki_import_privkey_file(sshSettings->getKeyfile(), nullptr, nullptr, nullptr, &privateKey);
