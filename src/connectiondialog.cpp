@@ -95,18 +95,21 @@ SSHConnectionSettings *ConnectionDialog::generateConnectionSettingsFromData()
 
 void ConnectionDialog::on_openButton_clicked()
 {
-    // todo: Check for nullptr first
     // todo: free?
-    *settings = generateConnectionSettingsFromData();
+    SSHConnectionSettings *newSettings = generateConnectionSettingsFromData();
+    if(newSettings == nullptr){
+        return;
+    }
+
+    *settings = newSettings;
     close();
 }
 
 void ConnectionDialog::on_saveOpenButton_clicked()
 {
-    // todo: Check for nullptr first
     // todo: free?
-
     if(ui->connectionNameLineEdit->text().trimmed() == ""){
+        Exceptions::warning("Please provide a name for this connection if you want to save it!");
         return;
     }
 
@@ -124,7 +127,6 @@ void ConnectionDialog::on_saveOpenButton_clicked()
     if(updateOnly){
         // todo: free old settings?
         sshConnectionSerializer->update(idToUpdate, newSettings);
-
     } else {
         sshConnectionSerializer->add(newSettings);
     }
