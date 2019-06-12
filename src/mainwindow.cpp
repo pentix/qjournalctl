@@ -332,6 +332,10 @@ void MainWindow::on_actionDisconnect_from_current_host_triggered()
     currentConnection = new Connection(this);
     ui->actionDisconnect_from_current_host->setDisabled(true);
     ui->label->setText("QJournalctl");
+
+    // Remove listed boots, too!
+    bootModel->clear();
+    ui->tableView->update();
 }
 
 void MainWindow::on_actionEdit_saved_connections_triggered()
