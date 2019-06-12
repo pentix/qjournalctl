@@ -273,21 +273,17 @@ void MainWindow::on_actionOpen_a_new_SSH_connection_triggered()
 
         // Try to setup the connection
         ok = setupRemoteConnection();
-    } catch (Error *) {
-        return;
-    }
 
-    if(!ok){
-        try {
+        if(!ok){
             // Try again until it works or user aborts (-> Throws Error)
             while(!ok){
                 ConnectionDialog newDialog(&currentConnectionSettings, sshConnectionSerializer);
                 newDialog.exec();
                 ok = setupRemoteConnection();
             }
-        } catch (Error *) {
-            return;
         }
+    } catch (Error *) {
+        return;
     }
 
     // { Everything worked }
