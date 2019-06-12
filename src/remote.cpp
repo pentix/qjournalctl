@@ -238,6 +238,17 @@ void Remote::run(QString cmd)
     sshMutex.unlock();
 }
 
+QString Remote::runAndWait(QString cmd)
+{
+    sshMutex.lock();
+
+    QString res;
+
+    sshMutex.unlock();
+
+    return res;
+}
+
 void Remote::close()
 {
     sshMutex.lock();

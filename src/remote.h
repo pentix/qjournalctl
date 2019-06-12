@@ -12,31 +12,32 @@
 
 class Remote: public QObject
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	Remote(QObject *qObject, SSHConnectionSettings *sshSettings);
-	~Remote();
+    Remote(QObject *qObject, SSHConnectionSettings *sshSettings);
+    ~Remote();
 
-	void run(QString);
-	void close();
-	bool isRunning();
+    void run(QString cmd);
+    QString runAndWait(QString cmd);
+    void close();
+    bool isRunning();
 
 private:
-	std::thread *readerThread;
-	volatile bool destroyAllThreads;
-	QString sshCmd;
+    std::thread *readerThread;
+    volatile bool destroyAllThreads;
+    QString sshCmd;
 
-	std::mutex sshMutex;
-	ssh_session ssh;
-	ssh_channel sshChannel;
-	void initSSHChannel();
+    std::mutex sshMutex;
+    ssh_session ssh;
+    ssh_channel sshChannel;
+    void initSSHChannel();
 
 signals:
-	void remoteDataAvailable(QString);
+    void remoteDataAvailable(QString);
 
 public slots:
-	void processHasData();
+    void processHasData();
 };
 
 #endif // REMOTE_H
