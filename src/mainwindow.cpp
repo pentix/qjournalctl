@@ -82,7 +82,7 @@ void MainWindow::refreshSavedConnectionsMenu()
 
 void MainWindow::on_listBootsButton_clicked()
 {
-    QString listBootsOutput = currentConnection->runAndWait("journalctl --list-boots");
+    QString listBootsOutput = currentConnection->runAndWait("journalctl -q --list-boots");
     if (listBootsOutput.length() == 0) {
         QMessageBox message_box;
         message_box.critical(nullptr, "Error", "No boots have been found :\n"+listBootsOutput);
@@ -103,6 +103,11 @@ void MainWindow::on_listBootsButton_clicked()
     for(int i=0; i<lines.size(); i++){
         QString line = QString(lines.at(i).toLocal8Bit().constData());
         QStringList columns = line.split(" ", QString::SkipEmptyParts);
+
+        //qDebug() << columns;
+        if(columns.size() != 9){
+            continue;
+        }
 
         for(int j=0; j<5; j++){
             QStandardItem *item = new QStandardItem(columns.at(j).toLocal8Bit().constData());

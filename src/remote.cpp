@@ -21,12 +21,11 @@ Remote::Remote(QObject *qObject, SSHConnectionSettings *sshSettings)
         throw new Error("Establishing a connection to the remote host failed. Please try again!");
     }
 
-    // Todo: Provide better case destinction
     ok = ssh_session_is_known_server(ssh);
     switch(ok) {
     case SSH_KNOWN_HOSTS_OK:
     {
-        // Nothing happens
+        // Everything okay, nothing to do!
         break;
     }
 
@@ -156,7 +155,7 @@ Remote::Remote(QObject *qObject, SSHConnectionSettings *sshSettings)
 
     // Check if the selected authentication method worked
     if(ok != SSH_AUTH_SUCCESS){
-        qDebug() << "Error: " << QString(ssh_get_error(ssh));
+        qDebug() << "Did not receive SSH_AUTH_SUCCESS: " << ssh_get_error(ssh);
         throw new Error("SSH Authentication on the remote host failed. Please try again!");
     }
 
@@ -170,20 +169,46 @@ Remote::Remote(QObject *qObject, SSHConnectionSettings *sshSettings)
 
     readerThread = new std::thread([&]() {
 
-        char buffer[8192];
+        char buffer[65536];
+        QString oldCmd = "";
 
         while(!destroyAllThreads){
-            usleep(50000); // todo decrease this, investigate why it crashes < 100000
+            // Need to keep GUI / reader balanced
+            usleep(25000);
 
+            // Check if there is a new command or we can still read the old output
+
+            // Case 1:      There is a new command available, wait for it
+            //              to be fixed. (User might be scrolling through settings)
+            // Otherwise:   Directly start reading!
             sshMutex.lock();
             if(sshCmd != ""){
-                char *data = sshCmd.toUtf8().data();
-                ssh_channel_request_exec(sshChannel, data);
-                //ssh_channel_write(sshChannel, data, strlen(data));
+                // Extract current command
+                oldCmd = sshCmd;
+                sshMutex.unlock();
+
+                usleep(750000);
+
+                // Compare with current command to be executed, 750ms later
+                sshMutex.lock();
+                if(oldCmd != sshCmd){
+                    oldCmd = sshCmd;
+                    sshMutex.unlock();
+
+                    usleep(250000);
+                    continue;
+                }
+
+                // Actually execute the command!
+                if(sshCmd != ""){
+                    char *data = sshCmd.toUtf8().data();
+                    ssh_channel_request_exec(sshChannel, data);
+                }
+
+                // Reset ssh stuff
+                sshCmd = "";
             }
 
-            // Reset ssh stuff
-            sshCmd = "";
 
             // If the channel isn't ready yet, wait for it!
             if(ssh_channel_is_eof(sshChannel) || !ssh_channel_is_open(sshChannel)){
@@ -191,14 +216,23 @@ Remote::Remote(QObject *qObject, SSHConnectionSettings *sshSettings)
                 continue;
             }
 
-            int bytesRead = ssh_channel_read_nonblocking(sshChannel, buffer, 8192, 0);
+            int bytesRead = ssh_channel_read_nonblocking(sshChannel, buffer, 65536, 0);
             sshMutex.unlock();
+
+
+
+            // Thread-safe part below
 
             if(bytesRead > 0){
                 buffer[bytesRead] = '\0';
                 QString dataString(buffer);
 
                 emit remoteDataAvailable(dataString);
+            } else {
+                if(bytesRead == SSH_ERROR){
+                    qDebug() << "Received SSH_ERROR: " << ssh_get_error(ssh);
+                    initSSHChannel();
+                }
             }
         }
     });
@@ -218,22 +252,32 @@ Remote::~Remote()
 
 void Remote::initSSHChannel()
 {
+    sshMutex.lock();
+
+    if(ssh_channel_is_open(sshChannel)){
+        ssh_channel_close(sshChannel);
+        ssh_channel_free(sshChannel);
+    }
+
     sshChannel = ssh_channel_new(ssh);
     assert(sshChannel != nullptr);
 
     int ok;
     ok = ssh_channel_open_session(sshChannel);
-    assert(ok == SSH_OK);
+
+    while(ok != SSH_OK){
+        // Wait for "Zombie sessions" to be killed
+        usleep(500000);
+        ok = ssh_channel_open_session(sshChannel);
+    }
+
+    sshMutex.unlock();
 }
 
 
 void Remote::run(QString cmd)
 {
     sshMutex.lock();
-    if(isRunning()){
-        ssh_channel_close(sshChannel);
-        ssh_channel_free(sshChannel);
-    }
 
     initSSHChannel();
 
@@ -290,7 +334,7 @@ void Remote::close()
 
 bool Remote::isRunning()
 {
-    return ssh_channel_is_open(sshChannel);
+    return ssh_channel_is_open(sshChannel) && !ssh_channel_is_eof(sshChannel);
 }
 
 
