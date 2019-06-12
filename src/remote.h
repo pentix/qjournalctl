@@ -28,7 +28,7 @@ private:
     volatile bool destroyAllThreads;
     QString sshCmd;
 
-    std::mutex sshMutex;
+    std::recursive_mutex sshMutex;
     ssh_session ssh;
     ssh_channel sshChannel;
     void initSSHChannel();

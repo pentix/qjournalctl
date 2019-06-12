@@ -242,11 +242,29 @@ QString Remote::runAndWait(QString cmd)
 {
     sshMutex.lock();
 
-    QString res;
+    // Issue normal 'run' to setup the channel, note the recursive locking!
+    // This will prevent the other thread from actually executing the
+    // command and reading our data.
+    run(cmd);
 
+    // So we have to run the command ourself
+    char *data = sshCmd.toUtf8().data();
+    ssh_channel_request_exec(sshChannel, data);
+
+    // Block until the process ended
+    ssh_channel_get_exit_status(sshChannel);
+    unsigned int bytes = ssh_channel_poll(sshChannel, 0);
+
+    // Copy received data
+    char buffer[bytes];
+    ssh_channel_read(sshChannel, (void *)buffer, bytes, 0);
+    QString resultString(buffer);
+
+    // Reset channel for next commands
+    sshCmd = "";
     sshMutex.unlock();
 
-    return res;
+    return resultString;
 }
 
 void Remote::close()
