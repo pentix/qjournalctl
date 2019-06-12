@@ -5,24 +5,27 @@
 
 class Local: public QObject
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	Local(QObject *qObject);
-	~Local();
+    Local(QObject *qObject);
+    ~Local();
 
-	void run(QString);
-	void close();
-	bool isRunning();
+    void run(QString);
+    void close();
+    bool isRunning();
 
 private:
-	QProcess *journalProcess;
+    QProcess *journalProcess;
 
 signals:
-	void localDataAvailable(QString);
+    void localDataAvailable(QString);
 
 public slots:
-	void processHasData();
+    void processHasData();
+
+public:
+    QString runAndWait(QString cmd);
 };
 
 #endif // LOCAL_H

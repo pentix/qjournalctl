@@ -6,32 +6,33 @@
 
 class Connection : public QObject
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	QObject *qObject;
-	// Local connection
-	Connection(QObject *qObject);
+    QObject *qObject;
+    // Local connection
+    Connection(QObject *qObject);
 
-	// Remote connection
-	Connection(QObject *qObject, SSHConnectionSettings *sshSettings);
-	~Connection();
+    // Remote connection
+    Connection(QObject *qObject, SSHConnectionSettings *sshSettings);
+    ~Connection();
 
-	bool isRemote();
-	bool isRunning();
-	void close();
-	void run(QString cmd);
+    bool isRemote();
+    bool isRunning();
+    void close();
+    void run(QString cmd);
+    QString runAndWait(QString cmd);
 
 signals:
-	void connectionDataAvailable(QString);
+    void connectionDataAvailable(QString);
 
 public slots:
-	void processData(QString);
+    void processData(QString);
 
 private:
-	Local *localConnection;
-	Remote *remoteConnection;
-	bool remote;
+    Local *localConnection;
+    Remote *remoteConnection;
+    bool remote;
 };
 
 #endif // CONNECTION_H
