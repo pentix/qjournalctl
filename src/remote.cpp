@@ -162,8 +162,6 @@ Remote::Remote(QObject *qObject, SSHConnectionSettings *sshSettings)
 
 
     // { Authenticated connection is established }
-
-    qDebug() << "Authenticated :)";
     initSSHChannel();
 
     // Reader thread
