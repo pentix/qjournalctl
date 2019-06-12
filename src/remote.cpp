@@ -185,8 +185,11 @@ Remote::Remote(QObject *qObject, SSHConnectionSettings *sshSettings)
             // Reset ssh stuff
             sshCmd = "";
 
-            assert(!ssh_channel_is_eof(sshChannel));
-            assert(ssh_channel_is_open(sshChannel));
+            // If the channel isn't ready yet, wait for it!
+            if(ssh_channel_is_eof(sshChannel) || !ssh_channel_is_open(sshChannel)){
+                sshMutex.unlock();
+                continue;
+            }
 
             int bytesRead = ssh_channel_read_nonblocking(sshChannel, buffer, 8192, 0);
             sshMutex.unlock();
