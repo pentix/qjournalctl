@@ -34,22 +34,17 @@ ConnectionDialog::ConnectionDialog(QWidget *parent, SSHConnectionSettings **sett
     }
 }
 
-// Construct Dialog from existing SSHConnectionSettings to edit values
+// Construct Dialog from existing, already saved SSHConnectionSettings to edit values
 ConnectionDialog::ConnectionDialog(SSHConnectionSerializer *sshConnectionSerializer, int id) :
     QDialog(),
     ui(new Ui::ConnectionDialog)
 {
     ui->setupUi(this);
-
-    // Prepare UI
     setWindowTitle("Edit saved connection details");
     SSHConnectionSettings *sshSettings = sshConnectionSerializer->get(id);
-    ui->connectionNameLineEdit->setText(sshSettings->getName());
-    ui->hostnameLineEdit->setText(sshSettings->getHostname());
-    ui->portLineEdit->setText(QString::number(*sshSettings->getPort()));
-    ui->usernameLineEdit->setText(sshSettings->getUsername());
-    ui->keyfileLineEdit->setText(sshSettings->getKeyfile());
-    ui->authKeyfileRadio->setChecked(sshSettings->useKeyfile());
+
+    // Prepare UI
+    prepareUIFromExistingSSHSettings(sshSettings);
 
     // UI adjustments because of already existing connection entry
     ui->openButton->hide();
@@ -62,9 +57,38 @@ ConnectionDialog::ConnectionDialog(SSHConnectionSerializer *sshConnectionSeriali
     updateOnly = true;
 }
 
+// Construct Dialog from previously entered, not yet saved SSHConnectionSettings
+ConnectionDialog::ConnectionDialog(SSHConnectionSettings **settings,
+                                   SSHConnectionSerializer *sshConnectionSerializer) :
+    QDialog(),
+    ui(new Ui::ConnectionDialog)
+{
+    // Prepare UI from existing data
+    ui->setupUi(this);
+    prepareUIFromExistingSSHSettings(*settings);    // Since the settings have already been adjusted, we
+                                                    // know where the previous values are
+
+    // But prepare Dialog to open/save connection as usual
+    this->updateOnly = false;
+    this->createOnly = false;
+    this->settings = settings;
+    this->sshConnectionSerializer = sshConnectionSerializer;
+}
+
+
 ConnectionDialog::~ConnectionDialog()
 {
     delete ui;
+}
+
+void ConnectionDialog::prepareUIFromExistingSSHSettings(SSHConnectionSettings *sshSettings)
+{
+    ui->connectionNameLineEdit->setText(sshSettings->getName());
+    ui->hostnameLineEdit->setText(sshSettings->getHostname());
+    ui->portLineEdit->setText(QString::number(*sshSettings->getPort()));
+    ui->usernameLineEdit->setText(sshSettings->getUsername());
+    ui->keyfileLineEdit->setText(sshSettings->getKeyfile());
+    ui->authKeyfileRadio->setChecked(sshSettings->useKeyfile());
 }
 
 SSHConnectionSettings *ConnectionDialog::generateConnectionSettingsFromData()
@@ -148,4 +172,11 @@ void ConnectionDialog::on_usernameLineEdit_returnPressed()
 void ConnectionDialog::on_authKeyfileRadio_toggled(bool checked)
 {
     ui->keyfileLineEdit->setEnabled(checked);
+}
+
+void ConnectionDialog::on_cancelButton_clicked()
+{
+    // User wants to abort
+    *settings = nullptr;
+    close();
 }

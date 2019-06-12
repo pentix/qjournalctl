@@ -76,7 +76,7 @@ private:
     QVector<QAction *> savedConnectionsActions;
 
     void refreshSavedConnectionsMenu();
-    void setupRemoteConnection();
+    bool setupRemoteConnection();
 };
 
 #endif // MAINWINDOW_H

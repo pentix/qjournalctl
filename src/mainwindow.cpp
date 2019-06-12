@@ -265,21 +265,45 @@ void MainWindow::on_reverseCheckBox_stateChanged(int arg1)
 
 void MainWindow::on_actionOpen_a_new_SSH_connection_triggered()
 {
-    ConnectionDialog connectionDialog(this, &currentConnectionSettings, sshConnectionSerializer);
-    connectionDialog.exec();
+    bool ok;
+
+    try {
+        ConnectionDialog connectionDialog(this, &currentConnectionSettings, sshConnectionSerializer);
+        connectionDialog.exec();
+
+        // Try to setup the connection
+        ok = setupRemoteConnection();
+    } catch (Error *) {
+        return;
+    }
+
+    if(!ok){
+        try {
+            // Try again until it works or user aborts (-> Throws Error)
+            while(!ok){
+                ConnectionDialog newDialog(&currentConnectionSettings, sshConnectionSerializer);
+                newDialog.exec();
+                ok = setupRemoteConnection();
+            }
+        } catch (Error *) {
+            return;
+        }
+    }
+
+    // { Everything worked }
 
     // Update "savedConnections menu"
     refreshSavedConnectionsMenu();
-
-    setupRemoteConnection();
 }
 
-void MainWindow::setupRemoteConnection()
+bool MainWindow::setupRemoteConnection()
 {
     Connection *newConnection;
     if(currentConnectionSettings == nullptr){
         ui->label->setText("QJournalctl");
-        return;
+
+        // User aborted!
+        throw new Error();
     }
 
 
@@ -296,7 +320,7 @@ void MainWindow::setupRemoteConnection()
 
             if(quit){
                 // Not able to continue
-                return;
+                return false;
             } else {
                 // Retry!
                 continue;
@@ -314,6 +338,7 @@ void MainWindow::setupRemoteConnection()
     // Update connection label
     ui->label->setText("QJournalctl @ " + QString::fromUtf8(currentConnectionSettings->getHostname()));
     ui->actionDisconnect_from_current_host->setEnabled(true);
+    return true;
 }
 
 void MainWindow::on_actionDisconnect_from_current_host_triggered()
