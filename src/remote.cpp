@@ -221,13 +221,6 @@ void Remote::initSSHChannel()
     int ok;
     ok = ssh_channel_open_session(sshChannel);
     assert(ok == SSH_OK);
-
-    //ok = ssh_channel_request_pty_size(sshChannel, "v100", 100, 40);
-    assert(ok == SSH_OK);
-
-    //ok = ssh_channel_request_shell(sshChannel);
-    assert(ok == SSH_OK);
-
 }
 
 
