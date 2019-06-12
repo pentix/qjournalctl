@@ -253,11 +253,17 @@ QString Remote::runAndWait(QString cmd)
 
     // Block until the process ended
     ssh_channel_get_exit_status(sshChannel);
-    unsigned int bytes = ssh_channel_poll(sshChannel, 0);
+    int bytes = ssh_channel_poll(sshChannel, 0);
+
+    // Error?
+    if(bytes <= 0){
+        sshMutex.unlock();
+        return "";
+    }
 
     // Copy received data
     char buffer[bytes];
-    ssh_channel_read(sshChannel, (void *)buffer, bytes, 0);
+    ssh_channel_read(sshChannel, (void *)buffer, (unsigned int)bytes, 0);
     QString resultString(buffer);
 
     // Reset channel for next commands
