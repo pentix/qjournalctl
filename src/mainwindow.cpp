@@ -326,9 +326,16 @@ bool MainWindow::setupRemoteConnection()
     delete currentConnection;
     currentConnection = newConnection;
 
-    // Update connection label
+    // Update UI
     ui->label->setText("QJournalctl @ " + QString::fromUtf8(currentConnectionSettings->getHostname()));
     ui->actionDisconnect_from_current_host->setEnabled(true);
+    ui->listBootsButton->setEnabled(true);
+    ui->actionLoadBoots->setEnabled(true);
+
+    itemModel = new QStandardItemModel(this);
+    ui->tableView->setModel(itemModel);
+    ui->tableView->update();
+
     return true;
 }
 
@@ -339,6 +346,8 @@ void MainWindow::on_actionDisconnect_from_current_host_triggered()
     ui->label->setText("QJournalctl");
 
     // Remove listed boots, too!
+    ui->actionLoadBoots->setEnabled(true);
+    ui->listBootsButton->setEnabled(true);
     bootModel->clear();
     ui->tableView->update();
 }
