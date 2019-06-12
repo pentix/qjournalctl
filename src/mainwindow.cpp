@@ -14,11 +14,9 @@
 #include "connectionmanager.h"
 #include "exceptions.h"
 
-#include <QProcess>
 #include <QMessageBox>
 #include <QShortcut>
 #include <QDebug>
-
 #include <QMessageBox>
 
 using namespace std;
@@ -84,19 +82,15 @@ void MainWindow::refreshSavedConnectionsMenu()
 
 void MainWindow::on_listBootsButton_clicked()
 {
-    QProcess process;
-    process.start("journalctl --list-boots");
-    process.waitForFinished(-1);
-
-    QString stdout = process.readAllStandardOutput();
-    if (stdout.length() == 0) {
+    QString listBootsOutput = currentConnection->runAndWait("journalctl --list-boots");
+    if (listBootsOutput.length() == 0) {
         QMessageBox message_box;
-        message_box.critical(nullptr, "Error", "No boots have been found :\n"+process.readAllStandardError());
+        message_box.critical(nullptr, "Error", "No boots have been found :\n"+listBootsOutput);
         message_box.setFixedSize(500, 200);
         message_box.show();
         return;
     }
-    QStringList lines = stdout.split("\n", QString::SkipEmptyParts);
+    QStringList lines = listBootsOutput.split("\n", QString::SkipEmptyParts);
 
 
     bootModel = new QStandardItemModel(1, 5, this);
