@@ -187,17 +187,13 @@ void MainWindow::on_actionShowCompleteJournal_triggered()
 
 void MainWindow::on_actionSizeOfTheJournalOnTheDisk_triggered()
 {
-    QProcess p;
-    p.start("journalctl --disk-usage");
-    p.waitForFinished(-1);
+    QString output = currentConnection->runAndWait("journalctl --disk-usage");
 
     QMessageBox msgBox;
 
     msgBox.setIcon(QMessageBox::Information);
-    msgBox.setText("\n" + p.readAllStandardOutput());
-
+    msgBox.setText("\n" + output);
     msgBox.exec();
-
 }
 
 
