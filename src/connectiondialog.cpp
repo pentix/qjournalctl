@@ -93,6 +93,11 @@ void ConnectionDialog::prepareUIFromExistingSSHSettings(SSHConnectionSettings *s
 
 SSHConnectionSettings *ConnectionDialog::generateConnectionSettingsFromData()
 {
+    if(ui->usernameLineEdit->text().trimmed() == ""){
+        Exceptions::warning("Please provide a username!");
+        return nullptr;
+    }
+
     if(ui->hostnameLineEdit->text().trimmed() == ""){
         Exceptions::warning("Please provide a correct hostname!");
         return nullptr;
