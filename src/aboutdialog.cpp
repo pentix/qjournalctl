@@ -1,7 +1,7 @@
 /**
  * qjournalctl: A Qt-based GUI for systemd's journalctl command
  *
- * Copyright (c) 2016-2018 by Patrick Eigensatz <patrick.eigensatz@gmail.com>
+ * Copyright (c) 2016-2019 by Patrick Eigensatz <patrick.eigensatz@gmail.com>
  * Some rights reserved. See LICENSE.
  */
 
