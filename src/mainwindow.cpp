@@ -146,8 +146,9 @@ void MainWindow::on_showBootLogButton_clicked()
     QModelIndex ind = selection->selectedRows().at(0);
     QStandardItem *mod = bootModel->item(ind.row(), 0);
 
-    ShowBootLog *b = new ShowBootLog(this, false, ui->realtimeCheckBox->isChecked(), ui->reverseCheckBox->isChecked(), mod->text(), currentConnection);
-    b->show();
+    ShowBootLog *b = new ShowBootLog(nullptr, false, ui->realtimeCheckBox->isChecked(), ui->reverseCheckBox->isChecked(), mod->text(), currentConnection);
+    b->exec();
+    delete b;
 
 }
 
@@ -178,8 +179,9 @@ void MainWindow::on_tableView_doubleClicked()
 
 void MainWindow::on_actionShowCompleteJournal_triggered()
 {
-    ShowBootLog *b = new ShowBootLog(this, true, true, false, "", currentConnection);
-    b->show();
+    ShowBootLog *b = new ShowBootLog(nullptr, true, true, false, "", currentConnection);
+    b->exec();
+    delete b;
 }
 
 
@@ -231,8 +233,9 @@ void MainWindow::on_tableView_clicked()
 
 void MainWindow::on_showCurrentBootLogButton_clicked()
 {
-    ShowBootLog *b = new ShowBootLog(this, false, true, false, "", currentConnection);
-    b->show();
+    ShowBootLog *b = new ShowBootLog(nullptr, false, true, false, "", currentConnection);
+    b->exec();
+    delete b;
 }
 
 
