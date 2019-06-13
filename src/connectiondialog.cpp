@@ -182,6 +182,9 @@ void ConnectionDialog::on_authKeyfileRadio_toggled(bool checked)
 void ConnectionDialog::on_cancelButton_clicked()
 {
     // User wants to abort
-    *settings = nullptr;
+    if(!updateOnly){
+        *settings = nullptr;
+    }
+
     close();
 }
