@@ -46,6 +46,10 @@ void ConnectionManager::on_newConnectionButton_clicked()
 
 void ConnectionManager::on_editConnectionButton_clicked()
 {
+    if(ui->listView->selectionModel()->selectedIndexes().size() != 1){
+        return;
+    }
+
     int id = ui->listView->selectionModel()->selectedIndexes().first().row();
 
     ConnectionDialog dialog(sshConnectionSerializer, id);
