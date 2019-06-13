@@ -326,7 +326,6 @@ void Remote::close()
 
     sshCmd = "";
     ssh_channel_close(sshChannel);
-    ssh_channel_free(sshChannel);
 
     sshMutex.unlock();
 }
