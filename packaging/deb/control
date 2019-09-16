@@ -1,0 +1,8 @@
+Package: qjournalctl
+Version: 0.6-1
+Section: admin
+Priority: optional
+Architecture: amd64
+Depends: libssh (>= 0.8.7), qtbase5-dev (>= 5.5.1)
+Maintainer: Patrick Eigensatz <patrick.eigensatz@gmail.com>
+Description: A Qt-based Graphical User Interface for systemd's journalctl command

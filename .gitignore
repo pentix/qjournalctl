@@ -8,3 +8,4 @@ qjournalctl.pro.user
 build/*
 src/version.h
 qrc_icon.cpp
+*.deb
