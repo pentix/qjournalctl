@@ -7,5 +7,5 @@ before_script:
   - docker pull cm0x4d/ubuntu-qt5-cmake
 
 script:
-  - docker run -it cm0x4d/ubuntu-qt5-cmake sh -c "apt-get --yes update && apt-get --yes install pkg-config libssh-dev wget && wget https://www.libssh.org/files/0.8/libssh-0.8.7.tar.xz && tar xf libssh-0.8.7.tar.xz && cd libssh-0.8.7 && mkdir build && cd build && cmake .. && make install && cd ../.. && git clone https://github.com/pentix/qjournalctl && cd qjournalctl && ./autogen.sh && make ; ls -lh qjournalctl"
+  - docker run -it cm0x4d/ubuntu-qt5-cmake sh -c "apt-get --yes update && apt-get --yes install pkg-config libssh-dev wget && wget https://www.libssh.org/files/0.9/libssh-0.9.0.tar.xz && tar xf libssh-0.9.0.tar.xz && cd libssh-0.9.0 && mkdir build && cd build && cmake .. && make install && cd ../.. && git clone https://github.com/pentix/qjournalctl && cd qjournalctl && ./autogen.sh && make ; ls -lh qjournalctl"
 
