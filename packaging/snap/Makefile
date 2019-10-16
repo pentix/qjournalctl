@@ -11,4 +11,3 @@ all:
 
 	docker stop qjournalctl-snap
 
-	RES=$(shell ls -lhsa *.snap) ; echo "Build succeeded: "$(RES)

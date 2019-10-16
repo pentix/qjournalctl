@@ -28,7 +28,7 @@ parts:
         make install -j$(nproc)
         
         cd ../..
-
+      
         sed -i 's/target.path = \/usr\/bin/target.path = \/snap\/parts\/qjournalctl\/install\/usr\/bin/' qjournalctl.pro
         PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/snap/parts/qjournalctl/install/lib/pkgconfig/ QT_SELECT=qt5 qmake qjournalctl.pro -r -spec linux-g++ CONFIG+=release QMAKE_LIBDIR=/snap/parts/qjournalctl/install/lib/
 
@@ -43,17 +43,7 @@ parts:
       - make
       - cmake
       - wget
-      - qtbase5-dev
-      - xcb
-      - libx11-xcb-dev
-      - libx11-xcb1
    
-    stage-packages:
-      - qtbase5-dev
-      - xcb
-      - libx11-xcb-dev
-      - libx11-xcb1
-
 apps:
   qjournalctl:
     command: desktop-launch qjournalctl
