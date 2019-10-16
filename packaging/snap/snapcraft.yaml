@@ -6,12 +6,13 @@ description: |
   systemd's journalctl command
 
 base: core18
-confinement: classic
+confinement: devmode 
 
 parts:
   qjournalctl:
     plugin: qmake
     qt-version: qt5
+    after: [desktop-qt5]
     
     source-type: tar
     source: https://github.com/pentix/qjournalctl/archive/v0.6.tar.gz
@@ -27,7 +28,8 @@ parts:
         make install -j$(nproc)
         
         cd ../..
-        
+
+        sed -i 's/target.path = \/usr\/bin/target.path = \/snap\/parts\/qjournalctl\/install\/usr\/bin/' qjournalctl.pro
         PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/snap/parts/qjournalctl/install/lib/pkgconfig/ QT_SELECT=qt5 qmake qjournalctl.pro -r -spec linux-g++ CONFIG+=release QMAKE_LIBDIR=/snap/parts/qjournalctl/install/lib/
 
         make install -j$(nproc)
@@ -42,11 +44,17 @@ parts:
       - cmake
       - wget
       - qtbase5-dev
+      - xcb
+      - libx11-xcb-dev
+      - libx11-xcb1
    
     stage-packages:
       - qtbase5-dev
+      - xcb
+      - libx11-xcb-dev
+      - libx11-xcb1
 
 apps:
   qjournalctl:
-    command: qjournalctl
+    command: desktop-launch qjournalctl
 

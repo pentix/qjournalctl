@@ -8,3 +8,7 @@ all:
 	docker cp snapcraft.yaml qjournalctl-snap:/snap/
 	docker exec -i qjournalctl-snap snapcraft
 	docker exec -i qjournalctl-snap bash -c 'cp /snap/*.snap /out'
+
+	docker stop qjournalctl-snap
+
+	RES=$(shell ls -lhsa *.snap) ; echo "Build succeeded: "$(RES)
