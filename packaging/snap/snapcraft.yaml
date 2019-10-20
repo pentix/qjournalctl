@@ -36,7 +36,9 @@ parts:
         PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/snap/parts/qjournalctl/install/lib/pkgconfig/ QT_SELECT=qt5 qmake qjournalctl.pro -r -spec linux-g++ CONFIG+=release QMAKE_LIBDIR=/snap/parts/qjournalctl/install/lib/
 
         make install -j$(nproc)
-        
+
+        mkdir -p /snap/prime/usr/share/applications/
+        mkdir -p /snap/prime/usr/share/pixmaps/
         cp /snap/parts/qjournalctl/install/usr/share/applications/qjournalctl.desktop /snap/prime/usr/share/applications/
         cp /snap/parts/qjournalctl/install/usr/share/pixmaps/qjournalctl.png /snap/prime/usr/share/pixmaps/
 
