@@ -36,19 +36,15 @@ to build and install libssh yourself (< 2 minutes!)
 `cd ../..`
 
 
-#### Build Dependencies for ArchLinux and Manjaro
-`sudo pacman -S qt5-base libssh`
-
-QJournalctl is available on the AUR. You can either download the corresponding PKGBUILD or install the package `qjournalctl` using your AUR helper.
-[Visit the AUR page for more information.](https://aur.archlinux.org/packages/qjournalctl/)
-
-
-
 #### Building QJournalctl
 1. Download the source code and extract it
 2. Run `./autogen.sh`
 3. Run `make -j5` to compile qjournalctl
 
+
+#### ArchLinux and Manjaro
+QJournalctl is available in the community repository:
+`sudo pacman -S qjournalctl`
 
 
 #### Screenshots
