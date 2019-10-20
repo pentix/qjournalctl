@@ -30,13 +30,16 @@ parts:
         cd ../..
       
         sed -i 's/target.path = \/usr\/bin/target.path = \/snap\/parts\/qjournalctl\/install\/usr\/bin/' qjournalctl.pro
-        sed -i 's/desktop-file.path = \/usr\/share\/applications/desktop-file.path = \/snap\/prime\/usr\/share\/applications/' qjournalctl.pro
-        sed -i 's/desktop-icon.path = \/usr\/share\/pixmaps/desktop-icon.path = \/snap\/prime\/usr\/share\/pixmaps/' qjournalctl.pro
+        sed -i 's/desktop-file.path = \/usr\/share\/applications/desktop-file.path = \/snap\/parts\/qjournalctl\/install\/usr\/share\/applications/' qjournalctl.pro
+        sed -i 's/desktop-icon.path = \/usr\/share\/pixmaps/desktop-icon.path = \/snap\/parts\/qjournalctl\/install\/usr\/share\/pixmaps/' qjournalctl.pro
 
-        
         PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/snap/parts/qjournalctl/install/lib/pkgconfig/ QT_SELECT=qt5 qmake qjournalctl.pro -r -spec linux-g++ CONFIG+=release QMAKE_LIBDIR=/snap/parts/qjournalctl/install/lib/
 
         make install -j$(nproc)
+        
+        cp /snap/parts/qjournalctl/install/usr/share/applications/qjournalctl.desktop /snap/prime/usr/share/applications/
+        cp /snap/parts/qjournalctl/install/usr/share/pixmaps/qjournalctl.png /snap/prime/usr/share/pixmaps/
+
 
     build-packages:
       - build-essential
