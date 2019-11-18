@@ -25,9 +25,9 @@ to build and install libssh yourself (< 2 minutes!)
 
 `sudo apt-get install qtbase5-dev cmake`
 
-`wget https://www.libssh.org/files/0.9/libssh-0.9.0.tar.xz`
+`wget https://www.libssh.org/files/0.9/libssh-0.9.2.tar.xz`
 
-`tar xf libssh-0.9.0.tar.xz ; cd libssh-0.9.0`
+`tar xf libssh-0.9.2.tar.xz ; cd libssh-0.9.2`
 
 `mkdir build ; cd build`
 
