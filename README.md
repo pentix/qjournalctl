@@ -48,6 +48,9 @@ QJournalctl is available in the community repository:
 
 
 #### Screenshots
+##### Use the ssh feature to connect to remote hosts and read their logs; Save frequently used connections and benefit from password or (encrypted) keyfile support
+![Use the ssh feature to connect to remote hosts and read their logs](https://user-images.githubusercontent.com/3193006/69094424-9d3e7900-0a50-11ea-94e3-5165b25d93cb.png)
+
 ##### Use the filter option and regular expressions to find what you are looking for
 ![Use the filter option and regular expressions to find what you are looking for](https://user-images.githubusercontent.com/3193006/36170961-3fbc1ed0-1101-11e8-9123-ceda9a1b6c8c.gif)
 
