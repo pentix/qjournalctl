@@ -1,10 +1,10 @@
 #!/bin/sh
 
 # See Issue #38 -- Choose qmake first
-QMAKE_BIN="$(which qmake)"
+QMAKE_BIN="$(which qmake 2> /dev/null)"
 if [ ! -f "$QMAKE_BIN" ]; then
     # -- If it's not there, try qmake-qt5 second
-    QMAKE_BIN="$(which qmake-qt5)"
+    QMAKE_BIN="$(which qmake-qt5 2> /dev/null)"
 fi
 
 if [ ! -f "$QMAKE_BIN" ]; then
