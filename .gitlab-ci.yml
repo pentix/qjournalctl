@@ -1,9 +1,6 @@
 image: cm0x4d/ubuntu-qt5-cmake
-stages:
-    - build
 
 build:
-    stage: build
     script:
         # Get dependencies
         - apt-get --yes update
@@ -21,3 +18,21 @@ build:
         - ./autogen.sh
         - make
         - ls -lh qjournalctl
+
+packaging_deb:
+    script:
+        - apt-get --yes update
+        - apt-get install curl make
+        - curl -fsSL https://get.docker.com -o get-docker.sh
+        - sh get-docker.sh
+        - cd packaging/deb/
+        - make
+
+packaging_snap:
+    script:
+        - apt-get --yes update
+        - apt-get install curl make
+        - curl -fsSL https://get.docker.com -o get-docker.sh
+        - sh get-docker.sh
+        - cd packging/snap/
+        - make

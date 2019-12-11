@@ -5,7 +5,11 @@ services:
 
 before_script:
   - docker pull cm0x4d/ubuntu-qt5-cmake
+  - sudo apt-get update
+  - sudo apt-get install -y make
 
+# For convenience:
+# Testing the packaging tools is done only in the .gitlab-ci config 
 script:
   - docker run -it --security-opt seccomp:unconfined cm0x4d/ubuntu-qt5-cmake sh -c "apt-get --yes update && apt-get --yes install pkg-config libssh-dev wget && wget https://www.libssh.org/files/0.9/libssh-0.9.2.tar.xz && tar xf libssh-0.9.2.tar.xz && cd libssh-0.9.2 && mkdir build && cd build && cmake .. && make install && cd ../.. && git clone https://github.com/pentix/qjournalctl && cd qjournalctl && ./autogen.sh && make ; ls -lh qjournalctl"
 

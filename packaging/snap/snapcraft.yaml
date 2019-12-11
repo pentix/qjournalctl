@@ -1,0 +1,60 @@
+name: qjournalctl
+version: "0.6"
+summary: A Qt-based Graphical User Interface for systemd's journalctl command
+description: |
+  A Qt-based Graphical User Interface for
+  systemd's journalctl command
+
+base: core18
+confinement: devmode 
+
+parts:
+  qjournalctl:
+    plugin: qmake
+    qt-version: qt5
+    after: [desktop-qt5]
+    
+    source-type: tar
+    source: https://github.com/pentix/qjournalctl/archive/v0.6.tar.gz
+
+    override-build: |
+        wget https://www.libssh.org/files/0.9/libssh-0.9.0.tar.xz
+        tar xf libssh-0.9.0.tar.xz
+        cd libssh-0.9.0
+        
+        mkdir build
+        cd build
+        cmake -DCMAKE_INSTALL_PREFIX=/snap/parts/qjournalctl/install/ ..
+        make install -j$(nproc)
+        
+        cd ../..
+      
+        sed -i 's/target.path = \/usr\/bin/target.path = \/snap\/parts\/qjournalctl\/install\/usr\/bin/' qjournalctl.pro
+        sed -i 's/desktop-file.path = \/usr\/share\/applications/desktop-file.path = \/snap\/parts\/qjournalctl\/install\/usr\/share\/applications/' qjournalctl.pro
+        sed -i 's/desktop-icon.path = \/usr\/share\/pixmaps/desktop-icon.path = \/snap\/parts\/qjournalctl\/install\/usr\/share\/pixmaps/' qjournalctl.pro
+
+        PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/snap/parts/qjournalctl/install/lib/pkgconfig/ QT_SELECT=qt5 qmake qjournalctl.pro -r -spec linux-g++ CONFIG+=release QMAKE_LIBDIR=/snap/parts/qjournalctl/install/lib/
+
+        make install -j$(nproc)
+
+        mkdir -p /snap/prime/usr/share/applications/
+        mkdir -p /snap/prime/usr/share/pixmaps/
+        cp /snap/parts/qjournalctl/install/usr/share/applications/qjournalctl.desktop /snap/prime/usr/share/applications/
+        cp /snap/parts/qjournalctl/install/usr/share/pixmaps/qjournalctl.png /snap/prime/usr/share/pixmaps/
+
+
+    build-packages:
+      - build-essential
+      - libssl-dev
+      - libzip-dev
+      - pkg-config
+      - g++
+      - make
+      - cmake
+      - wget
+   
+apps:
+  qjournalctl:
+    command: desktop-launch qjournalctl
+    desktop: /usr/share/applications/qjournalctl.desktop
+
