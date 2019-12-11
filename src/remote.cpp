@@ -169,6 +169,7 @@ Remote::Remote(QObject *qObject, SSHConnectionSettings *sshSettings)
 
 
     // { Authenticated connection is established }
+    sshChannel = nullptr;
     initSSHChannel();
 
     // Reader thread
@@ -262,7 +263,7 @@ void Remote::initSSHChannel()
 {
     sshMutex.lock();
 
-    if(ssh_channel_is_open(sshChannel)){
+    if(sshChannel != nullptr && ssh_channel_is_open(sshChannel)){
         ssh_channel_close(sshChannel);
         ssh_channel_free(sshChannel);
     }
