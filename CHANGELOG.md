@@ -1,5 +1,9 @@
 ## Changelog
 
+#### v0.6.2 (2019, Dec. 12)
+* Fixed the cropped host label in the main window
+* Fixed possible null pointer issue on disconnecting from a remote host
+
 #### v0.6.1 (2019, Dec. 11)
 * Fixed a possible crash due to different libssh initialization behaviour
 
