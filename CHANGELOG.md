@@ -1,5 +1,8 @@
 ## Changelog
 
+#### v0.6.1 (2019, Dec. 11)
+* Fixed a possible crash due to different libssh initialization behaviour
+
 #### v0.6 (2019, Jun. 13)
 * Quite some code restructuring and cleanup (#15) which led to:
 * SSH Support! Connect to any remote host using a password or the public key infrastructure
