@@ -22,16 +22,14 @@
 using namespace std;
 
 
-// List of boot dates
-QStandardItemModel *bootModel;
-
-
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    // Init Boot Model
+    bootModel = nullptr;
 
     // Set Item Model
     itemModel = new QStandardItemModel(this);
@@ -350,7 +348,9 @@ void MainWindow::on_actionDisconnect_from_current_host_triggered()
     // Remove listed boots, too!
     ui->actionLoadBoots->setEnabled(true);
     ui->listBootsButton->setEnabled(true);
-    bootModel->clear();
+    if(bootModel != nullptr){
+        bootModel->clear();
+    }
     ui->tableView->update();
 }
 

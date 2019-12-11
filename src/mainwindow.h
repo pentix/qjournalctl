@@ -67,6 +67,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    QStandardItemModel *bootModel;
     QStandardItemModel *itemModel;
 
     QString lastSelection;
