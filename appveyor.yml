@@ -29,12 +29,6 @@ install:
   - echo This is batch
   - cmd  call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
 
-# build platform, i.e. x86, x64, Any CPU. This setting is optional.
-platform: x64
-
-# build Configuration, i.e. Debug, Release, etc.
-configuration: Release
-
 # to run your custom scripts instead of automatic MSBuild
 build_script: autogen_and_build.bat
 
