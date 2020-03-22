@@ -91,7 +91,7 @@ qmake qjournalctl.pro CONFIG+=release CONFIG+=x86_64 VCPKG_FOLDER=.
 
 2. Open a new *Visual Studio Developer Command prompt by running 
 ```
-<visual_studio_install_path>\2019\Community\VC\Auxiliary\Build\vcvarsall.bat x64
+<visual_studio_install_path>\2017\Community\VC\Auxiliary\Build\vcvarsall.bat x64
 ```
 3. Run `autogen_and_build.bat`
 
