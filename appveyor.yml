@@ -29,9 +29,6 @@ install:
   - echo This is batch
   - set QTDIR=C:\Qt\5.14.1\msvc2017_64
   - set PATH=%QTDIR%\bin;%PATH%
-  - dir "c:/tools/vcpkg/"
-  - dir "c:/tools/vcpkg/packages/"
-  - dir "c:/tools/vcpkg/packages/libssh_x64-windows/include"
 
 # to run your custom scripts instead of automatic MSBuild
 build_script:
