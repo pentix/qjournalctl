@@ -26,8 +26,8 @@ rem copy %VCPKG_INSTALL_FOLDER%\vcpkg\packages\libssh_x86-windows\bin\ssh.dll re
 rem copy %VCPKG_INSTALL_FOLDER%\vcpkg\packages\pthreads_x86-windows\bin\ssh.dll release\pthreadVC3.dll
 
 rem 64 bits
-copy %VCPKG_INSTALL_FOLDER%\vcpkg\packages\libssh_x64-windows\bin\ssh.dll release\ssh.dll
-copy %VCPKG_INSTALL_FOLDER%\vcpkg\packages\pthreads_x64-windows\bin\pthreadVC3.dll release\pthreadVC3.dll
+copy %VCPKG_INSTALL_FOLDER%\packages\libssh_x64-windows\bin\ssh.dll release\ssh.dll
+copy %VCPKG_INSTALL_FOLDER%\packages\pthreads_x64-windows\bin\pthreadVC3.dll release\pthreadVC3.dll
 
 del release\*.obj
 del release\*.cpp
