@@ -13,6 +13,22 @@
 #include <QProcess>
 #include <QDebug>
 
+#ifdef WIN32
+#include <windows.h>
+#else
+#include <unistd.h>
+#endif
+
+void _custom_usleep(int sleepMs)
+{
+
+#ifdef WIN32
+    Sleep(sleepMs/1000);
+#else
+    usleep(sleepMs);   // usleep takes sleep time in us (1 millionth of a second)
+#endif
+}
+
 Remote::Remote(QObject *qObject, SSHConnectionSettings *sshSettings)
 {
     ssh = ssh_new();
@@ -183,7 +199,7 @@ Remote::Remote(QObject *qObject, SSHConnectionSettings *sshSettings)
 
         while(!destroyAllThreads){
             // Need to keep GUI / reader balanced
-            usleep(25000);
+            _custom_usleep(25000);
 
             // Check if there is a new command or we can still read the old output
 
@@ -196,7 +212,7 @@ Remote::Remote(QObject *qObject, SSHConnectionSettings *sshSettings)
                 oldCmd = sshCmd;
                 sshMutex.unlock();
 
-                usleep(750000);
+                _custom_usleep(750000);
 
                 // Compare with current command to be executed, 750ms later
                 sshMutex.lock();
@@ -204,7 +220,7 @@ Remote::Remote(QObject *qObject, SSHConnectionSettings *sshSettings)
                     oldCmd = sshCmd;
                     sshMutex.unlock();
 
-                    usleep(250000);
+                    _custom_usleep(250000);
                     continue;
                 }
 
@@ -276,7 +292,7 @@ void Remote::initSSHChannel()
 
     while(ok != SSH_OK){
         // Wait for "Zombie sessions" to be killed
-        usleep(500000);
+        _custom_usleep(500000);
         ok = ssh_channel_open_session(sshChannel);
     }
 
@@ -318,7 +334,9 @@ QString Remote::runAndWait(QString cmd)
     }
 
     // Copy received data
-    char buffer[bytes];
+    // char buffer[bytes];
+    char* buffer;
+    buffer = (char*) malloc(bytes*sizeof(char));
     ssh_channel_read(sshChannel, (void *)buffer, (unsigned int)bytes, 0);
     QString resultString(buffer);
 
