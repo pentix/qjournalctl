@@ -33,4 +33,3 @@ del release\*.cpp
 
 REM Restore the new path
 set PATH=%OLD_PATH%
-pause

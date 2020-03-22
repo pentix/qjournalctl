@@ -27,6 +27,8 @@ install:
   - cd %APPVEYOR_BUILD_FOLDER%
   - vcpkg install libssh:x64-windows
   - echo This is batch
+  - set QTDIR=C:\Qt\5.14.1\msvc2017_64
+  - set PATH=%QTDIR%\bin;%PATH%
 
 # to run your custom scripts instead of automatic MSBuild
 build_script:
