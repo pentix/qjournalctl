@@ -1,0 +1,42 @@
+#---------------------------------#
+#      general configuration      #
+#---------------------------------#
+
+# version format
+version: 1.0.{build}
+
+# branches to build
+#branches:
+  # whitelist
+  # only:
+  #  - master
+  #  - production
+
+# Build worker image (VM template)
+image: Visual Studio 2017
+
+# build cache to preserve files/folders between builds
+cache: c:\tools\vcpkg\installed\
+
+# scripts that run after cloning repository
+install:
+  - call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
+  - cd C:\Tools\vcpkg
+  - git pull
+  - .\bootstrap-vcpkg.bat
+  - cd %APPVEYOR_BUILD_FOLDER%
+  - vcpkg install libssh:x64-windows
+  - echo This is batch
+  - set QTDIR=C:\Qt\5.14.1\msvc2017_64
+  - set PATH=%QTDIR%\bin;%PATH%
+
+# to run your custom scripts instead of automatic MSBuild
+build_script:
+  - autogen_and_build.bat
+
+#---------------------------------#
+#      artifacts configuration    #
+#---------------------------------#
+artifacts:
+  # pushing entire folder as a zip archive
+  - path: release
