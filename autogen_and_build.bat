@@ -5,10 +5,8 @@ set OLD_PATH=%PATH%
 rem "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" x86
 rem set QTDIR=C:\Qt\Qt5.14.1\5.14.1\msvc2017
 rem "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
-set QTDIR=C:\Qt\5.14.1\msvc2017_64
+set QTDIR=C:\Qt\5.13.2\msvc2017_64
 set PATH=%QTDIR%\bin;%PATH%
-echo %PATH%
-set QMAKE_BIN=qmake
 set QT_SELECT=qt5
 set QMAKESPEC=win32-msvc
 set VCPKG_INSTALL_FOLDER=c:\tools\vcpkg

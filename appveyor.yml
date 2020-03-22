@@ -13,7 +13,7 @@ version: 1.0.{build}
   #  - production
 
 # Build worker image (VM template)
-image: Visual Studio 2019
+image: Visual Studio 2017
 
 # build cache to preserve files/folders between builds
 cache: c:\tools\vcpkg\installed\
@@ -27,7 +27,7 @@ install:
   - cd %APPVEYOR_BUILD_FOLDER%
   - vcpkg install libssh:x64-windows
   - echo This is batch
-  - set QTDIR=C:\Qt\5.14.1\msvc2017_64
+  - set QTDIR=C:\Qt\5.13.2\msvc2017_64
   - set PATH=%QTDIR%\bin;%PATH%
 
 # to run your custom scripts instead of automatic MSBuild
