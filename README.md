@@ -62,9 +62,9 @@ to build and install libssh yourself (< 2 minutes!)
 ### Build Dependencies
 
 To buuild QJournalctl for Windows, it is needed
-- Visual Studio 2019 Community 
+- Visual Studio 2017 Community 
    - MSVC C++ Build Tools for x64/x86 >= `v141`
-- Qt Open-Source >= `5.14.1`
+- Qt Open-Source >= `5.13.2`
 - vcpkg >= `2020.01` (https://github.com/microsoft/vcpkg)
    - *Note* Install following the *Install the QJournalctl Dependencies* instructions
 
@@ -97,7 +97,7 @@ qmake qjournalctl.pro CONFIG+=release CONFIG+=x86_64 VCPKG_FOLDER=.
 
 The application can be found at `release/` folder.
 
-**Note** The process can be repeated by modifying the `autogen_and_build.bat` script in the commented sections
+**Note** The process can be repeated for the `x86` platform by modifying the `autogen_and_build.bat` script in the commented sections
 
 
 #### Screenshots
