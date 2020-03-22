@@ -7,6 +7,7 @@ rem set QTDIR=C:\Qt\Qt5.14.1\5.14.1\msvc2017
 rem "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
 set QTDIR=C:\Qt\5.14.1\msvc2017_64
 set PATH=%QTDIR%\bin;%PATH%
+echo %PATH%
 set QMAKE_BIN=qmake
 set QT_SELECT=qt5
 set QMAKESPEC=win32-msvc
