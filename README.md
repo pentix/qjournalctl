@@ -2,7 +2,7 @@
 ### A Qt-based Graphical User Interface for systemd's journalctl command 
 
 
-#### About QJournalctl 
+## About QJournalctl 
 systemd provides `journalctl` to display and analyze its journal. Think of
 the journal as a giant log file for the whole system. Different programs
 (like e.g. different software/services on your system, but also the kernel) write their log entries into systemd's
@@ -13,13 +13,23 @@ quickly for specific reports or errors.
 
 Maybe you want to checkout the [Changelog](https://github.com/pentix/qjournalctl/blob/master/CHANGELOG.md).
 
-#### Build Dependencies
+
+## QJournalctl for Linux
+
+### ArchLinux and Manjaro
+QJournalctl is available in the community repository for the **Archlinux** and **Manjaro** Distributions:
+
+```bash
+sudo pacman -S qjournalctl
+```
+For other distributions, it is required to build it from sources.
+
+### Build Dependencies
 * Make sure your compiler supports (at least) C++11 (E.g. `g++` ≥ 4.8.1, `clang` ≥ 3.3)
 * QJournalctl relies on Qt5, please ensure to have the Qt5 development libaries (E.g. `qtbase5-dev` for Debian/Ubuntu) installed, when compiling!
 * To access remote hosts QJournalctl heavily relies on `libssh` ≥ [0.8.7](https://www.libssh.org/files/0.8/)
 
-
-#### Build Dependencies for Debian, Ubuntu, et al.
+### Build Dependencies (Old Distros) 
 Your distribution's supplied version of `libssh` might be too old for a successful build. You need
 to build and install libssh yourself (< 2 minutes!)
 
@@ -36,15 +46,48 @@ to build and install libssh yourself (< 2 minutes!)
 `cd ../..`
 
 
-#### Building QJournalctl
+### Building QJournalctl
 1. Download the source code and extract it
 2. Run `./autogen.sh`
 3. Run `make -j5` to compile qjournalctl
 
 
-#### ArchLinux and Manjaro
-QJournalctl is available in the community repository:
-`sudo pacman -S qjournalctl`
+## QJournalctl for Windows
+
+### Build Dependencies
+
+To buuild QJournalctl for Windows, it is needed
+- Visual Studio 2019 Community 
+   - MSVC C++ Build Tools for x64/x86 >= `v141`
+- Qt Open-Source >= `5.14.1`
+- vcpkg >= `2020.01` (https://github.com/microsoft/vcpkg)
+   - *Note* Install following the *Install the QJournalctl Dependencies* instructions
+
+### Install the QJournalctl Dependencies
+0. Download the source code and extract it
+1. Download the `vcpkg` tool in the same folder where the QJournalctl repository is cloned
+2. Get the `libssh` dependencies for the target needed:
+```
+vcpkg install libssh:x64-windows
+```
+
+Now, the `libssh` binaries as well as its dependencies can be found at `<repository_root>/vcpkg/packages/`
+
+### Building QJournalctl
+Considering that the *Install the QJournalctl Dependencies* steps are already performed
+0. Adjust the `QTDIR` variable which points to your `msvc` tooling folder at your Qt Installation path in the `autogen_and_build.bat`:
+```
+set QTDIR=C:\Qt\Qt5.14.1\5.14.1\msvc2017_64
+```
+1. Open a new *Visual Studio Developer Command prompt by running 
+```
+<visual_studio_install_path>\2019\Community\VC\Auxiliary\Build\vcvarsall.bat x64
+```
+2. Run `autogen_and_build.bat`
+
+The application can be found at `release/` folder.
+
+**Note** The process can be repeated by modifying the `autogen_and_build.bat` script in the commented sections
 
 
 #### Screenshots
