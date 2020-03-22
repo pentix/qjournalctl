@@ -79,11 +79,16 @@ Considering that the *Install the QJournalctl Dependencies* steps are already pe
 ```
 set QTDIR=C:\Qt\Qt5.14.1\5.14.1\msvc2017_64
 ```
-1. Open a new *Visual Studio Developer Command prompt by running 
+1. Adjust the `VCPKG_FOLDER` variable pointing to the directory where the repository is downloaded
+```
+qmake qjournalctl.pro CONFIG+=release CONFIG+=x86_64 VCPKG_FOLDER=.
+```
+
+2. Open a new *Visual Studio Developer Command prompt by running 
 ```
 <visual_studio_install_path>\2019\Community\VC\Auxiliary\Build\vcvarsall.bat x64
 ```
-2. Run `autogen_and_build.bat`
+3. Run `autogen_and_build.bat`
 
 The application can be found at `release/` folder.
 

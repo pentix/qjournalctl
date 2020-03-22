@@ -11,7 +11,6 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = qjournalctl
 TEMPLATE = app
 
-
 CONFIG += c++11
 
 SOURCES += src/main.cpp\
@@ -72,12 +71,12 @@ INSTALLS += target desktop-file desktop-icon
 win32:
 CONFIG(x86_64) {
 	# 64 bit path
-	INCLUDEPATH += $$_PRO_FILE_PWD_/vcpkg/packages/libssh_x64-windows/include/
-	LIBS += $$_PRO_FILE_PWD_/vcpkg/packages/libssh_x64-windows/lib/ssh.lib
+	INCLUDEPATH += $VCPKG_FOLDER/vcpkg/packages/libssh_x64-windows/include/
+	LIBS += $VCPKG_FOLDER/vcpkg/packages/libssh_x64-windows/lib/ssh.lib
 } else {
 	# 32 bit path
-	INCLUDEPATH += $$_PRO_FILE_PWD_/vcpkg/packages/libssh_x86-windows/include/
-	LIBS += $$_PRO_FILE_PWD_/vcpkg/packages/libssh_x86-windows/lib/ssh.lib
+	INCLUDEPATH += $VCPKG_FOLDER/vcpkg/packages/libssh_x86-windows/include/
+	LIBS += VCPKG_FOLDER/vcpkg/packages/libssh_x86-windows/lib/ssh.lib
 }
 
 unix: CONFIG += link_pkgconfig
