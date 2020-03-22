@@ -20,7 +20,7 @@ cache: c:\tools\vcpkg\installed\
 
 # scripts that run after cloning repository
 install:
-  - call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars64.bat"
+  - call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
   - cd C:\Tools\vcpkg
   - git pull
   - .\bootstrap-vcpkg.bat
