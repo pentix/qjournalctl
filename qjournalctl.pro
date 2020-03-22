@@ -71,11 +71,11 @@ INSTALLS += target desktop-file desktop-icon
 win32:
 CONFIG(x86_64) {
 	# 64 bit path
-	INCLUDEPATH += $$VCPKG_FOLDER\installed\x64-windows\include\
+	INCLUDEPATH += $$VCPKG_FOLDER\installed\x64-windows\include
 	LIBS += $$VCPKG_FOLDER\installed\x64-windows\lib\ssh.lib
 } else {
 	# 32 bit path
-	INCLUDEPATH += $$VCPKG_FOLDER\installed\x86-windows\include\
+	INCLUDEPATH += $$VCPKG_FOLDER\installed\x86-windows\include
 	LIBS += $$VCPKG_FOLDER\installed\x86-windows\lib\ssh.lib
 }
 
