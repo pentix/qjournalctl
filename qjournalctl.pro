@@ -13,6 +13,12 @@ TEMPLATE = app
 
 CONFIG += c++11
 
+# It is assumed that VCPKG is installed under the current
+# project folder. Otherwise, adjust this path with yours or
+# just run
+# qmake qjournalctl.pro CONFIG+=release CONFIG+=x86_64 VCPKG_FOLDER=%VCPKG_INSTALL_FOLDER%
+!defined(VCPKG_FOLDER, var):VCPKG_FOLDER = $$_PRO_FILE_PWD_\vcpkg
+
 SOURCES += src/main.cpp\
 	src/connectiondialog.cpp \
 	src/connection.cpp \
@@ -71,12 +77,12 @@ INSTALLS += target desktop-file desktop-icon
 win32:
 CONFIG(x86_64) {
 	# 64 bit path
-	INCLUDEPATH += $$VCPKG_FOLDER\installed\x64-windows\include
-	LIBS += $$VCPKG_FOLDER\installed\x64-windows\lib\ssh.lib
+        INCLUDEPATH += $$VCPKG_FOLDER\installed\x64-windows\include
+        LIBS += $$VCPKG_FOLDER\installed\x64-windows\lib\ssh.lib
 } else {
-	# 32 bit path
-	INCLUDEPATH += $$VCPKG_FOLDER\installed\x86-windows\include
-	LIBS += $$VCPKG_FOLDER\installed\x86-windows\lib\ssh.lib
+        # 32 bit path
+        INCLUDEPATH += $$VCPKG_FOLDER\installed\x86-windows\include
+        LIBS += $$VCPKG_FOLDER\installed\x86-windows\lib\ssh.lib
 }
 
 unix: CONFIG += link_pkgconfig
