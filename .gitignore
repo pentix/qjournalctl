@@ -9,3 +9,6 @@ build/*
 src/version.h
 qrc_icon.cpp
 *.deb
+vcpkg/*
+release/*
+Makefile.*
