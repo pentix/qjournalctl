@@ -59,8 +59,8 @@ windeployqt release/qjournalctl.exe
 
 rem 32 bits
 if "%ARCH%"=="x86" (
-	copy %VCPKG_INSTALL_FOLDER%\vcpkg\packages\libssh_x86-windows\bin\ssh.dll release\ssh.dll
-	copy %VCPKG_INSTALL_FOLDER%\vcpkg\packages\pthreads_x86-windows\bin\ssh.dll release\pthreadVC3.dll
+	copy %VCPKG_INSTALL_FOLDER%\packages\libssh_x86-windows\bin\ssh.dll release\ssh.dll
+	copy %VCPKG_INSTALL_FOLDER%\packages\pthreads_x86-windows\bin\ssh.dll release\pthreadVC3.dll
 )
 
 rem 64 bits
