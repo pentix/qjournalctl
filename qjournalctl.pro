@@ -74,15 +74,14 @@ desktop-icon.files += ui/qjournalctl.png
 
 INSTALLS += target desktop-file desktop-icon
 
-win32:
 CONFIG(x86_64) {
-	# 64 bit path
-        INCLUDEPATH += $$VCPKG_FOLDER\installed\x64-windows\include
-        LIBS += $$VCPKG_FOLDER\installed\x64-windows\lib\ssh.lib
+	    # 64 bit path
+        win32: INCLUDEPATH += $$VCPKG_FOLDER\installed\x64-windows\include
+        win32: LIBS += $$VCPKG_FOLDER\installed\x64-windows\lib\ssh.lib
 } else {
         # 32 bit path
-        INCLUDEPATH += $$VCPKG_FOLDER\installed\x86-windows\include
-        LIBS += $$VCPKG_FOLDER\installed\x86-windows\lib\ssh.lib
+        win32: INCLUDEPATH += $$VCPKG_FOLDER\installed\x86-windows\include
+        win32: LIBS += $$VCPKG_FOLDER\installed\x86-windows\lib\ssh.lib
 }
 
 unix: CONFIG += link_pkgconfig
