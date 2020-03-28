@@ -11,7 +11,6 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = qjournalctl
 TEMPLATE = app
 
-
 CONFIG += c++11
 
 SOURCES += src/main.cpp\
@@ -68,6 +67,17 @@ desktop-icon.path = /usr/share/pixmaps
 desktop-icon.files += ui/qjournalctl.png
 
 INSTALLS += target desktop-file desktop-icon
+
+win32:
+CONFIG(x86_64) {
+	# 64 bit path
+	INCLUDEPATH += $$VCPKG_FOLDER\installed\x64-windows\include
+	LIBS += $$VCPKG_FOLDER\installed\x64-windows\lib\ssh.lib
+} else {
+	# 32 bit path
+	INCLUDEPATH += $$VCPKG_FOLDER\installed\x86-windows\include
+	LIBS += $$VCPKG_FOLDER\installed\x86-windows\lib\ssh.lib
+}
 
 unix: CONFIG += link_pkgconfig
 unix: PKGCONFIG += libssh
