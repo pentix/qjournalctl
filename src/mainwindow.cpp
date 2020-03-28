@@ -45,6 +45,18 @@ MainWindow::MainWindow(QWidget *parent) :
     // Create default (local) connection
     currentConnection = new Connection(this);
     currentConnectionSettings = nullptr;
+
+    // Disable local actions if the host's platform is Windows
+    #ifdef WIN32
+        ui->tableView->setDisabled(true);
+        ui->showCurrentBootLogButton->setDisabled(true);
+        ui->listBootsButton->setDisabled(true);
+        ui->showBootLogButton->setDisabled(true);
+        ui->actionShowCurrentBootLog->setDisabled(true);
+        ui->actionShowCompleteJournal->setDisabled(true);
+        ui->actionSizeOfTheJournalOnTheDisk->setDisabled(true);
+        ui->actionLoadBoots->setDisabled(true);
+    #endif
 }
 
 MainWindow::~MainWindow()
