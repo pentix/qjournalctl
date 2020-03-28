@@ -62,15 +62,18 @@ to build and install libssh yourself (< 2 minutes!)
 ### Build Dependencies
 
 To buuild QJournalctl for Windows, it is needed
-- Visual Studio 2017 Community 
-   - MSVC C++ Build Tools for x64/x86 >= `v141`
+- MSVC 2017 C++ Build Tools for x64/x86 (>= `v141`). They are part of the Microsoft Visual Studio Community 2017 and can be also installed in the version 2019 (https://docs.microsoft.com/en-us/cpp/build/vscpp-step-0-installation?view=vs-2019)
 - Qt Open-Source >= `5.13.2`
 - vcpkg >= `2020.01` (https://github.com/microsoft/vcpkg)
-   - *Note* Install following the *Install the QJournalctl Dependencies* instructions
+
+### Installing `vcpkg`
+1. Checkout the vcpkg github repository within the folder of the `qjournalctl` repository (`<qjournalctlfoldr>/vcpkg/`) from https://github.com/microsoft/vcpkg
+2. Open a `cmd` and go to `<qjournalctlfoldr>/vcpkg/`
+3. run `./bootstrap-vcpkg.bat`. With this, you will get vcpkg ready to be used
 
 ### Install the QJournalctl Dependencies
-0. Download the source code and extract it
-1. Download the `vcpkg` tool in the same folder where the QJournalctl repository is cloned
+`QJournalctl` is based on `libssh`. It is possible to obtain it using `vcpkg`:
+1. Navigate to the `vcpkg` folder (`<qjournalctlfoldr>/vcpkg/`)
 2. Get the `libssh` dependencies for the target needed:
 ```
 vcpkg install libssh:x64-windows
@@ -79,21 +82,35 @@ vcpkg install libssh:x64-windows
 Now, the `libssh` binaries as well as its dependencies can be found at `<repository_root>/vcpkg/packages/`
 
 ### Building QJournalctl
-Considering that the *Install the QJournalctl Dependencies* steps are already performed
-0. Adjust the `QTDIR` variable which points to your `msvc` tooling folder at your Qt Installation path in the `autogen_and_build.bat`:
+
+It is possible to build `QJournalctl` using two different manners
+- Using Qt Creator. 
+- Using the `autogen_and_build.bat` script.
+
+#### Build using Qt Creator
+
+First, it is needed to configure qtcreator by enabling the MSVC toolchain. Configure it for 32 and 64 bits, release and debug (see my screenshot) by navigating to `projects > Manage Kits > add ...`
+
+Once you have it installed, 
+- Click in the "screen" icon and select the msvc 2017 64 bits release configuration
+- Now, Build at `Build > Build project "qjournalctl"`
+
+#### Build using `autogen_and_build.bat`
+Considering that the *Install the QJournalctl Dependencies* steps are already performed, first adjust `autogen_and_build.bat` with your own paths
+- Modify the variable `VCPKG_INSTALL_FOLDER` defined in the `autogen_and_build.bat` with the path where you have vcpkg, (i.e. set `VCPKG_INSTALL_FOLDER= <yourqjournalctlrepopath>\vcpkg`)
+- Modify also the path where the Qt for the given toolchain path is found (`QTDIR` may be for instance `C:\Qt\Qt5.14.1\5.14.1\msvc2017_64`)
+
+From this point
+
+1. Open a Visual Studio console (programs > msvc 2019 native x64 build tools) or open a console (`cmd`) and run `<visual_studio_install_path>\2017\Community\VC\Auxiliary\Build\vcvarsall.bat x64`:
+
 ```
-set QTDIR=C:\Qt\Qt5.14.1\5.14.1\msvc2017_64
-```
-1. Adjust the `VCPKG_FOLDER` variable pointing to the directory where the repository is downloaded
-```
-qmake qjournalctl.pro CONFIG+=release CONFIG+=x86_64 VCPKG_FOLDER=.
+C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
 ```
 
-2. Open a new *Visual Studio Developer Command prompt by running 
-```
-<visual_studio_install_path>\2017\Community\VC\Auxiliary\Build\vcvarsall.bat x64
-```
-3. Run `autogen_and_build.bat`
+2. Run `autogen_and_build.bat`
+
+#### Where to find the built application?
 
 The application can be found at `release/` folder.
 
