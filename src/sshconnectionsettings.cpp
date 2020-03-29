@@ -14,11 +14,11 @@
 // Needs to be freed afterwards!
 const char *SSHConnectionSettings::qstringToChar(QString s)
 {
-    const int     tmpStrLen = s.toUtf8().size();
-    const char   *tmpStr    = s.toUtf8().constData();
+    const int     tmpStrLen = s.toStdString().size();
           char   *cStr      = (char *)malloc(tmpStrLen+1);
 
-    strncpy(cStr, tmpStr, tmpStrLen+1);
+    strncpy(cStr, s.toStdString().c_str(), tmpStrLen+1);
+    cStr[tmpStrLen] = '\0';
     return cStr;
 }
 
