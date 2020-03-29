@@ -81,7 +81,7 @@ CONFIG(x86_64) {
 } else {
         # 32 bit path
         win32: INCLUDEPATH += $$VCPKG_FOLDER\installed\x86-windows\include
-        win32: LIBS += LOL $$VCPKG_FOLDER\installed\x86-windows\lib\ssh.lib
+        win32: LIBS += $$VCPKG_FOLDER\installed\x86-windows\lib\ssh.lib
 }
 
 unix: CONFIG += link_pkgconfig
