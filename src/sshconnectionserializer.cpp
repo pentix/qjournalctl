@@ -7,6 +7,7 @@
 
 
 #include <QStandardPaths>
+#include <QDir>
 #include <QFile>
 #include <QDebug>
 
@@ -14,10 +15,21 @@
 
 SSHConnectionSerializer::SSHConnectionSerializer()
 {
-    QString savedConnectionsFilePath = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation);
-    savedConnectionsFile.setFileName(savedConnectionsFilePath + "/qjournalctl");
+    // Get the correct native representation of the configuration path
+    QString savedConnectionsFilePath = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/";
+    savedConnectionsFilePath = QDir::toNativeSeparators(savedConnectionsFilePath);
 
-    // File IO or exit
+    // Windows might store settings in application specific folders that do not yet exist
+    #ifdef WIN32
+        if(!QDir().exists(savedConnectionsFilePath)){
+            QDir().mkdir(savedConnectionsFilePath);
+        }
+    #endif
+
+    // SSH connections are stored into the 'qjournalctl' file inside the received file path
+    savedConnectionsFile.setFileName(savedConnectionsFilePath + "qjournalctl");
+
+    // Read existing connections if there are already saved settings, otherwise return
     modifiedConnectionsFile = false;
     if(!savedConnectionsFile.exists()) {
         return;
