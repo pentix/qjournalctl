@@ -28,7 +28,7 @@ AboutDialog::AboutDialog(QWidget *parent) :
 	ui->versionLabel->setText(QString("v") + QString(VERSION) + gitStr);
 
     // Set the about dialog as a fixed-size dialog
-    this->setFixedSize(688, 483);
+    this->setFixedSize(688, 487);
 }
 
 AboutDialog::~AboutDialog()
