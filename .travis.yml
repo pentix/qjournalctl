@@ -1,11 +1,24 @@
 language: cpp
-
 services:
-  - docker
-
-before_script:
-  - docker pull cm0x4d/ubuntu-qt5-cmake
-
+- docker
 script:
-  - docker run -it -v"$(pwd):/build" --security-opt seccomp:unconfined cm0x4d/ubuntu-qt5-cmake sh -c "apt-get --yes update && apt-get --yes install pkg-config libssh-dev wget && wget https://www.libssh.org/files/0.9/libssh-0.9.3.tar.xz && tar xf libssh-0.9.3.tar.xz && cd libssh-0.9.3 && mkdir build && cd build && cmake .. && make install && cd /build && ./autogen.sh && make ; ls -lh qjournalctl"
+- docker build -t qjournalctl-build-env ./packaging/deb/
+- docker run -i -v"$(pwd):/build" qjournalctl-build-env sh -c 'cd /build && ./autogen.sh
+  && make -j$(nproc) ; ls -lh qjournalctl'
+- cat packaging/deb/build_deb.sh | docker run -i -v="$(pwd)/:/source:ro" -v="/tmp/:/out"
+  qjournalctl-build-env bash
 
+deploy:
+  provider: releases
+  draft: false
+  prerelease: false
+  skip-cleanup: true
+  name: v0.6.2
+  api_key:
+    secure: pdFKe7DN/pJNdaoGpWbqZ+U09vXd8hXoe26YpzDpPDcyCRN+I82D5FGBd3ceMEe6rQzeFXiobTNy5ZatZwvGfPorHRj4OjlDyYUlzzfrTpX9vtHZ3QOInBRSJVM6h0XybLzhxHs0tENgtStZAx4kWCYTkbWoPGRtpEflEuE7L9gcpMqBElbDnzKhh4L2P/rRMl0xFugIITvKNitQ9nncRQUpFoKC7tk0zS5Rvh1NFp8NUzkFiz0ijiCes3BwLxsBbmen957Tw1K4IfohxoR6ozocXymZDzGTPcMclqjPr4EfghL8dKhqUc0EIYPLcmF9v4RfopLUTc4z6NbBhl++8Rb/3LGVn9CYJQDG5tRT8UOJkAJW6vvnHZi1ePGesBDXPYen/F0Jed9StY2TgCLFZ7wLpuqj8MumDWwqGpA0aoa3D/O6LqLNH15/iZkNcGSthZp2MiB6H4Jx60ZMdZB16l1VJE2q9UTmImNbIYndNqGO2tsKYMYOH2wnoek/65kncHmXVWQnSqjlqOANAV4Pvv6PzT7hubc3J4WBeezK2ohGdrXxmtAb9NRKYDPwvjMRksff5JTda9MMCORVzrnN+blHdFQTQVZg2rCCVngrQQ/d6TcKiUQu6kwAHmS7zDBDPQzJv0jKt3GpwZv+WwE/O3zWVs61ihiyR30wjMiBxi8=
+  file_glob: true
+  file: /tmp/qjournalctl*.deb
+  on:
+    repo: pentix/qjournalctl
+    branch: master
+    tags: true
