@@ -244,6 +244,16 @@
         </widget>
        </item>
        <item>
+        <widget class="QPushButton" name="selectColorButton">
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>Set Color</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QPushButton" name="filterButton">
          <property name="focusPolicy">
           <enum>Qt::NoFocus</enum>
