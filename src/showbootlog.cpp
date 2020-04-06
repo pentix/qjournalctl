@@ -277,7 +277,7 @@ void ShowBootLog::appendLineWithFilterStyle(QString line)
     }
     else
     {
-        format.setForeground(QBrush(QColorConstants::LightGray));
+        format.setForeground(QBrush(QColor("LightGray")));
     }
     ui->plainTextEdit->setCurrentCharFormat(format);
     ui->plainTextEdit->appendPlainText(line);
