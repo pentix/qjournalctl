@@ -10,8 +10,11 @@
 #include "passworddialog.h"
 #include "exceptions.h"
 
+#include <thread>
 #include <QProcess>
 #include <QDebug>
+#include <QProgressDialog>
+#include <QProgressBar>
 
 #ifdef WIN32
 #include <windows.h>
@@ -19,13 +22,13 @@
 #include <unistd.h>
 #endif
 
-void _custom_usleep(int sleepMs)
+void _custom_usleep(int sleepUs)
 {
 
 #ifdef WIN32
-    Sleep(sleepMs/1000);
+    Sleep(sleepUs/1000);
 #else
-    usleep(sleepMs);   // usleep takes sleep time in us (1 millionth of a second)
+    usleep(sleepUs);   // usleep takes sleep time in us (1 millionth of a second)
 #endif
 }
 
@@ -37,9 +40,41 @@ Remote::Remote(QObject *qObject, SSHConnectionSettings *sshSettings)
     ssh_options_set(ssh, SSH_OPTIONS_HOST, sshSettings->getHostname());
     ssh_options_set(ssh, SSH_OPTIONS_USER, sshSettings->getUsername());
     ssh_options_set(ssh, SSH_OPTIONS_PORT, sshSettings->getPort());
-    int ok;
+    int ok, progressIndex;
+    bool finished;
 
-    ok = ssh_connect(ssh);
+    auto connectingIndication = new QProgressDialog();
+    auto bar = new QProgressBar(connectingIndication);
+
+    bar->setTextVisible(false);
+    connectingIndication->setBar(bar);
+    connectingIndication->setWindowTitle("Connecting");
+    connectingIndication->setLabelText("Establishing the connection with" + QString::fromUtf8(sshSettings->getHostname()) + ". Please wait...");
+    connectingIndication->setCancelButton(nullptr);
+    connectingIndication->setRange(0, 0);
+    connectingIndication->setWindowModality(Qt::WindowModal);
+    connectingIndication->setMinimumDuration(0);
+
+    // A Progress indicator is launched
+    connectingIndication->show();
+
+    finished = false;
+    std::thread *connectThread = new std::thread([&]() {
+        // Let's stablish the connection
+        ok = ssh_connect(ssh);
+        finished = true;
+    });
+
+    progressIndex = 0;
+    while(!finished)
+    {
+        connectingIndication->setValue(progressIndex);
+        progressIndex+=1;
+        progressIndex=progressIndex%100;
+        _custom_usleep(100000);
+    }
+
+    connectingIndication->hide();
     if(ok != SSH_OK){
         ssh_free(ssh);
         throw new Error("Establishing a connection to the remote host failed. Please try again!");
