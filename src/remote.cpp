@@ -49,7 +49,7 @@ Remote::Remote(QObject *qObject, SSHConnectionSettings *sshSettings)
     bar->setTextVisible(false);
     connectingIndication->setBar(bar);
     connectingIndication->setWindowTitle("Connecting");
-    connectingIndication->setLabelText("Establishing the connection with" + QString::fromUtf8(sshSettings->getHostname()) + ". Please wait...");
+    connectingIndication->setLabelText("Establishing the connection with " + QString::fromUtf8(sshSettings->getHostname()) + ". Please wait...");
     connectingIndication->setCancelButton(nullptr);
     connectingIndication->setRange(0, 0);
     connectingIndication->setWindowModality(Qt::WindowModal);
