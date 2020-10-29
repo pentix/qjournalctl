@@ -38,8 +38,9 @@ to build and install libssh yourself (< 2 minutes!)
 
 #### Dependencies for macOS
 To handle dependencies of macOS, we're going to use [homebrew](https://brew.sh/).
-`brew install qt`
+`brew install qt libssh`
 As indicated in the caveats:
+
 ````
 qt is keg-only, which means it was not symlinked into /usr/local,
 because Qt 5 has CMake issues when linked.
@@ -47,7 +48,8 @@ because Qt 5 has CMake issues when linked.
 If you need to have qt first in your PATH run:
   echo 'export PATH="/usr/local/opt/qt/bin:$PATH"' >> /Users/user_name/.bash_profile
 ````
-before building QJournalctl you'll need to indeed run:
+
+before building QJournalctl you'll indeed need to run:
 `export PATH="/usr/local/opt/qt/bin:$PATH"`
 (ne need to make it persistent by using .bash_profile)
 
