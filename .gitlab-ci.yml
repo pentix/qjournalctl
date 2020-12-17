@@ -8,9 +8,9 @@ build:
         # Get dependencies
         - apt-get --yes update
         - apt-get --yes install pkg-config libssl-dev zlib1g-dev wget
-        - wget https://www.libssh.org/files/0.9/libssh-0.9.4.tar.xz
-        - tar xf libssh-0.9.4.tar.xz
-        - cd libssh-0.9.4
+        - wget https://www.libssh.org/files/0.9/libssh-0.9.5.tar.xz
+        - tar xf libssh-0.9.5.tar.xz
+        - cd libssh-0.9.5
         - mkdir build
         - cd build
         - cmake ..
