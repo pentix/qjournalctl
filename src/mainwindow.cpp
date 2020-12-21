@@ -344,6 +344,15 @@ bool MainWindow::setupRemoteConnection()
     ui->listBootsButton->setEnabled(true);
     ui->actionLoadBoots->setEnabled(true);
 
+    #ifdef WIN32
+        ui->tableView->setEnabled(true);
+        ui->showCurrentBootLogButton->setEnabled(true);
+        ui->showBootLogButton->setEnabled(true);
+        ui->actionShowCurrentBootLog->setEnabled(true);
+        ui->actionShowCompleteJournal->setEnabled(true);
+        ui->actionSizeOfTheJournalOnTheDisk->setEnabled(true);
+    #endif
+
     itemModel = new QStandardItemModel(this);
     ui->tableView->setModel(itemModel);
     ui->tableView->update();
@@ -364,6 +373,17 @@ void MainWindow::on_actionDisconnect_from_current_host_triggered()
         bootModel->clear();
     }
     ui->tableView->update();
+
+    #ifdef WIN32
+        ui->tableView->setDisabled(true);
+        ui->showCurrentBootLogButton->setDisabled(true);
+        ui->listBootsButton->setDisabled(true);
+        ui->showBootLogButton->setDisabled(true);
+        ui->actionShowCurrentBootLog->setDisabled(true);
+        ui->actionShowCompleteJournal->setDisabled(true);
+        ui->actionSizeOfTheJournalOnTheDisk->setDisabled(true);
+        ui->actionLoadBoots->setDisabled(true);
+    #endif
 }
 
 void MainWindow::on_actionEdit_saved_connections_triggered()
