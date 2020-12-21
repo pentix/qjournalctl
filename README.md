@@ -40,11 +40,11 @@ For other distributions, it is at the moment required to build it from sources.
 Your distribution's supplied version of `libssh` might be too old for a successful build. You need
 to build and install libssh yourself (< 2 minutes!)
 
-`sudo apt-get install qtbase5-dev cmake`
+`sudo apt-get install qtbase5-dev cmake libssl-dev pkg-config`
 
-`wget https://www.libssh.org/files/0.9/libssh-0.9.3.tar.xz`
+`wget https://www.libssh.org/files/0.9/libssh-0.9.5.tar.xz`
 
-`tar xf libssh-0.9.3.tar.xz ; cd libssh-0.9.3`
+`tar xf libssh-0.9.5.tar.xz ; cd libssh-0.9.5`
 
 `mkdir build ; cd build`
 

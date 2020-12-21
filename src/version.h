@@ -10,6 +10,5 @@
 #define VERSION_H
 
 #define VERSION "0.6.2"
-#define GITREV "0000000"
 
 #endif // VERSION_H

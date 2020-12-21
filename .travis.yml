@@ -3,8 +3,7 @@ services:
 - docker
 script:
 - docker build -t qjournalctl-build-env ./packaging/deb/
-- docker run -i -v"$(pwd):/build" qjournalctl-build-env sh -c 'cd /build && ./autogen.sh
-  && make -j$(nproc) ; ls -lh qjournalctl'
+- docker run -i -v"$(pwd):/build" qjournalctl-build-env sh -c 'cd /build && ./autogen.sh && make -j$(nproc) ; ls -lh qjournalctl'
 - cat packaging/deb/build_deb.sh | docker run -i -v="$(pwd)/:/source:ro" -v="/tmp/:/out"
   qjournalctl-build-env bash
 
