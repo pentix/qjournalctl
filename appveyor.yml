@@ -1,0 +1,55 @@
+#---------------------------------#
+#      general configuration      #
+#---------------------------------#
+
+# version format
+version: 0.6.2.{build}
+
+# branches to build
+#branches:
+  # whitelist
+  # only:
+  #  - master
+  #  - production
+
+# Build worker image (VM template)
+image: Visual Studio 2017
+
+# build cache to preserve files/folders between builds
+cache: c:\tools\vcpkg\installed\
+
+# scripts that run after cloning repository
+install:
+  - cd C:\Tools\vcpkg
+  - git pull
+  - .\bootstrap-vcpkg.bat
+  - cd %APPVEYOR_BUILD_FOLDER%
+  
+  - vcpkg install libssh:x64-windows
+  - echo This is batch
+  - set QTDIR=C:\Qt\5.13.2\msvc2017_64
+  - set PATH=%QTDIR%\bin;%PATH%
+
+# to run your custom scripts instead of automatic MSBuild
+build_script:
+  - autogen_and_build.bat
+
+#---------------------------------#
+#      artifacts configuration    #
+#---------------------------------#
+artifacts:
+  # pushing entire folder as a zip archive
+  - name: qjournalctl-windows_0.6.2-1
+    path: release
+
+deploy:
+  release: v0.6.2
+  provider: 'GitHub'
+  force_update: true
+  auth_token:
+    secure: ja9G79s4vQR2K9YSZ9t8KKJaftNBJImJVOoVhuYKC+bhNV+X8WR45T7I+6StQVfE
+  artifact: qjournalctl-windows_0.6.2-1
+  draft: false
+  prerelease: false
+  on:
+    APPVEYOR_REPO_TAG: true

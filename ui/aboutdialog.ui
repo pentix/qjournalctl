@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>688</width>
-    <height>483</height>
+    <height>487</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -72,16 +72,16 @@
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans'; font-size:10pt; font-weight:600;&quot;&gt;Developed by&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans'; font-size:10pt;&quot;&gt;(C) 2016-2019  Patrick Eigensatz                                                                                    [ &lt;/span&gt;&lt;a href=&quot;https://github.com/pentix/&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans'; font-size:10pt; font-style:italic; text-decoration: underline; color:#2980b9;&quot;&gt;https://github.com/pentix/&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'Noto Sans'; font-size:10pt;&quot;&gt; ]&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans'; font-size:10pt;&quot;&gt;(C) 2016-2019  Patrick Eigensatz                                                                                    &lt;/span&gt;&lt;a href=&quot;https://github.com/pentix/&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans'; font-size:10pt; font-style:italic; text-decoration: underline; color:#2980b9;&quot;&gt;https://github.com/pentix/&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'Noto Sans'; font-size:10pt;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans'; font-size:10pt; font-weight:600;&quot;&gt;Contributions by&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans'; font-size:10pt;&quot;&gt;Simon Doppler                                                                                                                  [ &lt;/span&gt;&lt;a href=&quot;https://github.com/dopsi/&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans'; font-size:10pt; font-style:italic; text-decoration: underline; color:#2980b9;&quot;&gt;https://github.com/dopsi/&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'Noto Sans'; font-size:10pt;&quot;&gt;  ]&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans'; font-size:10pt;&quot;&gt;Simon Doppler                                                                                                                  &lt;/span&gt;&lt;a href=&quot;https://github.com/dopsi/&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans'; font-size:10pt; font-style:italic; text-decoration: underline; color:#2980b9;&quot;&gt;https://github.com/dopsi/&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'Noto Sans'; font-size:10pt;&quot;&gt;&lt;br /&gt;Asier Lacasta                                                                                                                     &lt;/span&gt;&lt;a href=&quot;https://github.com/alacasta/&quot;&gt;&lt;span style=&quot; font-family:'Noto Sans'; font-size:10pt; font-style:italic; text-decoration: underline; color:#2980b9;&quot;&gt;https://github.com/alacasta/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>430</y>
+     <y>440</y>
      <width>651</width>
      <height>31</height>
     </rect>
@@ -147,7 +147,7 @@ p, li { white-space: pre-wrap; }
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>230</y>
+     <y>240</y>
      <width>651</width>
      <height>191</height>
     </rect>

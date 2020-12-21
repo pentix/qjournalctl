@@ -1,8 +1,15 @@
-# QJournalctl v0.6.2 [![Build Status](https://travis-ci.org/pentix/qjournalctl.svg?branch=master)](https://travis-ci.org/pentix/qjournalctl)
+# QJournalctl v0.6.2 
+
+[![Build Status](https://travis-ci.org/pentix/qjournalctl.svg?branch=master)](https://travis-ci.org/pentix/qjournalctl)
+[![Build status](https://ci.appveyor.com/api/projects/status/67kfkc0b894x3ql3?svg=true)](https://ci.appveyor.com/project/pentix/qjournalctl)
+
+
+
+
 ### A Qt-based Graphical User Interface for systemd's journalctl command 
 
 
-#### About QJournalctl 
+## About QJournalctl 
 systemd provides `journalctl` to display and analyze its journal. Think of
 the journal as a giant log file for the whole system. Different programs
 (like e.g. different software/services on your system, but also the kernel) write their log entries into systemd's
@@ -13,13 +20,23 @@ quickly for specific reports or errors.
 
 Maybe you want to checkout the [Changelog](https://github.com/pentix/qjournalctl/blob/master/CHANGELOG.md).
 
-#### Build Dependencies
+
+## QJournalctl for Linux
+
+### ArchLinux and Manjaro
+QJournalctl is available in the community repository for the **Archlinux** and **Manjaro** Distributions:
+
+```bash
+sudo pacman -S qjournalctl
+```
+For other distributions, it is at the moment required to build it from sources.
+
+### Build Dependencies
 * Make sure your compiler supports (at least) C++11 (E.g. `g++` ≥ 4.8.1, `clang` ≥ 3.3)
 * QJournalctl relies on Qt5, please ensure to have the Qt5 development libaries (E.g. `qtbase5-dev` for Debian/Ubuntu) installed, when compiling!
 * To access remote hosts QJournalctl heavily relies on `libssh` ≥ [0.8.7](https://www.libssh.org/files/0.8/)
 
-
-#### Build Dependencies for Debian, Ubuntu, et al.
+### Build Dependencies (Old Distros) 
 Your distribution's supplied version of `libssh` might be too old for a successful build. You need
 to build and install libssh yourself (< 2 minutes!)
 
@@ -36,15 +53,55 @@ to build and install libssh yourself (< 2 minutes!)
 `cd ../..`
 
 
-#### Building QJournalctl
+### Building QJournalctl
 1. Download the source code and extract it
 2. Run `./autogen.sh`
-3. Run `make -j5` to compile qjournalctl
+3. Run `make -j$(nproc)` to compile qjournalctl
 
 
-#### ArchLinux and Manjaro
-QJournalctl is available in the community repository:
-`sudo pacman -S qjournalctl`
+## QJournalctl for Windows
+
+### Build dependencies
+
+To build QJournalctl for Windows, it is needed
+- MSVC 2017 C++ Build Tools for x64/x86 (>= `v141`). They are part of the Microsoft Visual Studio Community 2017 and can be also installed in the version 2019 (https://docs.microsoft.com/en-us/cpp/build/vscpp-step-0-installation?view=vs-2019)
+- Qt >= `5.13.2`
+- vcpkg >= `2020.01` (https://github.com/microsoft/vcpkg)
+
+### Installing `vcpkg`
+1. Checkout the vcpkg github repository within the folder of the `qjournalctl` repository (`<qjournalctlfoldr>/vcpkg/`) from https://github.com/microsoft/vcpkg
+2. Open a `cmd` and go to `<qjournalctlfoldr>/vcpkg/`
+3. run `./bootstrap-vcpkg.bat`. With this, you will get vcpkg ready to be used
+
+### Install the QJournalctl dependencies
+`QJournalctl` is based on `libssh`. It is possible to obtain it using `vcpkg`:
+1. Navigate to the `vcpkg` folder (`<qjournalctlfoldr>/vcpkg/`)
+2. Get the `libssh` dependencies for the target needed:
+```
+vcpkg install libssh:x64-windows
+```
+
+Now, the `libssh` binaries as well as its dependencies can be found at `<repository_root>/vcpkg/packages/`
+
+### Building QJournalctl
+
+It is possible to build `QJournalctl` using two different manners
+- Using QtCreator. 
+- Using the `autogen_and_build.bat` script.
+
+#### Build using `autogen_and_build.bat`
+Considering that the *Install the QJournalctl Dependencies* steps are already performed, first adjust `autogen_and_build.bat` with your own paths
+- Set the value of `ARCH` to either `x86` to compile for a x86 32 bit target or to `x86_64` for a x86 64 bit target  
+- Modify the variable `VCPKG_INSTALL_FOLDER` defined in the `autogen_and_build.bat` with the path where you have vcpkg, (i.e. set `VCPKG_INSTALL_FOLDER= <yourqjournalctlrepopath>\vcpkg`)
+- Modify the path where Qt for the given toolchain path is found (`QTDIR` may be for instance `C:\Qt\Qt5.14.1\5.14.1\msvc2017_64`)
+- Run `autogen_and_build.bat`. The application can be found at `release/` folder.
+
+#### Build using QtCreator
+First, it is needed to configure QtCreator by enabling the MSVC toolchain. Configure it for 32 and 64 bit, release and debug by navigating to `Projects > Manage Kits > add ...`
+
+Once it is set up 
+- Click in the "screen" icon and select the MSVC 2017 64 bit release configuration
+- Now, Start the build process using `Build > Build project "qjournalctl"`
 
 
 #### Screenshots
