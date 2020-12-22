@@ -2,10 +2,8 @@ language: cpp
 services:
 - docker
 script:
-- docker build -t qjournalctl-build-env ./packaging/deb/
-- docker run -i -v"$(pwd):/build" qjournalctl-build-env sh -c 'cd /build && ./autogen.sh && make -j$(nproc) ; ls -lh qjournalctl'
-- cat packaging/deb/build_deb.sh | docker run -i -v="$(pwd)/:/source:ro" -v="/tmp/:/out"
-  qjournalctl-build-env bash
+  - cd packaging/deb/
+  - make
 
 deploy:
   provider: releases
@@ -16,7 +14,7 @@ deploy:
   api_key:
     secure: pdFKe7DN/pJNdaoGpWbqZ+U09vXd8hXoe26YpzDpPDcyCRN+I82D5FGBd3ceMEe6rQzeFXiobTNy5ZatZwvGfPorHRj4OjlDyYUlzzfrTpX9vtHZ3QOInBRSJVM6h0XybLzhxHs0tENgtStZAx4kWCYTkbWoPGRtpEflEuE7L9gcpMqBElbDnzKhh4L2P/rRMl0xFugIITvKNitQ9nncRQUpFoKC7tk0zS5Rvh1NFp8NUzkFiz0ijiCes3BwLxsBbmen957Tw1K4IfohxoR6ozocXymZDzGTPcMclqjPr4EfghL8dKhqUc0EIYPLcmF9v4RfopLUTc4z6NbBhl++8Rb/3LGVn9CYJQDG5tRT8UOJkAJW6vvnHZi1ePGesBDXPYen/F0Jed9StY2TgCLFZ7wLpuqj8MumDWwqGpA0aoa3D/O6LqLNH15/iZkNcGSthZp2MiB6H4Jx60ZMdZB16l1VJE2q9UTmImNbIYndNqGO2tsKYMYOH2wnoek/65kncHmXVWQnSqjlqOANAV4Pvv6PzT7hubc3J4WBeezK2ohGdrXxmtAb9NRKYDPwvjMRksff5JTda9MMCORVzrnN+blHdFQTQVZg2rCCVngrQQ/d6TcKiUQu6kwAHmS7zDBDPQzJv0jKt3GpwZv+WwE/O3zWVs61ihiyR30wjMiBxi8=
   file_glob: true
-  file: /tmp/qjournalctl*.deb
+  file: packaging/deb/qjournalctl*.deb
   on:
     repo: pentix/qjournalctl
     branch: master
