@@ -24,7 +24,6 @@ install:
   - git pull
   - .\bootstrap-vcpkg.bat
   - cd %APPVEYOR_BUILD_FOLDER%
-  
   - vcpkg install libssh:x64-windows
   - echo This is batch
   - set QTDIR=C:\Qt\5.13.2\msvc2017_64

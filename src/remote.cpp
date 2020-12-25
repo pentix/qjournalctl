@@ -32,6 +32,22 @@ void _custom_usleep(int sleepUs)
 #endif
 }
 
+#ifdef WIN32
+#include <windows.h>
+#else
+#include <unistd.h>
+#endif
+
+void _custom_usleep(int sleepMs)
+{
+
+#ifdef WIN32
+    Sleep(sleepMs/1000);
+#else
+    usleep(sleepMs);   // usleep takes sleep time in us (1 millionth of a second)
+#endif
+}
+
 Remote::Remote(QObject *qObject, SSHConnectionSettings *sshSettings)
 {
     ssh = ssh_new();
