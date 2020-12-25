@@ -1,4 +1,4 @@
-# QJournalctl v0.6.2 
+# QJournalctl v0.6.3
 
 [![Build Status](https://travis-ci.org/pentix/qjournalctl.svg?branch=master)](https://travis-ci.org/pentix/qjournalctl)
 [![Build status](https://ci.appveyor.com/api/projects/status/67kfkc0b894x3ql3?svg=true)](https://ci.appveyor.com/project/pentix/qjournalctl)

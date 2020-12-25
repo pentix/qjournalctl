@@ -1,7 +1,7 @@
 #/bin/bash
 
 NAME=qjournalctl
-VERSION=0.6.2
+VERSION=0.6.3
 PKGREV=1
 OUT="$NAME""_$VERSION-$PKGREV"
 
