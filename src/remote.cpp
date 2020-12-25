@@ -17,9 +17,9 @@
 #include <QProgressBar>
 
 #ifdef WIN32
-#include <windows.h>
+    #include <windows.h>
 #else
-#include <unistd.h>
+    #include <unistd.h>
 #endif
 
 void _custom_usleep(int sleepUs)
@@ -29,22 +29,6 @@ void _custom_usleep(int sleepUs)
     Sleep(sleepUs/1000);
 #else
     usleep(sleepUs);   // usleep takes sleep time in us (1 millionth of a second)
-#endif
-}
-
-#ifdef WIN32
-#include <windows.h>
-#else
-#include <unistd.h>
-#endif
-
-void _custom_usleep(int sleepMs)
-{
-
-#ifdef WIN32
-    Sleep(sleepMs/1000);
-#else
-    usleep(sleepMs);   // usleep takes sleep time in us (1 millionth of a second)
 #endif
 }
 
