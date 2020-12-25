@@ -14,5 +14,10 @@ if [ ! -f "$QMAKE_BIN" ]; then
     exit 1
 fi
 
-QT_SELECT=qt5 $QMAKE_BIN qjournalctl.pro -r -spec linux-g++ CONFIG+=release
+QMAKE_SPEC="linux-g++"
+if [ "$(uname -s)" = "Darwin" ]; then
+  QMAKE_SPEC="macx-clang"
+fi
+
+QT_SELECT=qt5 $QMAKE_BIN qjournalctl.pro -r -spec $QMAKE_SPEC CONFIG+=release
 
