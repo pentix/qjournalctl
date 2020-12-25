@@ -4,10 +4,14 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/67kfkc0b894x3ql3?svg=true)](https://ci.appveyor.com/project/pentix/qjournalctl)
 
 
-
-
 ### A Qt-based Graphical User Interface for systemd's journalctl command 
 
+###### Table of Contents
+* [About QJournalctl](#about-qjournalctl)
+* [QJournalctl for Linux](#qjournalctl-for-linux)
+* [QJournalctl for macOS](#qjournalctl-for-macos)
+* [QJournalctl for Windows](#qjournalctl-for-windows)
+* [Screenshots](#screenshots)
 
 ## About QJournalctl
 systemd provides `journalctl` to display and analyze its journal. Think of
