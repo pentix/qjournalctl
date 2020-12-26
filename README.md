@@ -1,15 +1,19 @@
-# QJournalctl v0.6.2 
+# QJournalctl v0.6.3
 
 [![Build Status](https://travis-ci.org/pentix/qjournalctl.svg?branch=master)](https://travis-ci.org/pentix/qjournalctl)
 [![Build status](https://ci.appveyor.com/api/projects/status/67kfkc0b894x3ql3?svg=true)](https://ci.appveyor.com/project/pentix/qjournalctl)
 
 
-
-
 ### A Qt-based Graphical User Interface for systemd's journalctl command 
 
+###### Table of Contents
+* [About QJournalctl](#about-qjournalctl)
+* [QJournalctl for Linux](#qjournalctl-for-linux)
+* [QJournalctl for macOS](#qjournalctl-for-macos)
+* [QJournalctl for Windows](#qjournalctl-for-windows)
+* [Screenshots](#screenshots)
 
-## About QJournalctl 
+## About QJournalctl
 systemd provides `journalctl` to display and analyze its journal. Think of
 the journal as a giant log file for the whole system. Different programs
 (like e.g. different software/services on your system, but also the kernel) write their log entries into systemd's
@@ -24,27 +28,27 @@ Maybe you want to checkout the [Changelog](https://github.com/pentix/qjournalctl
 ## QJournalctl for Linux
 
 ### ArchLinux and Manjaro
-QJournalctl is available in the community repository for the **Archlinux** and **Manjaro** Distributions:
+QJournalctl is available in the community repository of **Archlinux** and **Manjaro**:
 
 ```bash
 sudo pacman -S qjournalctl
 ```
 For other distributions, it is at the moment required to build it from sources.
 
-### Build Dependencies
+### General build dependencies
 * Make sure your compiler supports (at least) C++11 (E.g. `g++` ≥ 4.8.1, `clang` ≥ 3.3)
-* QJournalctl relies on Qt5, please ensure to have the Qt5 development libaries (E.g. `qtbase5-dev` for Debian/Ubuntu) installed, when compiling!
+* QJournalctl relies on Qt5, please ensure to have the Qt5 development libaries installed, when compiling! (E.g. `qtbase5-dev` for Debian/Ubuntu; on macOS these come with the `qt` Homebrew tap)
 * To access remote hosts QJournalctl heavily relies on `libssh` ≥ [0.8.7](https://www.libssh.org/files/0.8/)
 
-### Build Dependencies (Old Distros) 
+### How to install build dependencies (on Debian-based distributions) 
 Your distribution's supplied version of `libssh` might be too old for a successful build. You need
 to build and install libssh yourself (< 2 minutes!)
 
-`sudo apt-get install qtbase5-dev cmake`
+`sudo apt-get install qtbase5-dev cmake libssl-dev pkg-config`
 
-`wget https://www.libssh.org/files/0.9/libssh-0.9.3.tar.xz`
+`wget https://www.libssh.org/files/0.9/libssh-0.9.5.tar.xz`
 
-`tar xf libssh-0.9.3.tar.xz ; cd libssh-0.9.3`
+`tar xf libssh-0.9.5.tar.xz ; cd libssh-0.9.5`
 
 `mkdir build ; cd build`
 
@@ -52,11 +56,38 @@ to build and install libssh yourself (< 2 minutes!)
 
 `cd ../..`
 
-
-### Building QJournalctl
-1. Download the source code and extract it
+### How to build and install QJournalctl
+1. Download the source code and extract it (or use `git clone https://github.com/pentix/qjournalctl.git`)
 2. Run `./autogen.sh`
 3. Run `make -j$(nproc)` to compile qjournalctl
+4. Run `sudo make install`  
+
+
+
+## QJournalctl for macOS
+### Build dependencies
+To handle dependencies of macOS, we're going to use [homebrew](https://brew.sh/).
+`brew install qt libssh`
+As indicated in the caveats:
+
+````
+qt is keg-only, which means it was not symlinked into /usr/local,
+because Qt 5 has CMake issues when linked.
+
+If you need to have qt first in your PATH run:
+  echo 'export PATH="/usr/local/opt/qt/bin:$PATH"' >> /Users/user_name/.bash_profile
+````
+
+before building QJournalctl you'll indeed need to run:
+`export PATH="/usr/local/opt/qt/bin:$PATH"`
+(no need to make it persistent by using .bash_profile)
+
+
+### How to build and install QJournalctl
+1. Download the source code and extract it (or use `git clone https://github.com/pentix/qjournalctl.git`)
+2. Run `./autogen.sh`
+3. Run `make -j$(nproc)` to compile qjournalctl
+4. Run `sudo make install`  
 
 
 ## QJournalctl for Windows

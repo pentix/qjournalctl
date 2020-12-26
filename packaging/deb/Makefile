@@ -1,9 +1,5 @@
-# Create deb file
-all:
-	docker run --rm -id --name=qjournalctl-deb --volume=$(realpath ../..)/:/source:ro --volume=$(realpath .)/:/out pentix/qjournalctl-deb-build-env
-	touch qjournalctl_0.6-1.deb
-	docker exec qjournalctl-deb bash /out/build_deb.sh
-	docker stop qjournalctl-deb
+all: docker-build-env
+	docker run --privileged --rm -v $(shell realpath ../..)/:/source:ro -v $(shell realpath .)/:/out -e USERID=$(shell id -u) -e GROUPID=$(shell id -g) pentix/qjournalctl-deb-build-env bash /out/build_deb.sh
 	
 docker-build-env: Dockerfile
 	docker build -t pentix/qjournalctl-deb-build-env .

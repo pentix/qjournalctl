@@ -14,13 +14,10 @@ if [ ! -f "$QMAKE_BIN" ]; then
     exit 1
 fi
 
-QT_SELECT=qt5 $QMAKE_BIN qjournalctl.pro -r -spec linux-g++ CONFIG+=release
-
-if [ -d ".git" ]; then
-    sed -i -e 's/[[:xdigit:]]\{7\}/'$(git log --pretty=format:'%h' -n 1)'/' src/version.h
-else
-    sed -i -e 's/[[:xdigit:]]\{7\}/0000000/' src/version.h
+QMAKE_SPEC="linux-g++"
+if [ "$(uname -s)" = "Darwin" ]; then
+  QMAKE_SPEC="macx-clang"
 fi
 
-
+QT_SELECT=qt5 $QMAKE_BIN qjournalctl.pro -r -spec $QMAKE_SPEC CONFIG+=release
 

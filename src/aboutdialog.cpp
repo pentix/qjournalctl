@@ -1,7 +1,7 @@
 /**
  * qjournalctl: A Qt-based GUI for systemd's journalctl command
  *
- * Copyright (c) 2016-2019 by Patrick Eigensatz <patrick.eigensatz@gmail.com>
+ * Copyright (c) 2016-2021 by Patrick Eigensatz <patrick.eigensatz@gmail.com>
  * Some rights reserved. See LICENSE.
  */
 
@@ -18,14 +18,7 @@ AboutDialog::AboutDialog(QWidget *parent) :
 {
 	ui->setupUi(this);
 
-
-	// Concat gitStr
-	QString gitStr = "";
-
-	if(QString(GITREV) != QString("0000000"))
-		gitStr = QString("  (git commit: ") + GITREV + QString(")");
-
-	ui->versionLabel->setText(QString("v") + QString(VERSION) + gitStr);
+	ui->versionLabel->setText(QString("v") + QString(VERSION));
 
     // Set the about dialog as a fixed-size dialog
     this->setFixedSize(688, 487);

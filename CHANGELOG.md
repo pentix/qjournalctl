@@ -1,5 +1,11 @@
 ## Changelog
 
+#### v0.6.3 (2020, Dec. 25)
+* Added support for Windows and macOS (#41 by @alacasta, #64 by @Marcool04)
+* Added connection indicator for SSH (#61)
+* Minor bug fixes (#42, #52)
+* Improved pipeline for compilation and deployment
+
 #### v0.6.2 (2019, Dec. 12)
 * Fixed the cropped host label in the main window
 * Fixed possible null pointer issue on disconnecting from a remote host

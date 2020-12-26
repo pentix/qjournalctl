@@ -3,7 +3,7 @@
 #---------------------------------#
 
 # version format
-version: 1.0.{build}
+version: 0.6.3.{build}
 
 # branches to build
 #branches:
@@ -38,18 +38,17 @@ build_script:
 #---------------------------------#
 artifacts:
   # pushing entire folder as a zip archive
-  - name: WindowsRelease
+  - name: qjournalctl-windows_0.6.3-1
     path: release
 
 deploy:
-  release: qjournalctl-v0.6.2
-  description: 'QJournalctl v0.6.2 Windows Release'
+  release: v0.6.3
   provider: 'GitHub'
+  force_update: true
   auth_token:
     secure: ja9G79s4vQR2K9YSZ9t8KKJaftNBJImJVOoVhuYKC+bhNV+X8WR45T7I+6StQVfE
-  artifact: WindowsRelease
-  draft: true
+  artifact: qjournalctl-windows_0.6.3-1
+  draft: false
   prerelease: false
-  force_update: true
   on:
-    branch: windows-build
+    APPVEYOR_REPO_TAG: true
