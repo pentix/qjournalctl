@@ -37,7 +37,7 @@ For other distributions, it is at the moment required to build it from sources.
 
 ### General build dependencies
 * Make sure your compiler supports (at least) C++11 (E.g. `g++` ≥ 4.8.1, `clang` ≥ 3.3)
-* QJournalctl relies on Qt5, please ensure to have the Qt5 development libaries installed, when compiling! (E.g. `qtbase5-dev` for Debian/Ubuntu; on macOS these come with the `qt` Homebrew tap)
+* QJournalctl relies on Qt5, please ensure to have the Qt5 development libraries installed, when compiling! (E.g. `qtbase5-dev` for Debian/Ubuntu; on macOS these come with the `qt` Homebrew tap)
 * To access remote hosts QJournalctl heavily relies on `libssh` ≥ [0.8.7](https://www.libssh.org/files/0.8/)
 
 ### How to install build dependencies (on Debian-based distributions) 
