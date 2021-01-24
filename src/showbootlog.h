@@ -42,6 +42,8 @@ private slots:
 
 	void on_untilDateTimeEdit_dateTimeChanged();
 
+    void on_remoteFilterCheckBox_clicked();
+
 	void on_horizontalSlider_sliderMoved(int position);
 
 	void appendToBootLog(QString readString);
@@ -64,10 +66,14 @@ private slots:
 
 	void on_exportSelectionButton_clicked();
 
-	void on_horizontalSlider_valueChanged(int value);
+    void on_horizontalSlider_valueChanged(int value);
+
+    void on_selectColorButton_clicked();
 
 private:
 	void updateBootLog(bool keepIdentifiers=false);
+
+    void appendLineWithFilterStyle(QString line);
 
 	Ui::ShowBootLog *ui;
 	Connection *connection;
@@ -83,8 +89,9 @@ private:
 	// Internal display variables
 	int numberOfBytesRead=0;
 	QString identifierFlags="";
-	QSet<QString> allIdentifiers;
-	QSet<QString> acceptedIdentifiers;
+    QSet<QString> allIdentifiers;
+    QSet<QString> acceptedIdentifiers;
+    QMap<QString, QColor> acceptedIdentifiersColors;
 
 	void execute_find(QRegExp regexp, QTextDocument::FindFlags findFlags);
 	void execute_find(QString string, QTextDocument::FindFlags findFlags);

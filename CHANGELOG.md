@@ -1,5 +1,9 @@
 ## Changelog
 
+### Unreleased
+* Added Remote and Local filtering based on some Regex (#59)
+* Color highlighting for filtered log (#56)
+
 #### v0.6.3 (2020, Dec. 25)
 * Added support for Windows and macOS (#41 by @alacasta, #64 by @Marcool04)
 * Added connection indicator for SSH (#61)

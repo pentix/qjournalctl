@@ -244,12 +244,32 @@
         </widget>
        </item>
        <item>
+        <widget class="QPushButton" name="selectColorButton">
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>Set Color</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QPushButton" name="filterButton">
          <property name="focusPolicy">
           <enum>Qt::NoFocus</enum>
          </property>
          <property name="text">
           <string>Filter</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="remoteFilterCheckBox">
+         <property name="text">
+          <string>Remote Filter</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
          </property>
         </widget>
        </item>

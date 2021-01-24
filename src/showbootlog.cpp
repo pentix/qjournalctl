@@ -31,6 +31,8 @@
 #include <QRegularExpression>
 #include <QCompleter>
 #include <QThread>
+#include <QColorDialog>
+#include <QRandomGenerator>
 
 ShowBootLog::ShowBootLog(QWidget *parent) :
     QDialog(parent),
@@ -111,6 +113,7 @@ void ShowBootLog::updateBootLog(bool keepIdentifiers)
         // Reset all previously accepted but also read identifiers   (clear the filter but also do a full reload!)
         this->allIdentifiers.clear();
         this->acceptedIdentifiers.clear();
+        this->acceptedIdentifiersColors.clear();
         identifierFlags = "";
 
         // Also reset the UI parts
@@ -165,7 +168,10 @@ void ShowBootLog::updateBootLog(bool keepIdentifiers)
     }
 
     // Enable filtering by syslog identifiers
-    command += identifierFlags;
+    if(ui->remoteFilterCheckBox->isChecked())
+    {
+        command += identifierFlags;
+    }
 
     // As soon as the connection has data available, we want to append it to the boot log.
     // If the connection is already open, we close it!
@@ -182,8 +188,11 @@ void ShowBootLog::updateBootLog(bool keepIdentifiers)
 
 void ShowBootLog::acceptIdentifier(void){
     this->acceptedIdentifiers.insert(ui->identifiersLineEdit->text());
+    this->acceptedIdentifiersColors.insert(ui->identifiersLineEdit->text(), ui->identifiersLineEdit->palette().color(QPalette::Base));
     updateBootLog(true);
     ui->identifiersLineEdit->clear();
+    QPalette palette(QPalette::Base, Qt::white);
+    ui->identifiersLineEdit->setPalette(palette);
     ui->identifiersLineEdit->setFocus();
 }
 
@@ -191,7 +200,20 @@ void ShowBootLog::acceptIdentifier(void){
 void ShowBootLog::appendToBootLog(QString readString)
 {
     // Append string to the UI and increment byte counter
-    ui->plainTextEdit->appendPlainText(readString);
+    QStringList readStringLines = readString.split("\n");
+
+    for ( const auto& line : readStringLines  )
+    {
+        if(!this->acceptedIdentifiers.empty()) // Needs to appy filters
+        {
+            // Append the line with style
+            appendLineWithFilterStyle(line);
+        }
+        else
+        {
+            ui->plainTextEdit->appendPlainText(line);
+        }
+    }
     numberOfBytesRead += readString.size();
     ui->plainTextEdit->ensureCursorVisible();
 
@@ -228,6 +250,39 @@ void ShowBootLog::appendToBootLog(QString readString)
                      Qt::QueuedConnection);
 }
 
+void ShowBootLog::appendLineWithFilterStyle(QString line)
+{
+    QTextCharFormat defaultFormat, format;
+    QColor defaultColor, color;
+    bool found;
+
+    // Let's find if regex apply for the current line
+    found = false;
+    for(const auto& identifier : this->acceptedIdentifiers){
+        QRegularExpression re(identifier);
+        QRegularExpressionMatch match = re.match(line);
+        found = match.hasMatch();
+        if(found)
+        {
+            color = this->acceptedIdentifiersColors.value(identifier);
+            break;
+        }
+    }
+
+    format = ui->plainTextEdit->currentCharFormat();
+    defaultFormat = format;
+    if(found)
+    {
+        format.setBackground(QBrush(color));
+    }
+    else
+    {
+        format.setForeground(QBrush(QColor("LightGray")));
+    }
+    ui->plainTextEdit->setCurrentCharFormat(format);
+    ui->plainTextEdit->appendPlainText(line);
+    ui->plainTextEdit->setCurrentCharFormat(defaultFormat);
+}
 
 void ShowBootLog::on_sinceCheckBox_clicked()
 {
@@ -253,6 +308,11 @@ void ShowBootLog::on_untilDateTimeEdit_dateTimeChanged()
     updateBootLog(true);
 }
 
+void ShowBootLog::on_remoteFilterCheckBox_clicked()
+{
+    updateBootLog(true);
+}
+
 void ShowBootLog::on_horizontalSlider_sliderMoved(int position)
 {
     maxPriority = position;
@@ -268,7 +328,8 @@ void ShowBootLog::on_filterButton_clicked()
 {
     acceptIdentifier();
     ui->identifiersLineEdit->clear();
-
+    QPalette palette(QPalette::Base, Qt::white);
+    ui->identifiersLineEdit->setPalette(palette);
     updateBootLog(true);
 }
 
@@ -376,7 +437,10 @@ void ShowBootLog::on_clearButton_clicked()
 {
     ui->acceptedIdentifierLabel->setText("");
     ui->identifiersLineEdit->clear();
+    QPalette palette(QPalette::Base, Qt::white);
+    ui->identifiersLineEdit->setPalette(palette);
     this->acceptedIdentifiers.clear();
+    this->acceptedIdentifiersColors.clear();
     updateBootLog(false);
 }
 
@@ -401,3 +465,15 @@ void ShowBootLog::on_exportSelectionButton_clicked()
     writeToExportFile(fileName, selection.toLocal8Bit().data());
 }
 
+void ShowBootLog::on_selectColorButton_clicked()
+{
+    QColor color = QColorDialog::getColor(QColor::fromRgb(QRandomGenerator::global()->generate()), this );
+    QPalette palette;
+    palette.setColor(QPalette::Base, color);
+    if( color.isValid() )
+    {
+      qDebug() << "Color Choosen : " << color.name();
+      ui->identifiersLineEdit->setPalette(palette);
+    }
+
+}
