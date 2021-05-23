@@ -111,7 +111,6 @@ void MainWindow::on_listBootsButton_clicked()
     if (listBootsOutput.length() == 0) {
         QMessageBox message_box;
         message_box.critical(nullptr, "Error", "No boots have been found :\n"+listBootsOutput);
-        message_box.setFixedSize(500, 200);
         message_box.show();
         return;
     }
@@ -425,10 +424,23 @@ void MainWindow::on_actionSelectCustomDirectory_triggered()
         return;
     }
 
+    // Check for existing journals
     currentConnection->setParam(LOCAL_DIRECTORY, dir);
+    QString listBootsOutput = currentConnection->runAndWait("journalctl -q --list-boots");
+    if (listBootsOutput.length() == 0) {
+        QMessageBox message_box;
+        message_box.critical(nullptr, "Error", "No entries have been found at the given directory. Please select a folder containing systemd journals.");
+        message_box.show();
+
+        // Reset local directory parameter and abort
+        currentConnection->setParam(LOCAL_DIRECTORY, "");
+        return;
+    }
+
+    // Directly proceed to show all boots in the given dir!
+    resetUI();
     ui->label->setText("QJournalctl @ " + dir);
     ui->actionResetDirectoryToSystemJournal->setEnabled(true);
-
-    resetUI();
+    on_actionLoadBoots_triggered();
 }
 
