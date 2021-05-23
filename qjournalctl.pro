@@ -71,8 +71,10 @@ desktop-file.path = /usr/share/applications
 desktop-file.files += ui/qjournalctl.desktop
 desktop-icon.path = /usr/share/pixmaps
 desktop-icon.files += ui/qjournalctl.png
+metainfo-file.path = /usr/share/metainfo
+metainfo-file.files += qjournalctl.appdata.xml
 
-INSTALLS += target desktop-file desktop-icon
+INSTALLS += target desktop-file desktop-icon metainfo-file
 
 CONFIG(x86_64) {
 	    # 64 bit path
