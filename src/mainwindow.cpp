@@ -95,7 +95,7 @@ void MainWindow::on_listBootsButton_clicked()
     QString listBootsOutput = currentConnection->runAndWait("journalctl -q --list-boots");
     if (listBootsOutput.length() == 0) {
         QMessageBox message_box;
-        message_box.critical(nullptr, "Error", "No boots have been found :\n"+listBootsOutput);
+        message_box.critical(nullptr, "Error", "No boots have been found");
         message_box.setFixedSize(500, 200);
         message_box.show();
         return;
