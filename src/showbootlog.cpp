@@ -207,7 +207,7 @@ void ShowBootLog::appendToBootLog(QString readString)
     ui->plainTextEdit->ensureCursorVisible();
 
     // Update "numberOfEntries" label
-    if(ui->plainTextEdit->toPlainText() != "-- No entries --\n"){
+    if(!empty){
         ui->numberOfEntriesLabel->setText("Showing <b>" + QString::number(ui->plainTextEdit->document()->lineCount()-1) + "</b> lines ("+QString::number(numberOfBytesRead) + " bytes)");
     } else {
         ui->numberOfEntriesLabel->setText("Showing <b>0</b> lines (0 bytes)");
