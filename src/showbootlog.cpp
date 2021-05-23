@@ -45,7 +45,6 @@ ShowBootLog::ShowBootLog(QWidget *parent, bool completeJournal, bool realtime, b
     QDialog(parent),
     ui(new Ui::ShowBootLog)
 {
-
     // Call simple constructor first
     ui->setupUi(this);
     this->connection = connection;
@@ -105,7 +104,9 @@ void ShowBootLog::on_closeButton_clicked()
 void ShowBootLog::updateBootLog(bool keepIdentifiers)
 {
     // Clear log!
-    ui->plainTextEdit->clear();
+    empty = true;
+    ui->plainTextEdit->setPlainText("Selected journal seems to be empty using selected filter settings.");
+    ui->plainTextEdit->setStyleSheet("font-weight: bold;");
 
     if(!keepIdentifiers){
         // Reset all previously accepted but also read identifiers   (clear the filter but also do a full reload!)
@@ -151,12 +152,12 @@ void ShowBootLog::updateBootLog(bool keepIdentifiers)
 
     QString command = "";
     if(this->completeJournal){
-        command = "journalctl -a -p " + QString::number(maxPriority) + sinceStr + untilStr;
+        command = "journalctl -q -a -p " + QString::number(maxPriority) + sinceStr + untilStr;
     } else {
         if(this->realtime){
-            command = "journalctl -f --no-tail -p " + QString::number(maxPriority) + " -b " + bootid + sinceStr + untilStr;
+            command = "journalctl -q -f --no-tail -p " + QString::number(maxPriority) + " -b " + bootid + sinceStr + untilStr;
         } else {
-            command = "journalctl -a -p " + QString::number(maxPriority) + " -b " + bootid + sinceStr + untilStr;
+            command = "journalctl -q -a -p " + QString::number(maxPriority) + " -b " + bootid + sinceStr + untilStr;
         }
     }
 
@@ -190,13 +191,23 @@ void ShowBootLog::acceptIdentifier(void){
 
 void ShowBootLog::appendToBootLog(QString readString)
 {
+    // Since data was available, we're definitely not in the "empty" state anymore
+    // --> Prevent the "journal is empty" message to be shown on view update
+    if(empty){
+        // Remove the "journal is empty" message and reset the style
+        ui->plainTextEdit->clear();
+        ui->plainTextEdit->setStyleSheet("");
+
+        empty = false;
+    }
+
     // Append string to the UI and increment byte counter
     ui->plainTextEdit->appendPlainText(readString);
     numberOfBytesRead += readString.size();
     ui->plainTextEdit->ensureCursorVisible();
 
     // Update "numberOfEntries" label
-    if(ui->plainTextEdit->toPlainText() != "-- No entries --\n"){
+    if(!empty){
         ui->numberOfEntriesLabel->setText("Showing <b>" + QString::number(ui->plainTextEdit->document()->lineCount()-1) + "</b> lines ("+QString::number(numberOfBytesRead) + " bytes)");
     } else {
         ui->numberOfEntriesLabel->setText("Showing <b>0</b> lines (0 bytes)");

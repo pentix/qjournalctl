@@ -18,6 +18,7 @@
 #include <QShortcut>
 #include <QDebug>
 #include <QMessageBox>
+#include <QFileDialog>
 
 using namespace std;
 
@@ -66,6 +67,20 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::resetUI()
+{
+    if(bootModel != nullptr){
+        bootModel->clear();
+    }
+
+    itemModel = new QStandardItemModel(this);
+    ui->tableView->setModel(itemModel);
+    ui->tableView->update();
+
+    ui->listBootsButton->setEnabled(true);
+    ui->actionLoadBoots->setEnabled(true);
+}
+
 void MainWindow::refreshSavedConnectionsMenu()
 {
     // First remove old "savedConnection" entries
@@ -96,7 +111,6 @@ void MainWindow::on_listBootsButton_clicked()
     if (listBootsOutput.length() == 0) {
         QMessageBox message_box;
         message_box.critical(nullptr, "Error", "No boots have been found");
-        message_box.setFixedSize(500, 200);
         message_box.show();
         return;
     }
@@ -341,8 +355,7 @@ bool MainWindow::setupRemoteConnection()
     // Update UI
     ui->label->setText("QJournalctl @ " + QString::fromUtf8(currentConnectionSettings->getHostname()));
     ui->actionDisconnect_from_current_host->setEnabled(true);
-    ui->listBootsButton->setEnabled(true);
-    ui->actionLoadBoots->setEnabled(true);
+    ui->menuLocal->setEnabled(false);
 
     #ifdef WIN32
         ui->tableView->setEnabled(true);
@@ -353,9 +366,7 @@ bool MainWindow::setupRemoteConnection()
         ui->actionSizeOfTheJournalOnTheDisk->setEnabled(true);
     #endif
 
-    itemModel = new QStandardItemModel(this);
-    ui->tableView->setModel(itemModel);
-    ui->tableView->update();
+    resetUI();
 
     return true;
 }
@@ -364,15 +375,11 @@ void MainWindow::on_actionDisconnect_from_current_host_triggered()
 {
     currentConnection = new Connection(this);
     ui->actionDisconnect_from_current_host->setDisabled(true);
+    ui->menuLocal->setEnabled(true);
     ui->label->setText("QJournalctl");
 
     // Remove listed boots, too!
-    ui->actionLoadBoots->setEnabled(true);
-    ui->listBootsButton->setEnabled(true);
-    if(bootModel != nullptr){
-        bootModel->clear();
-    }
-    ui->tableView->update();
+    resetUI();
 
     #ifdef WIN32
         ui->tableView->setDisabled(true);
@@ -400,3 +407,40 @@ void MainWindow::connectToSavedConnection(int id)
     currentConnectionSettings = sshConnectionSerializer->get(id);
     setupRemoteConnection();
 }
+
+void MainWindow::on_actionResetDirectoryToSystemJournal_triggered()
+{
+    currentConnection->setParam(LOCAL_DIRECTORY, "");
+    ui->label->setText("QJournalctl");
+    ui->actionResetDirectoryToSystemJournal->setEnabled(false);
+
+    resetUI();
+}
+
+void MainWindow::on_actionSelectCustomDirectory_triggered()
+{
+    QString dir = QFileDialog::getExistingDirectory(nullptr, "Select a journal folder to load");
+    if(dir == "") {
+        return;
+    }
+
+    // Check for existing journals
+    currentConnection->setParam(LOCAL_DIRECTORY, dir);
+    QString listBootsOutput = currentConnection->runAndWait("journalctl -q --list-boots");
+    if (listBootsOutput.length() == 0) {
+        QMessageBox message_box;
+        message_box.critical(nullptr, "Error", "No entries have been found at the given directory. Please select a folder containing systemd journals.");
+        message_box.show();
+
+        // Reset local directory parameter and abort
+        currentConnection->setParam(LOCAL_DIRECTORY, "");
+        return;
+    }
+
+    // Directly proceed to show all boots in the given dir!
+    resetUI();
+    ui->label->setText("QJournalctl @ " + dir);
+    ui->actionResetDirectoryToSystemJournal->setEnabled(true);
+    on_actionLoadBoots_triggered();
+}
+

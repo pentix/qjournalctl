@@ -206,7 +206,15 @@
     <addaction name="separator"/>
     <addaction name="actionYour_last_connections"/>
    </widget>
+   <widget class="QMenu" name="menuLocal">
+    <property name="title">
+     <string>Local</string>
+    </property>
+    <addaction name="actionResetDirectoryToSystemJournal"/>
+    <addaction name="actionSelectCustomDirectory"/>
+   </widget>
    <addaction name="menuJournalctl_Analyzer_Demo"/>
+   <addaction name="menuLocal"/>
    <addaction name="menuRemote"/>
    <addaction name="menuOK"/>
   </widget>
@@ -301,6 +309,22 @@
      <weight>75</weight>
      <bold>true</bold>
     </font>
+   </property>
+  </action>
+  <action name="actionSelectCustomDirectory">
+   <property name="text">
+    <string>Select a custom journalctl directory</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actionResetDirectoryToSystemJournal">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Use this system's journal</string>
    </property>
   </action>
  </widget>

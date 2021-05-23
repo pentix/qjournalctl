@@ -31,13 +31,23 @@ void Local::run(QString cmd)
         journalProcess->close();
     }
 
-    journalProcess->start(cmd);
+    QString localAddendum = " ";
+    if(directory != "") {
+        localAddendum += "--directory " + directory;
+    }
+
+    journalProcess->start(cmd + localAddendum);
 }
 
 QString Local::runAndWait(QString cmd)
 {
+    QString localAddendum = " ";
+    if(directory != "") {
+        localAddendum += "--directory " + directory;
+    }
+
     QProcess p;
-    p.start(cmd);
+    p.start(cmd + localAddendum);
     p.waitForFinished(-1);
 
     return QString(p.readAllStandardOutput());
@@ -55,6 +65,10 @@ bool Local::isRunning()
             || journalProcess->state() == QProcess::Starting);
 }
 
+void Local::setDirectory(QString dir)
+{
+    directory = dir;
+}
 
 void Local::processHasData()
 {
