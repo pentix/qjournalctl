@@ -315,6 +315,9 @@
    <property name="text">
     <string>Select a custom journalctl directory</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
   </action>
   <action name="actionResetDirectoryToSystemJournal">
    <property name="enabled">
