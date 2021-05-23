@@ -89,4 +89,12 @@ void Connection::close()
     }
 }
 
-
+void Connection::setParam(CONNECTION_PARAM p, QString val)
+{
+    switch(p){
+    case LOCAL_DIRECTORY:
+        localConnection->setDirectory(val);
+    default:
+        break;
+    }
+}

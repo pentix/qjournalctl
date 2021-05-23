@@ -28,6 +28,7 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = 0);
+    void resetUI();
     ~MainWindow();
 
 private slots:
@@ -64,6 +65,10 @@ private slots:
     void on_actionEdit_saved_connections_triggered();
 
     void connectToSavedConnection(int id);
+
+    void on_actionResetDirectoryToSystemJournal_triggered();
+
+    void on_actionSelectCustomDirectory_triggered();
 
 private:
     Ui::MainWindow *ui;

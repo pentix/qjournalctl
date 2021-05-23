@@ -21,10 +21,12 @@ public:
 
     void run(QString);
     void close();
+    void setDirectory(QString);
     bool isRunning();
 
 private:
     QProcess *journalProcess;
+    QString directory;
 
 signals:
     void localDataAvailable(QString);

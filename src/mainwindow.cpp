@@ -18,6 +18,7 @@
 #include <QShortcut>
 #include <QDebug>
 #include <QMessageBox>
+#include <QFileDialog>
 
 using namespace std;
 
@@ -64,6 +65,20 @@ MainWindow::~MainWindow()
     delete sshConnectionSerializer;
     delete currentConnection;
     delete ui;
+}
+
+void MainWindow::resetUI()
+{
+    if(bootModel != nullptr){
+        bootModel->clear();
+    }
+
+    itemModel = new QStandardItemModel(this);
+    ui->tableView->setModel(itemModel);
+    ui->tableView->update();
+
+    ui->listBootsButton->setEnabled(true);
+    ui->actionLoadBoots->setEnabled(true);
 }
 
 void MainWindow::refreshSavedConnectionsMenu()
@@ -341,8 +356,7 @@ bool MainWindow::setupRemoteConnection()
     // Update UI
     ui->label->setText("QJournalctl @ " + QString::fromUtf8(currentConnectionSettings->getHostname()));
     ui->actionDisconnect_from_current_host->setEnabled(true);
-    ui->listBootsButton->setEnabled(true);
-    ui->actionLoadBoots->setEnabled(true);
+    ui->menuLocal->setEnabled(false);
 
     #ifdef WIN32
         ui->tableView->setEnabled(true);
@@ -353,9 +367,7 @@ bool MainWindow::setupRemoteConnection()
         ui->actionSizeOfTheJournalOnTheDisk->setEnabled(true);
     #endif
 
-    itemModel = new QStandardItemModel(this);
-    ui->tableView->setModel(itemModel);
-    ui->tableView->update();
+    resetUI();
 
     return true;
 }
@@ -364,15 +376,11 @@ void MainWindow::on_actionDisconnect_from_current_host_triggered()
 {
     currentConnection = new Connection(this);
     ui->actionDisconnect_from_current_host->setDisabled(true);
+    ui->menuLocal->setEnabled(true);
     ui->label->setText("QJournalctl");
 
     // Remove listed boots, too!
-    ui->actionLoadBoots->setEnabled(true);
-    ui->listBootsButton->setEnabled(true);
-    if(bootModel != nullptr){
-        bootModel->clear();
-    }
-    ui->tableView->update();
+    resetUI();
 
     #ifdef WIN32
         ui->tableView->setDisabled(true);
@@ -400,3 +408,27 @@ void MainWindow::connectToSavedConnection(int id)
     currentConnectionSettings = sshConnectionSerializer->get(id);
     setupRemoteConnection();
 }
+
+void MainWindow::on_actionResetDirectoryToSystemJournal_triggered()
+{
+    currentConnection->setParam(LOCAL_DIRECTORY, "");
+    ui->label->setText("QJournalctl");
+    ui->actionResetDirectoryToSystemJournal->setEnabled(false);
+
+    resetUI();
+}
+
+void MainWindow::on_actionSelectCustomDirectory_triggered()
+{
+    QString dir = QFileDialog::getExistingDirectory(nullptr, "Select a journal folder to load");
+    if(dir == "") {
+        return;
+    }
+
+    currentConnection->setParam(LOCAL_DIRECTORY, dir);
+    ui->label->setText("QJournalctl @ " + dir);
+    ui->actionResetDirectoryToSystemJournal->setEnabled(true);
+
+    resetUI();
+}
+

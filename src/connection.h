@@ -12,6 +12,12 @@
 #include "local.h"
 #include "remote.h"
 
+
+enum CONNECTION_PARAM {
+    LOCAL_DIRECTORY
+};
+
+
 class Connection : public QObject
 {
     Q_OBJECT
@@ -28,8 +34,9 @@ public:
     bool isRemote();
     bool isRunning();
     void close();
-    void run(QString cmd);
-    QString runAndWait(QString cmd);
+    void run(QString);
+    void setParam(CONNECTION_PARAM, QString);
+    QString runAndWait(QString);
 
 signals:
     void connectionDataAvailable(QString);
