@@ -10,7 +10,7 @@ QT_SELECT=qt5 qmake /source/qjournalctl.pro -r -spec linux-g++ CONFIG+=release
 make -j$(nproc)
 
 # Move required files
-cp -r /source/packaging/files "$OUT/"
+cp -r /source/packaging/files/ "$OUT/"
 mkdir -p "$OUT/usr/bin"
 mv qjournalctl "$OUT/usr/bin"
 
