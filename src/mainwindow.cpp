@@ -128,7 +128,7 @@ void MainWindow::on_listBootsButton_clicked()
         QString line = QString(lines.at(i).toLocal8Bit().constData());
         QStringList columns = line.split(" ", QString::SkipEmptyParts);
 
-        if(columns.size() != 9){
+        if(columns.size() < 9){
             continue;
         }
 
