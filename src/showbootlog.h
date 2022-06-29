@@ -66,6 +66,8 @@ private slots:
 
     void on_horizontalSlider_valueChanged(int value);
 
+    void on_verboseCheckBox_stateChanged(int arg1);
+
 private:
     void updateBootLog(bool keepIdentifiers=false);
 
@@ -75,6 +77,7 @@ private:
     // Only journalctl options
     QString bootid;
     bool sinceFlag=false, untilFlag=false;
+    bool verboseflag=false;
     bool completeJournal=false;
     bool realtime=false;
     bool reverse=false;
