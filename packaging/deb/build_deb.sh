@@ -1,8 +1,8 @@
-#/bin/bash
+#!/bin/bash
 
 NAME=qjournalctl
 VERSION=0.6.3
-PKGREV=1
+PKGREV=2
 OUT="$NAME""_$VERSION-$PKGREV"
 
 # Build
