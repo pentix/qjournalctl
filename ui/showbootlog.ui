@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>1164</width>
-    <height>675</height>
+    <height>632</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -206,13 +206,6 @@
         </widget>
        </item>
       </layout>
-     </item>
-     <item>
-      <widget class="QCheckBox" name="verboseCheckBox">
-       <property name="text">
-        <string>Verbose</string>
-       </property>
-      </widget>
      </item>
      <item>
       <widget class="QLabel" name="label_12">

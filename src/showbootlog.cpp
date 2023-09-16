@@ -149,9 +149,6 @@ void ShowBootLog::updateBootLog(bool keepIdentifiers)
         untilStr = " --until \"" + ui->untilDateTimeEdit->dateTime().toString("yyyy-MM-dd hh:mm:00") + "\"";
     }
 
-    QString verbose = "";
-    if(verboseflag)
-        verbose=" --output=verbose -x ";
 
     QString command = "";
     if(this->completeJournal){
@@ -163,8 +160,6 @@ void ShowBootLog::updateBootLog(bool keepIdentifiers)
             command = "journalctl -q -a -p " + QString::number(maxPriority) + " -b " + bootid + sinceStr + untilStr;
         }
     }
-
-    command += verbose;
 
     if(this->reverse){
         command = command + " -r";
@@ -415,13 +410,5 @@ void ShowBootLog::on_exportSelectionButton_clicked()
     QString fileName = QFileDialog::getSaveFileName(this, "Export selected journal entries");
 
     writeToExportFile(fileName, selection.toLocal8Bit().data());
-}
-
-
-
-void ShowBootLog::on_verboseCheckBox_stateChanged(int arg1)
-{
-    verboseflag = arg1;
-    updateBootLog(false);
 }
 
