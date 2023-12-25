@@ -1,5 +1,11 @@
 ## Changelog
 
+#### v0.6.4 (2023, Dec. 25)
+* Support loading a journald DB folder (#70)
+* Fix several small issues in the ShowBootLog / MainWindow module
+* Add support for Systemd251+ (#81)
+* Fix and improve Debian packaging
+
 #### v0.6.3 (2020, Dec. 25)
 * Added support for Windows and macOS (#41 by @alacasta, #64 by @Marcool04)
 * Added connection indicator for SSH (#61)
